@@ -43,7 +43,7 @@
             width: 100%;
             height: 100vh;
             object-fit: cover;
-            transition: height 0.5s ease, transform 0.5s ease;
+            transition: transform 0.5s ease;
         }
         header.shrink .banner-container img {
             transform: scale(0.3);
@@ -76,10 +76,15 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 1em;
+            margin-top: calc(100vh + 20px);
             position: relative;
             z-index: 1;
             background: transparent;
+            transition: margin-top 0.5s ease;
+        }
+        body.scrolled .container {
+            margin-top: 150px;
         }
         .team-intro, .team-info, .stats-section, .tournament-wins {
             background-color: rgba(255, 255, 255, 0.9);
@@ -183,30 +188,24 @@
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             const nav = document.querySelector('nav');
-            const container = document.querySelector('.container');
-            const headerHeight = header.offsetHeight;
-
-            if (window.scrollY > 50) {
+            const body = document.body;
+            if (window.scrollY > 100) {
                 header.classList.add('shrink');
                 nav.classList.add('visible');
-                container.style.marginTop = '80px';
+                body.classList.add('scrolled');
             } else {
                 header.classList.remove('shrink');
                 nav.classList.remove('visible');
-                container.style.marginTop = '100vh';
+                body.classList.remove('scrolled');
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const domain = window.location.hostname;
-            const twitchIframes = document.querySelectorAll('iframe[src*="twitch.tv"]');
-            twitchIframes.forEach(function(iframe) {
-                const channel = iframe.src.match(/channel=([^&]+)/)[1];
-                iframe.src = `https://player.twitch.tv/?channel=${channel}&parent=${domain}&muted=true`;
-                iframe.onload = function() {
-                    console.log(`Twitch iframe for ${channel} loaded successfully`);
-                };
-            });
+        window.addEventListener('load', function() {
+            const header = document.querySelector('header');
+            const container = document.querySelector('.container');
+            if (window.innerHeight >= document.documentElement.scrollHeight) {
+                container.style.marginTop = '100px';
+            }
         });
     </script>
 </head>
@@ -226,7 +225,7 @@
     <div class="container">
         <div class="team-intro" id="team-intro">
             <h2>Team Introduction</h2>
-            <p>Welcome to [DPRK] Tribes Rivals, a formidable force in the competitive Tribes Rivals community, built on a foundation of skill, strategy, and unwavering dedication. Established with a vision to dominate the battlefield, our team is led by a dynamic leadership trio that drives our success. Glem, our esteemed Leader, brings versatility to the team with a flex role, most often excelling as a Medium Offense player, adapting to any situation with precision and tactical brilliance. CheezeCaeke, our Co-Leader, oversees operations with a steady hand, specializing as a Heavy Offense player, while ColonelFatso, our Captain, commands the frontline as a Capper, ensuring our strategies are executed flawlessly.</p>
+            <p>Welcome to [DPRK] Tribes Rivals, a formidable force in the competitive Tribes Rivals community, built on a foundation of skill, strategy, and unwavering dedication. Established with a vision to dominate the battlefield, our team is led by a dynamic leadership trio that drives our success. Glem, our esteemed Leader, brings versatility to the team with a flex role, most often excelling as a Medium Offense player, adapting to any situation with precision and tactical brilliance. CheezeCaeke, our Co-Leader, oversees operations with a steady hand, specializing as a HOF Heavy On Flag player, while ColonelFatso, our Captain, commands the frontline as a Capper, ensuring our strategies are executed flawlessly.</p>
             <p>Our core principles revolve around teamwork, discipline, and continuous improvement. We foster an environment where every player’s contribution is valued, from the strategic minds to the agile defenders. Our roster is a blend of seasoned veterans and rising stars, each bringing unique strengths to the table. Meet our key players: Nemesis, a skilled Capper who dominates flag captures; Rhino, a stalwart Light Defense specialist; Halogen, another Light Defense powerhouse; and Panda, our Heavy Offense enforcer. Together, we uphold a commitment to excellence, pushing the boundaries of competitive play while building a legacy of victory in the Tribes Rivals arena.</p>
         </div>
         <div class="team-info" id="team">
@@ -236,12 +235,12 @@
                 <div class="member">
                     <h3>Glem</h3>
                     <p>Leader (Flex, Medium Offense)</p>
-                    <iframe src="https://player.twitch.tv/?channel=glem&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                    <iframe width="100%" height="300" src="https://www.youtube.com/embed?listType=user_uploads&list=glem7761WithGuns" frameborder="0" allowfullscreen></iframe>
                     <a href="https://www.youtube.com/@Tribes3RIvalsHighlights49GirlsWithGuns" target="_blank">YouTube Channel</a>
                 </div>
                 <div class="member">
                     <h3>CheezeCaeke</h3>
-                    <p>Co-Leader (Heavy Offense)</p>
+                    <p>Co-Leader (HOF Heavy On Flag)</p>
                     <iframe src="https://player.twitch.tv/?channel=cheezecaeke&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
                     <a href="https://www.youtube.com/@glem7761" target="_blank">YouTube Channel</a>
                 </div>
@@ -291,7 +290,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <mailto></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
