@@ -184,30 +184,6 @@
             }
         }
     </style>
-    <script>
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            const nav = document.querySelector('nav');
-            const body = document.body;
-            if (window.scrollY > 100) {
-                header.classList.add('shrink');
-                nav.classList.add('visible');
-                body.classList.add('scrolled');
-            } else {
-                header.classList.remove('shrink');
-                nav.classList.remove('visible');
-                body.classList.remove('scrolled');
-            }
-        });
-
-        window.addEventListener('load', function() {
-            const header = document.querySelector('header');
-            const container = document.querySelector('.container');
-            if (window.innerHeight >= document.documentElement.scrollHeight) {
-                container.style.marginTop = '100px';
-            }
-        });
-    </script>
 </head>
 <body>
     <header>
@@ -241,7 +217,7 @@
                 <div class="member">
                     <h3>CheezeCaeke</h3>
                     <p>Co-Leader (HOF Heavy On Flag)</p>
-                    <iframe src="https://player.twitch.tv/?channel=cheezecaeke&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                    <iframe src="https://player.twitch.tv/?channel=cheezecaek&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
                     <a href="https://www.youtube.com/@glem7761" target="_blank">YouTube Channel</a>
                 </div>
                 <div class="member">
@@ -392,5 +368,46 @@
         <p>© 2025 [DPRK] Tribes Rivals. All rights reserved.</p>
         <img src="https://github.com/T24085/TeamDPRK/blob/main/DPRKLOGO.png?raw=true" alt="DPRK Logo">
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const domain = window.location.hostname;
+            const twitchIframes = document.querySelectorAll('iframe[src*="twitch.tv"]');
+            twitchIframes.forEach(function(iframe) {
+                const src = iframe.src;
+                const channelMatch = src.match(/channel=([^&]+)/);
+                if (channelMatch) {
+                    const channel = channelMatch[1];
+                    iframe.src = `https://player.twitch.tv/?channel=${channel}&parent=${domain}&muted=true`;
+                    console.log(`Updated iframe for channel: ${channel} with parent: ${domain}`);
+                } else {
+                    console.error('No channel found in iframe src:', src);
+                }
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            if (window.scrollY > 100) {
+                header.classList.add('shrink');
+                nav.classList.add('visible');
+                body.classList.add('scrolled');
+            } else {
+                header.classList.remove('shrink');
+                nav.classList.remove('visible');
+                body.classList.remove('scrolled');
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const header = document.querySelector('header');
+            const container = document.querySelector('.container');
+            if (window.innerHeight >= document.documentElement.scrollHeight) {
+                container.style.marginTop = '100px';
+            }
+        });
+    </script>
 </body>
 </html>
