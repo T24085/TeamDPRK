@@ -11,48 +11,41 @@
             padding: 0;
             background-color: #ed1c24;
             color: #fff;
-            background-image: linear-gradient(to bottom, #ed1c24, #003087);
+            background-image: url('https://github.com/T24085/TeamDPRK/blob/main/DPRKPuppy.png?raw=true');
+            background-repeat: repeat-y; /* Repeat vertically to scroll with content */
+            background-size: contain; /* Ensure full image is visible without cropping */
+            background-position: center top; /* Start at the top center */
+            background-attachment: scroll; /* Scroll with the content */
             overflow-x: hidden;
             position: relative;
             z-index: 0;
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
         }
         header {
-            position: fixed;
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
-            background-color: #ed1c24;
-            z-index: 1000;
-            transition: height 0.5s ease, background-color 0.5s ease;
-            overflow: hidden;
-        }
-        header.shrink {
             height: 80px;
-            background-color: rgba(237, 28, 36, 0.9);
-        }
-        header .banner-container {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            background-color: #003087;
+            z-index: 1000;
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding: 0 20px;
         }
-        header .banner-container img {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        header img {
+            height: 60px;
+            margin-right: 20px;
         }
-        header.shrink .banner-container img {
-            transform: scale(0.3);
-            height: 80px;
-            object-position: 50% 50%;
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+            text-transform: uppercase;
         }
         nav {
             position: fixed;
-            top: 0;
+            top: 80px;
             width: 100%;
             background-color: #003087;
             padding: 1em;
@@ -77,14 +70,11 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 0 1em;
-            margin-top: calc(100vh + 20px);
+            margin-top: 100px;
             position: relative;
             z-index: 1;
             background: transparent;
-            transition: margin-top 0.5s ease;
-        }
-        body.scrolled .container {
-            margin-top: 150px;
+            min-height: calc(100vh - 80px);
         }
         .team-intro, .team-info, .stats-section, .tournament-wins {
             background-color: rgba(255, 255, 255, 0.9);
@@ -170,9 +160,6 @@
             margin-top: 10px;
         }
         @media (max-width: 600px) {
-            header .banner-container img {
-                min-height: 150px;
-            }
             .team-members {
                 grid-template-columns: 1fr;
             }
@@ -184,24 +171,60 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const domain = window.location.hostname;
+            console.log('Domain detected:', domain);
+            const twitchIframes = document.querySelectorAll('iframe[src*="twitch.tv"]');
+            twitchIframes.forEach(function(iframe) {
+                const src = iframe.src;
+                const channelMatch = src.match(/channel=([^&]+)/);
+                if (channelMatch) {
+                    const channel = channelMatch[1];
+                    iframe.src = `https://player.twitch.tv/?channel=${encodeURIComponent(channel)}&parent=${domain}&muted=true`;
+                    console.log(`Updated iframe for channel: ${channel} with parent: ${domain}`);
+                } else {
+                    console.error('No channel found in iframe src:', src);
+                }
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            const body = document.body;
+            if (window.scrollY > 100) {
+                nav.classList.add('visible');
+                body.classList.add('scrolled');
+            } else {
+                nav.classList.remove('visible');
+                body.classList.remove('scrolled');
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const container = document.querySelector('.container');
+            if (window.innerHeight >= document.documentElement.scrollHeight) {
+                container.style.marginTop = '100px';
+            }
+        });
+    </script>
 </head>
 <body>
     <header>
-        <div class="banner-container">
-            <img src="https://github.com/T24085/TeamDPRK/blob/main/DPRKlogo2.png?raw=true" alt="DPRK Banner">
-        </div>
+        <img src="https://github.com/T24085/TeamDPRK/blob/main/DPRKlogo2.png?raw=true" alt="DPRK Logo">
+        <h1>[DPRK] Tribes Rivals</h1>
     </header>
     <nav>
         <a href="#team-intro">Team Intro</a>
         <a href="#team">Team</a>
         <a href="#stats">Stats</a>
-        <a href="#tournament-wins">Tournament Wins</a>
         <a href="#contact">Contact</a>
+        <a href="#tournament-wins">Tournament Wins</a>
     </nav>
     <div class="container">
         <div class="team-intro" id="team-intro">
             <h2>Team Introduction</h2>
-            <p>Welcome to [DPRK] Tribes Rivals, a formidable force in the competitive Tribes Rivals community, built on a foundation of skill, strategy, and unwavering dedication. Established with a vision to dominate the battlefield, our team is led by a dynamic leadership trio that drives our success. Glem, our esteemed Leader, brings versatility to the team with a flex role, most often excelling as a Medium Offense player, adapting to any situation with precision and tactical brilliance. CCheezeCaek, our Co-Leader, oversees operations with a steady hand, specializing as a HOF Heavy On Flag player, while ColonelFatso, our Captain, commands the frontline as a Capper, ensuring our strategies are executed flawlessly.</p>
+            <p>Welcome to [DPRK] Tribes Rivals, a formidable force in the competitive Tribes Rivals community, built on a foundation of skill, strategy, and unwavering dedication. Established with a vision to dominate the battlefield, our team is led by a dynamic leadership trio that drives our success. Glem, our esteemed Leader, brings versatility to the team with a flex role, most often excelling as a Medium Offense player, adapting to any situation with precision and tactical brilliance. CheezeCaeke, our Co-Leader, oversees operations with a steady hand, specializing as a HOF Heavy On Flag player, while ColonelFatso, our Captain, commands the frontline as a Capper, ensuring our strategies are executed flawlessly.</p>
             <p>Our core principles revolve around teamwork, discipline, and continuous improvement. We foster an environment where every player’s contribution is valued, from the strategic minds to the agile defenders. Our roster is a blend of seasoned veterans and rising stars, each bringing unique strengths to the table. Meet our key players: Nemesis, a skilled Capper who dominates flag captures; Rhino, a stalwart Light Defense specialist; Halogen, another Light Defense powerhouse; and Panda, our Heavy Offense enforcer. Together, we uphold a commitment to excellence, pushing the boundaries of competitive play while building a legacy of victory in the Tribes Rivals arena.</p>
         </div>
         <div class="team-info" id="team">
@@ -210,37 +233,37 @@
             <div class="team-members">
                 <div class="member">
                     <h3>Glem</h3>
-                    <p>Respected Comrade Supreme Leader (Flex, Medium Offense)</p>
+                    <p>Leader (Flex, Medium Offense)</p>
                     <iframe width="100%" height="300" src="https://www.youtube.com/embed?listType=user_uploads&list=glem7761WithGuns" frameborder="0" allowfullscreen></iframe>
                     <a href="https://www.youtube.com/@Tribes3RIvalsHighlights49GirlsWithGuns" target="_blank">YouTube Channel</a>
                 </div>
                 <div class="member">
-                    <h3>CCheezeCaek</h3>
-                    <p>General Secretary of the DPRK(HOF Heavy On Flag)</p>
+                    <h3>CheezeCaeke</h3>
+                    <p>Co-Leader (HOF Heavy On Flag)</p>
                     <iframe src="https://player.twitch.tv/?channel=cheezecaek&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
-                    <a href="https://www.youtube.com/@glem7761" target="_blank">Twitch Channel</a>
+                    <a href="https://www.youtube.com/@glem7761" target="_blank">YouTube Channel</a>
                 </div>
                 <div class="member">
                     <h3>ColonelFatso</h3>
-                    <p>Chairman of the Central Military Commission of the DPRK (Capper)</p>
+                    <p>Captain (Capper)</p>
                     <iframe src="https://player.twitch.tv/?channel=colonelfatso&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
                 <div class="member">
                     <h3>Nemesis</h3>
-                    <p>Inmingun-wonsu Top Army Rank Capper</p>
+                    <p>Capper</p>
                     <iframe src="https://player.twitch.tv/?channel=seansguitarworldbang&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
                 <div class="member">
                     <h3>Rhino</h3>
-                    <p>A symbol of the mightyness of our country Light Defense</p>
+                    <p>Light Defense</p>
                 </div>
                 <div class="member">
                     <h3>Halogen</h3>
-                    <p>Peerlessly Great Man Light Defense</p>
+                    <p>Light Defense</p>
                 </div>
                 <div class="member">
                     <h3>Panda</h3>
-                    <p>Banner of all victory and glory Heavy Offense</p>
+                    <p>Heavy Offense</p>
                     <iframe src="https://player.twitch.tv/?channel=pandoracast&parent=yourdomain.com" frameborder="0" allowfullscreen scrolling="no"></iframe>
                 </div>
             </div>
@@ -271,7 +294,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td>CCheezeCaek</td>
+                    <td>CheezeCaeke</td>
                     <td>Co-Leader</td>
                     <td>35595</td>
                     <td>181</td>
@@ -372,13 +395,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const domain = window.location.hostname;
+            console.log('Domain detected:', domain);
             const twitchIframes = document.querySelectorAll('iframe[src*="twitch.tv"]');
             twitchIframes.forEach(function(iframe) {
                 const src = iframe.src;
                 const channelMatch = src.match(/channel=([^&]+)/);
                 if (channelMatch) {
                     const channel = channelMatch[1];
-                    iframe.src = `https://player.twitch.tv/?channel=${channel}&parent=${domain}&muted=true`;
+                    iframe.src = `https://player.twitch.tv/?channel=${encodeURIComponent(channel)}&parent=${domain}&muted=true`;
                     console.log(`Updated iframe for channel: ${channel} with parent: ${domain}`);
                 } else {
                     console.error('No channel found in iframe src:', src);
@@ -387,22 +411,18 @@
         });
 
         window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
             const nav = document.querySelector('nav');
             const body = document.body;
             if (window.scrollY > 100) {
-                header.classList.add('shrink');
                 nav.classList.add('visible');
                 body.classList.add('scrolled');
             } else {
-                header.classList.remove('shrink');
                 nav.classList.remove('visible');
                 body.classList.remove('scrolled');
             }
         });
 
         window.addEventListener('load', function() {
-            const header = document.querySelector('header');
             const container = document.querySelector('.container');
             if (window.innerHeight >= document.documentElement.scrollHeight) {
                 container.style.marginTop = '100px';
