@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[DPRK] TPL — Team Site (Redesigned V2)</title>
+  <title>[DPRK] TPL — CYBERPUNK EDITION</title>
   <meta name="description" content="[DPRK] TPL — Tribes Professional League team. Roster, highlights, stats, and tournament results." />
   <meta property="og:title" content="[DPRK] TPL — Team" />
   <meta property="og:description" content="Roster, highlights, stats & results." />
@@ -21,59 +21,115 @@
 
   <style>
     /* ===============================
-       Design Tokens / CSS Variables
+       CYBERPUNK DESIGN SYSTEM
+       DPRK Colors: Red #ed1c24, Blue #003087, White
        =============================== */
     :root {
-      --bg: #0b1220;               /* page background */
-      --surface: rgba(255,255,255,0.06);
-      --text: #e8eef5;             /* primary text */
-      --muted: #b6c3d6;
-      --primary: #ed1c24;          /* team red */
+      --bg: #000000;               /* deep black */
+      --bg-grid: #0a0a0a;
+      --surface: rgba(237,28,36,0.08);
+      --text: #ffffff;             /* bright white */
+      --muted: #a0a0a0;
+      --primary: #ed1c24;          /* DPRK red */
+      --primary-glow: rgba(237,28,36,0.6);
       --primary-600: #c4171c;
-      --accent: #003087;           /* team blue */
-      --card: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.14);
-      --elev: 0 12px 30px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --radius-sm: 12px;
+      --accent: #003087;           /* DPRK blue */
+      --accent-glow: rgba(0,48,135,0.6);
+      --card: rgba(0,0,0,0.7);
+      --border: rgba(237,28,36,0.3);
+      --border-glow: rgba(237,28,36,0.5);
+      --elev: 0 0 20px rgba(237,28,36,0.3), 0 0 40px rgba(0,48,135,0.2);
+      --radius: 0px;
+      --radius-sm: 0px;
       --maxw: 1200px;
-      --hero-shift: -40px;         /* fine-tune banner vertical position */
-    }
-
-    /* Light theme (optional): toggle with [data-theme="light"] on <html> */
-    html[data-theme="light"] {
-      --bg: #f6f7fb;
-      --surface: #ffffff;
-      --text: #0c1222;
-      --muted: #344560;
-      --card: #ffffff;
-      --border: #dde3ee;
+      --hero-shift: -40px;
     }
 
     /* Base */
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    html, body { height: 100%; overflow-x: hidden; }
     body {
       margin: 0;
-      font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      font-family: 'Courier New', 'Monaco', 'Menlo', monospace, ui-monospace;
       color: var(--text);
       background: var(--bg);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      position: relative;
     }
 
-    /* Hero background with subtle overlay + image (responsive size) */
+    /* Animated Grid Background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image: 
+        linear-gradient(rgba(237,28,36,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(237,28,36,0.1) 1px, transparent 1px),
+        linear-gradient(rgba(0,48,135,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,48,135,0.05) 1px, transparent 1px);
+      background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+      background-position: 0 0, 0 0, 0 0, 0 0;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.4;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+      100% { background-position: 50px 50px, 50px 50px, 10px 10px, 10px 10px; }
+    }
+
+    /* Scanlines Overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      animation: scanline 8s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* Hero background with cyberpunk effects */
     .hero-bg {
       position: fixed;
       inset: 0;
       z-index: -2;
       background:
-        radial-gradient(1200px 400px at 50% -10%, rgba(237,28,36,0.25), transparent 60%),
-        radial-gradient(1400px 500px at 40% 110%, rgba(0,48,135,0.22), transparent 60%),
+        radial-gradient(ellipse 1200px 400px at 50% -10%, rgba(237,28,36,0.4), transparent 60%),
+        radial-gradient(ellipse 1400px 500px at 40% 110%, rgba(0,48,135,0.35), transparent 60%),
         url('https://raw.githubusercontent.com/T24085/TeamDPRK/main/DPRKPuppy.png') center var(--hero-shift) / clamp(560px, 62vw, 1200px) auto no-repeat;
-      opacity: 0.9;
+      opacity: 0.85;
       pointer-events: none;
+      filter: contrast(1.2) brightness(0.9);
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(90deg, transparent 0%, rgba(237,28,36,0.1) 50%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, rgba(0,48,135,0.1) 50%, transparent 100%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
 
     @media (max-width: 640px) {
@@ -81,95 +137,504 @@
       .hero-bg { background-size: clamp(420px, 85vw, 820px) auto; }
     }
 
-    /* Header */
+    /* Header - Cyberpunk Style */
     .skip-link { position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
-    .skip-link:focus { left: 16px; top: 12px; width: auto; height: auto; background: var(--primary); color: #fff; padding: 8px 12px; border-radius: 8px; z-index: 10000; }
+    .skip-link:focus { 
+      left: 16px; top: 12px; width: auto; height: auto; 
+      background: var(--primary); 
+      color: #fff; 
+      padding: 8px 12px; 
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+      z-index: 10000; 
+    }
 
     header.site-header {
       position: sticky; top: 0; z-index: 1000;
-      backdrop-filter: blur(10px);
-      background: linear-gradient( to bottom, rgba(10,15,28,0.75), rgba(10,15,28,0.25) );
-      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      background: rgba(0,0,0,0.85);
+      border-bottom: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(237,28,36,0.5), inset 0 0 20px rgba(0,48,135,0.2);
     }
-    .header-inner { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: center; gap: 14px; padding: 14px 20px; }
-    .brand { display:flex; align-items:center; gap: 12px; text-decoration: none; color: var(--text); }
-    .brand img { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; }
-    .brand-title { font-weight: 800; letter-spacing: 0.3px; }
+    .header-inner { 
+      max-width: var(--maxw); 
+      margin: 0 auto; 
+      display: flex; 
+      align-items: center; 
+      gap: 14px; 
+      padding: 14px 20px; 
+    }
+    .brand { 
+      display:flex; 
+      align-items:center; 
+      gap: 12px; 
+      text-decoration: none; 
+      color: var(--text); 
+      text-shadow: 0 0 10px var(--primary-glow);
+      transition: text-shadow 0.3s ease;
+    }
+    .brand:hover { text-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--primary-glow); }
+    .brand img { 
+      width: 48px; 
+      height: 48px; 
+      object-fit: contain; 
+      filter: drop-shadow(0 0 8px var(--primary-glow));
+      transition: filter 0.3s ease;
+    }
+    .brand:hover img { filter: drop-shadow(0 0 15px var(--primary-glow)); }
+    .brand-title { 
+      font-weight: 900; 
+      letter-spacing: 2px; 
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
 
-    /* Nav */
+    /* Nav - Cyberpunk Style */
     nav.primary-nav { margin-left: auto; }
     .nav-toggle { display:none; }
-    .nav-list { display:flex; gap: 16px; list-style:none; padding:0; margin:0; align-items:center; }
-    .nav-link { text-decoration:none; color: var(--muted); font-weight: 700; font-size: 0.95rem; padding: 8px 10px; border-radius: 10px; }
-    .nav-link:hover, .nav-link[aria-current="true"] { color: #fff; background: rgba(237,28,36,0.14); }
+    .nav-list { display:flex; gap: 8px; list-style:none; padding:0; margin:0; align-items:center; }
+    .nav-link { 
+      text-decoration:none; 
+      color: var(--muted); 
+      font-weight: 700; 
+      font-size: 0.9rem; 
+      padding: 8px 14px; 
+      border: 1px solid transparent;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .nav-link::before {
+      content: '>';
+      margin-right: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .nav-link:hover::before, .nav-link[aria-current="true"]::before {
+      opacity: 1;
+    }
+    .nav-link:hover, .nav-link[aria-current="true"] { 
+      color: var(--primary); 
+      border-color: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow), inset 0 0 10px rgba(237,28,36,0.1);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
 
     /* Mobile nav */
     @media (max-width: 860px) {
-      .nav-toggle { display: inline-flex; margin-left: auto; align-items:center; gap:10px; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 12px; cursor: pointer; }
-      nav.primary-nav { position: fixed; inset: 64px 12px auto 12px; background: rgba(15,20,36,0.96); border: 1px solid var(--border); border-radius: 16px; padding: 10px; display:none; box-shadow: var(--elev); }
+      .nav-toggle { 
+        display: inline-flex; 
+        margin-left: auto; 
+        align-items:center; 
+        gap:10px; 
+        background: transparent; 
+        border: 2px solid var(--primary); 
+        color: var(--text); 
+        padding: 8px 12px; 
+        cursor: pointer; 
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 0 10px var(--primary-glow);
+        transition: all 0.3s ease;
+      }
+      .nav-toggle:hover {
+        box-shadow: 0 0 20px var(--primary-glow);
+        text-shadow: 0 0 8px var(--primary-glow);
+      }
+      nav.primary-nav { 
+        position: fixed; 
+        inset: 64px 12px auto 12px; 
+        background: rgba(0,0,0,0.95); 
+        border: 2px solid var(--primary); 
+        padding: 10px; 
+        display:none; 
+        box-shadow: 0 0 30px var(--primary-glow), inset 0 0 20px rgba(0,48,135,0.2); 
+      }
       nav.primary-nav.open { display:block; }
       .nav-list { flex-direction: column; align-items: stretch; }
       .nav-link { padding: 12px 14px; }
     }
 
-    /* Layout helpers */
+    /* Layout helpers - Cyberpunk */
     .container { max-width: var(--maxw); margin: 0 auto; padding: clamp(16px, 3vw, 32px); }
-    .section { margin: clamp(28px, 4vw, 56px) auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--elev); overflow: clip; }
+    .section { 
+      margin: clamp(28px, 4vw, 56px) auto; 
+      background: var(--card); 
+      border: 2px solid var(--primary); 
+      box-shadow: var(--elev), inset 0 0 30px rgba(0,48,135,0.1); 
+      overflow: clip; 
+      position: relative;
+    }
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      animation: borderGlow 3s ease-in-out infinite;
+    }
+    @keyframes borderGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
     .section > .section-inner { padding: clamp(18px, 3vw, 36px); }
-    .section h2 { margin: 0 0 12px; font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: 0.4px; }
+    .section h2 { 
+      margin: 0 0 12px; 
+      font-size: clamp(1.25rem, 2.2vw, 1.75rem); 
+      letter-spacing: 2px; 
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--primary-glow);
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
     .section p.lead { color: var(--muted); margin-top: 0; }
-    .tag { display:inline-flex; align-items:center; gap:8px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color:#fff; background: linear-gradient(90deg, var(--primary), var(--accent)); padding: 6px 10px; border-radius: 999px; }
+    .tag { 
+      display:inline-flex; 
+      align-items:center; 
+      gap:8px; 
+      font-size: 0.75rem; 
+      font-weight: 900; 
+      text-transform: uppercase; 
+      letter-spacing: 2px; 
+      color:#fff; 
+      background: linear-gradient(90deg, var(--primary), var(--accent)); 
+      padding: 8px 16px; 
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+      position: relative;
+      overflow: hidden;
+    }
+    .tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shine 3s infinite;
+    }
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
 
-    /* Hero */
-    .hero { text-align: center; padding: clamp(40px, 8vw, 88px) 0 clamp(8px, 4vw, 16px); position: relative; }
-    .hero h1 { margin: 16px 0 8px; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: .3px; text-shadow: 0 2px 22px rgba(0,0,0,.45); }
-    .hero .sub { color: var(--muted); max-width: 820px; margin: 0 auto; }
+    /* Hero - Cyberpunk */
+    .hero { 
+      text-align: center; 
+      padding: clamp(40px, 8vw, 88px) 0 clamp(8px, 4vw, 16px); 
+      position: relative; 
+    }
+    .hero h1 { 
+      margin: 16px 0 8px; 
+      font-size: clamp(1.8rem, 4vw, 3rem); 
+      letter-spacing: 4px; 
+      text-transform: uppercase;
+      text-shadow: 
+        0 0 10px var(--primary-glow),
+        0 0 20px var(--primary-glow),
+        0 0 30px var(--primary-glow),
+        0 0 40px var(--primary-glow);
+      color: var(--primary);
+      font-weight: 900;
+      position: relative;
+      animation: glitch 5s infinite;
+    }
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+    }
+    .hero .sub { 
+      color: var(--muted); 
+      max-width: 820px; 
+      margin: 0 auto; 
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      font-size: 1.1rem;
+    }
 
-    /* Cards grid */
+    /* Cards grid - Cyberpunk */
     .grid { display: grid; gap: clamp(14px, 2.4vw, 22px); }
     .grid.auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
-    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,0.25); }
+    .card { 
+      background: var(--card); 
+      border: 2px solid var(--primary); 
+      padding: 16px; 
+      transition: all 0.3s ease; 
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(237,28,36,0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+    .card:hover::before {
+      opacity: 1;
+      animation: cardScan 1s ease;
+    }
+    @keyframes cardScan {
+      0% { top: -50%; left: -50%; }
+      100% { top: 150%; left: 150%; }
+    }
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 
+        0 0 20px var(--primary-glow),
+        0 0 40px rgba(237,28,36,0.3),
+        inset 0 0 20px rgba(0,48,135,0.2);
+      border-color: var(--primary);
+    }
 
-    /* Video & Twitch embeds */
-    .embed { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; }
-    .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    /* Video & Twitch embeds - Cyberpunk */
+    .embed { 
+      position: relative; 
+      width: 100%; 
+      aspect-ratio: 16/9; 
+      overflow: hidden; 
+      border: 2px solid var(--primary); 
+      background: #000; 
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .embed::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--accent);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+    }
+    .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 0; }
 
-    /* Roster */
-    .member h3 { margin: 4px 0 6px; font-size: 1.1rem; }
-    .role { color: var(--muted); font-size: .95rem; margin-bottom: 10px; }
+    /* Roster - Cyberpunk */
+    .member h3 { 
+      margin: 4px 0 6px; 
+      font-size: 1.2rem; 
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+    .role { 
+      color: var(--muted); 
+      font-size: .9rem; 
+      margin-bottom: 10px; 
+      font-family: 'Courier New', monospace;
+    }
     .member .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-    .btn { --btn-bg: rgba(255,255,255,0.06); display:inline-flex; align-items:center; gap:8px; color: var(--text); text-decoration:none; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; font-weight: 700; }
-    .btn:hover { background: var(--btn-bg); }
+    .btn { 
+      display:inline-flex; 
+      align-items:center; 
+      gap:8px; 
+      color: var(--text); 
+      text-decoration:none; 
+      padding: 8px 16px; 
+      border: 2px solid var(--primary); 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      background: transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(237,28,36,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn:hover::before {
+      left: 100%;
+    }
+    .btn:hover { 
+      background: rgba(237,28,36,0.1);
+      box-shadow: 0 0 15px var(--primary-glow);
+      text-shadow: 0 0 8px var(--primary-glow);
+      transform: translateY(-2px);
+    }
 
-    /* Tables */
-    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    /* Tables - Cyberpunk */
+    .table-wrap { 
+      overflow-x: auto; 
+      border: 2px solid var(--primary); 
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
     table { width: 100%; border-collapse: collapse; min-width: 720px; }
-    caption { text-align: left; padding: 12px 12px 0; color: var(--muted); font-weight: 700; }
-    thead th { position: sticky; top: 0; background: linear-gradient(0deg, rgba(237,28,36,0.15), rgba(237,28,36,0.35)); color: #fff; text-align: left; font-size: .9rem; letter-spacing: .02em; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-    tbody tr:hover { background: rgba(255,255,255,0.04); }
-    th.sortable { cursor: pointer; user-select: none; }
-    th.sortable::after { content: "\25B4\25BE"; opacity: .45; margin-left: 6px; font-size: .8em; }
-    tbody td:nth-child(n+3) { text-align: right; font-variant-numeric: tabular-nums; }
+    caption { 
+      text-align: left; 
+      padding: 12px 12px 0; 
+      color: var(--primary); 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+    thead th { 
+      position: sticky; 
+      top: 0; 
+      background: linear-gradient(0deg, rgba(237,28,36,0.3), rgba(237,28,36,0.5)); 
+      color: #fff; 
+      text-align: left; 
+      font-size: .9rem; 
+      letter-spacing: 1px; 
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary);
+      box-shadow: 0 2px 10px rgba(237,28,36,0.3);
+    }
+    th, td { 
+      padding: 12px; 
+      border-bottom: 1px solid rgba(237,28,36,0.2); 
+    }
+    tbody tr { transition: all 0.2s ease; }
+    tbody tr:hover { 
+      background: rgba(237,28,36,0.1); 
+      box-shadow: inset 0 0 20px rgba(237,28,36,0.2);
+    }
+    th.sortable { 
+      cursor: pointer; 
+      user-select: none; 
+      transition: all 0.2s ease;
+    }
+    th.sortable:hover {
+      background: linear-gradient(0deg, rgba(237,28,36,0.4), rgba(237,28,36,0.6));
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+    th.sortable::after { 
+      content: " ▲▼"; 
+      opacity: .6; 
+      margin-left: 6px; 
+      font-size: .7em; 
+    }
+    tbody td:nth-child(n+3) { 
+      text-align: right; 
+      font-variant-numeric: tabular-nums; 
+      font-family: 'Courier New', monospace;
+    }
 
     /* Utilities */
     .center { text-align:center; }
     .spaced { margin-top: 10px; }
 
-    /* Footer */
-    footer { margin-top: 40px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.35); }
-    footer .inner { max-width: var(--maxw); margin: 0 auto; padding: 22px; text-align:center; }
-    footer img { width: 128px; opacity: .95; }
+    /* Footer - Cyberpunk */
+    footer { 
+      margin-top: 40px; 
+      border-top: 2px solid var(--primary); 
+      background: rgba(0,0,0,0.8); 
+      box-shadow: 0 -5px 20px rgba(237,28,36,0.3);
+    }
+    footer .inner { 
+      max-width: var(--maxw); 
+      margin: 0 auto; 
+      padding: 22px; 
+      text-align:center; 
+    }
+    footer p {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+    }
+    footer img { 
+      width: 128px; 
+      filter: drop-shadow(0 0 15px var(--primary-glow));
+      margin-top: 10px;
+    }
 
-    /* Back to top */
-    .to-top { position: fixed; right: 16px; bottom: 16px; z-index: 999; display:none; }
+    /* Back to top - Cyberpunk */
+    .to-top { 
+      position: fixed; 
+      right: 16px; 
+      bottom: 16px; 
+      z-index: 999; 
+      display:none; 
+      border: 2px solid var(--primary);
+      background: rgba(0,0,0,0.8);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
     .to-top.visible { display: inline-flex; }
+    .to-top:hover {
+      box-shadow: 0 0 25px var(--primary-glow);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
 
     /* Animations (respect reduced motion) */
     @media (prefers-reduced-motion: no-preference) {
-      .reveal { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
-      .reveal.in { opacity: 1; transform: none; }
+      .reveal { 
+        opacity: 0; 
+        transform: translateY(20px); 
+        transition: opacity .6s ease, transform .6s ease; 
+      }
+      .reveal.in { 
+        opacity: 1; 
+        transform: none; 
+      }
+    }
+
+    /* Additional Cyberpunk Effects */
+    .muted {
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Glitch text effect for emphasis */
+    @keyframes textGlitch {
+      0%, 100% { 
+        text-shadow: 
+          0 0 5px var(--primary-glow),
+          0 0 10px var(--primary-glow);
+      }
+      25% { 
+        text-shadow: 
+          -2px 0 var(--primary),
+          2px 0 var(--accent),
+          0 0 10px var(--primary-glow);
+      }
+      50% { 
+        text-shadow: 
+          2px 0 var(--primary),
+          -2px 0 var(--accent),
+          0 0 10px var(--primary-glow);
+      }
+    }
+
+    /* Neon pulse for active elements */
+    @keyframes neonPulse {
+      0%, 100% { 
+        box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+      }
+      50% { 
+        box-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow), 0 0 60px var(--primary-glow);
+      }
     }
   </style>
 </head>
