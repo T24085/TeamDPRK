@@ -158,8 +158,13 @@
       width: auto;
       height: auto;
       object-fit: cover;
-      opacity: 0.85;
+      opacity: 0;
       filter: contrast(1.2) brightness(0.9);
+      transition: opacity 2s ease-in-out;
+    }
+    
+    .hero-bg video.active {
+      opacity: 0.85;
     }
 
     .hero-bg::before {
@@ -333,15 +338,26 @@
         bottom: auto;
         width: 100%;
         height: auto;
-        max-height: 400px;
+        max-height: 300px;
         margin: 10px auto 0;
       }
       .nav-image {
         height: auto;
         object-fit: contain;
+        max-height: 300px;
       }
       .container {
-        padding-left: clamp(16px, 3vw, 32px);
+        padding: clamp(20px, 4vw, 32px) !important;
+        padding-left: clamp(20px, 4vw, 32px) !important;
+      }
+      .section {
+        margin: clamp(20px, 3vw, 32px) auto;
+      }
+      .section > .section-inner {
+        padding: clamp(20px, 4vw, 28px) !important;
+      }
+      .card {
+        padding: clamp(16px, 3vw, 20px) !important;
       }
       .nav-image-buttons {
         padding: 0 12%;
@@ -349,6 +365,25 @@
       .nav-image-btn {
         height: 14%;
         margin: 1.5% 0;
+      }
+      
+      /* Improve text readability on mobile */
+      body {
+        font-size: 16px;
+      }
+      .section h2 {
+        font-size: clamp(1.4rem, 5vw, 1.75rem) !important;
+        margin-bottom: 16px;
+      }
+      .section p.lead {
+        font-size: clamp(0.95rem, 3vw, 1rem) !important;
+        line-height: 1.7;
+      }
+      .card h3 {
+        font-size: clamp(1.1rem, 4vw, 1.2rem) !important;
+      }
+      .member .role {
+        font-size: clamp(0.85rem, 3vw, 0.9rem) !important;
       }
     }
     
@@ -358,6 +393,137 @@
       }
       .nav-image-container {
         max-width: 100%;
+        max-height: 250px;
+      }
+      .nav-image {
+        max-height: 250px;
+      }
+      .container {
+        padding: 16px !important;
+      }
+      .section {
+        margin: 16px auto;
+      }
+      .section > .section-inner {
+        padding: 20px !important;
+      }
+      .card {
+        padding: 16px !important;
+        margin-bottom: 12px;
+      }
+      
+      /* Hero section mobile */
+      .hero {
+        padding: clamp(30px, 6vw, 50px) 0 clamp(8px, 2vw, 16px);
+      }
+      .hero-inner {
+        padding: clamp(20px, 4vw, 28px) !important;
+      }
+      .hero-glitch {
+        font-size: clamp(1.8rem, 6vw, 2.4rem) !important;
+        margin: 12px 0 8px;
+      }
+      .hero-meta {
+        gap: 6px;
+        margin: 12px 0;
+      }
+      .hero-pill {
+        font-size: 0.65rem;
+        padding: 5px 8px;
+      }
+      .hero .sub {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        padding: 0 8px;
+      }
+      
+      /* Larger text on small screens */
+      body {
+        font-size: 17px;
+      }
+      .section h2 {
+        font-size: 1.5rem !important;
+      }
+      .section p.lead {
+        font-size: 1rem !important;
+      }
+      
+      /* Make tables more readable */
+      .table-wrap {
+        font-size: 0.9rem;
+        border-radius: 8px;
+      }
+      table {
+        min-width: 600px;
+      }
+      th, td {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+      }
+      
+      /* Stats controls */
+      .stats-controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .stats-field {
+        width: 100%;
+        min-width: 100%;
+      }
+      .stats-input,
+      .stats-select {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px 16px;
+      }
+      
+      /* Cards grid */
+      .grid.auto {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      /* Embed videos */
+      .embed {
+        min-height: 250px;
+        aspect-ratio: 16/9;
+      }
+      
+      /* Member cards */
+      .member h3 {
+        font-size: 1.15rem !important;
+      }
+      .member .role {
+        font-size: 0.9rem !important;
+      }
+      .btn {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+      }
+      
+      /* Footer mobile */
+      footer .inner {
+        padding: 20px 16px;
+      }
+      .footer-logo {
+        width: 150px !important;
+        height: 150px !important;
+      }
+      footer p {
+        font-size: 0.8rem;
+      }
+      
+      /* Brand logo mobile */
+      .brand-logo {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      
+      /* Charts section mobile */
+      #chartsSection .card {
+        padding: 16px !important;
+      }
+      #chartsSection canvas {
+        max-height: 250px;
       }
     }
 
@@ -1220,15 +1386,22 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="hero-bg" aria-hidden="true">
-    <video autoplay muted loop playsinline>
+    <video id="bgVideo1" class="bg-video active" autoplay muted loop playsinline>
       <source src="grok-video-b7224a78-6069-4597-ad12-74b9e32cfaec-3.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <video id="bgVideo2" class="bg-video" autoplay muted loop playsinline>
+      <source src="DPRKBackground2.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
   <!-- Left Side Navigation -->
   <nav id="site-nav" class="nav-image-container" role="navigation" aria-label="Primary">
-    <img src="DPRKNav.jpg" alt="Navigation Menu" class="nav-image" />
+    <video class="nav-image" autoplay muted loop playsinline>
+      <source src="DPRKNav.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
     <div class="nav-image-buttons">
       <a href="#intro" class="nav-image-btn" aria-label="Go to Intro section"></a>
       <a href="#team" class="nav-image-btn" aria-label="Go to Team section"></a>
@@ -1640,6 +1813,59 @@
       };
       document.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+    })();
+
+    // ===== Background Video Switcher =====
+    (function() {
+      const video1 = document.getElementById('bgVideo1');
+      const video2 = document.getElementById('bgVideo2');
+      
+      if (!video1 || !video2) return;
+      
+      let currentVideo = 1;
+      const switchInterval = 15000; // Switch every 15 seconds
+      
+      // Ensure videos are ready
+      video1.addEventListener('loadeddata', () => {
+        video1.classList.add('active');
+      });
+      
+      video2.addEventListener('loadeddata', () => {
+        // Don't show video2 initially
+      });
+      
+      // Function to switch videos
+      function switchBackgroundVideo() {
+        if (currentVideo === 1) {
+          video1.classList.remove('active');
+          video2.classList.add('active');
+          video2.currentTime = 0;
+          video2.play();
+          currentVideo = 2;
+        } else {
+          video2.classList.remove('active');
+          video1.classList.add('active');
+          video1.currentTime = 0;
+          video1.play();
+          currentVideo = 1;
+        }
+      }
+      
+      // Switch videos periodically
+      setInterval(switchBackgroundVideo, switchInterval);
+      
+      // Also switch when a video ends (as backup)
+      video1.addEventListener('ended', () => {
+        if (currentVideo === 1) {
+          switchBackgroundVideo();
+        }
+      });
+      
+      video2.addEventListener('ended', () => {
+        if (currentVideo === 2) {
+          switchBackgroundVideo();
+        }
+      });
     })();
 
     // ===== Twitch embeds: auto-set parent & channel safely with preview =====
