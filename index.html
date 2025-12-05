@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[DPRK] TPL — CYBERPUNK EDITION</title>
+  <meta name="description" content="[DPRK] TPL — Tribes Professional League team. Roster, highlights, stats, and tournament results." />
+  <meta property="og:title" content="[DPRK] TPL — Team" />
+  <meta property="og:description" content="Roster, highlights, stats & results." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/T24085/TeamDPRK/main/DPRKLOGO.png" />
+  <meta name="theme-color" content="#ed1c24" />
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_ksHlcP2P9cT5jbo2IAGxbQ4zgEODkyM",
+      authDomain: "team-sign-up-b5646.firebaseapp.com",
+      projectId: "team-sign-up-b5646",
+      storageBucket: "team-sign-up-b5646.firebasestorage.app",
+      messagingSenderId: "951471144681",
+      appId: "1:951471144681:web:a2458675ce73ce9ad9ba78"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Make Firebase available globally
+    window.firebaseApp = app;
+    window.firebaseDb = db;
+    window.firebaseCollection = collection;
+    window.firebaseGetDocs = getDocs;
+  </script>
+
+  <!-- Security: CSP to allow our embeds & assets -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: blob:; media-src *; frame-src https://player.twitch.tv https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com;" />
+
+  <!-- Perf hints for embeds -->
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+  <link rel="preconnect" href="https://player.twitch.tv" crossorigin>
+  
+  <!-- Chart.js for stats visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ===============================
+       CYBERPUNK DESIGN SYSTEM
+       DPRK Colors: Red #ed1c24, Blue #003087, White
+       =============================== */
+    :root {
+      --bg: #000000;               /* deep black */
+      --bg-grid: #0a0a0a;
+      --surface: rgba(237,28,36,0.08);
+      --text: #ffffff;             /* bright white */
+      --muted: #d0d0d0;
+      --primary: #ed1c24;          /* DPRK red */
+      --primary-glow: rgba(237,28,36,0.6);
+      --primary-600: #c4171c;
+      --accent: #003087;           /* DPRK blue */
+      --accent-glow: rgba(0,48,135,0.6);
+      --card: rgba(0,0,0,0.9);
+      --border: rgba(237,28,36,0.3);
+      --border-glow: rgba(237,28,36,0.5);
+      --elev: 0 0 20px rgba(237,28,36,0.3), 0 0 40px rgba(0,48,135,0.2);
+      --radius: 0px;
+      --radius-sm: 0px;
+      --maxw: 1200px;
+      --hero-shift: -40px;
+    }
+
+    /* Base */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: 'Courier New', 'Monaco', 'Menlo', monospace, ui-monospace;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.5);
+    }
+    
+    /* Improve text readability */
+    p, li, td, th, .lead, .muted {
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
+    }
+
+    /* Animated Grid Background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image: 
+        linear-gradient(rgba(237,28,36,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(237,28,36,0.1) 1px, transparent 1px),
+        linear-gradient(rgba(0,48,135,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,48,135,0.05) 1px, transparent 1px);
+      background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+      background-position: 0 0, 0 0, 0 0, 0 0;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.4;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+      100% { background-position: 50px 50px, 50px 50px, 10px 10px, 10px 10px; }
+    }
+
+    /* Scanlines Overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      animation: scanline 8s linear infinite;
+    }
+
+    @keyframes scanline {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* Hero background with video */
+    .hero-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .hero-bg video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      opacity: 0.85;
+      filter: contrast(1.2) brightness(0.9);
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 1200px 400px at 50% -10%, rgba(237,28,36,0.4), transparent 60%),
+        radial-gradient(ellipse 1400px 500px at 40% 110%, rgba(0,48,135,0.35), transparent 60%),
+        linear-gradient(90deg, transparent 0%, rgba(237,28,36,0.1) 50%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, rgba(0,48,135,0.1) 50%, transparent 100%);
+      animation: pulse 4s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Header - Cyberpunk Style */
+    .skip-link { position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+    .skip-link:focus { 
+      left: 16px; top: 12px; width: auto; height: auto; 
+      background: var(--primary); 
+      color: #fff; 
+      padding: 8px 12px; 
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+      z-index: 10000; 
+    }
+
+    header.site-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: transparent;
+    }
+    .header-inner { 
+      max-width: var(--maxw); 
+      margin: 0 auto; 
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 14px 20px;
+    }
+
+    /* Image-based Navigation - Fixed on left side, full height */
+    .nav-image-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 320px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 8px;
+      box-sizing: border-box;
+    }
+    .nav-image {
+      width: 100%;
+      height: calc(100% - 50px);
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border: 3px solid var(--primary);
+      border-radius: 8px;
+      box-shadow: 
+        0 0 20px rgba(237,28,36,0.8),
+        0 0 40px rgba(237,28,36,0.6),
+        0 0 60px rgba(237,28,36,0.4),
+        0 0 80px rgba(237,28,36,0.2),
+        inset 0 0 20px rgba(0,48,135,0.3),
+        0 10px 40px rgba(0,0,0,0.5);
+    }
+    
+    /* Clickable button overlays */
+    .nav-image-buttons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 25px 8px;
+    }
+    
+    .nav-image-btn {
+      position: relative;
+      display: block;
+      width: 70%;
+      height: 18%;
+      margin: 1.5% 0;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    .nav-image-btn:hover {
+      background: rgba(237,28,36,0.15);
+      box-shadow: 0 0 20px rgba(237,28,36,0.6);
+      opacity: 1;
+      transform: scale(1.02);
+    }
+    .nav-image-btn:active {
+      transform: scale(0.98);
+    }
+    .nav-image-btn:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      opacity: 0.8;
+    }
+
+    /* Brand/Logo - positioned on the left */
+    .brand { 
+      display:flex; 
+      align-items:center; 
+      gap: 12px; 
+      text-decoration: none; 
+      color: var(--text); 
+      text-shadow: 0 0 10px var(--primary-glow);
+      transition: text-shadow 0.3s ease;
+      z-index: 10;
+    }
+    .brand:hover { text-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--primary-glow); }
+    .brand img { 
+      width: 48px; 
+      height: 48px; 
+      object-fit: contain; 
+      filter: drop-shadow(0 0 8px var(--primary-glow));
+      transition: filter 0.3s ease;
+    }
+    .brand:hover img { filter: drop-shadow(0 0 15px var(--primary-glow)); }
+    .brand-title { 
+      font-weight: 900; 
+      letter-spacing: 2px; 
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    /* Mobile nav */
+    @media (max-width: 1200px) {
+      .nav-image-container {
+        width: 280px;
+      }
+      .container {
+        padding-left: clamp(300px, 18vw, 320px);
+      }
+    }
+    
+    @media (max-width: 860px) {
+      .header-inner {
+        padding: 12px;
+        justify-content: center;
+      }
+      .nav-image-container {
+        position: relative;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        margin: 10px auto 0;
+      }
+      .nav-image {
+        height: auto;
+        object-fit: contain;
+      }
+      .container {
+        padding-left: clamp(16px, 3vw, 32px);
+      }
+      .nav-image-buttons {
+        padding: 0 12%;
+      }
+      .nav-image-btn {
+        height: 14%;
+        margin: 1.5% 0;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .brand-title {
+        display: none;
+      }
+      .nav-image-container {
+        max-width: 100%;
+      }
+    }
+
+    /* Layout helpers - Cyberpunk */
+    .container { max-width: var(--maxw); margin: 0 auto; padding: clamp(16px, 3vw, 32px); padding-left: clamp(340px, 20vw, 360px); }
+    .section { 
+      margin: clamp(28px, 4vw, 56px) auto; 
+      background: var(--card); 
+      border: 2px solid var(--primary); 
+      box-shadow: var(--elev), inset 0 0 30px rgba(0,48,135,0.1); 
+      overflow: clip; 
+      position: relative;
+      border-radius: var(--radius);
+    }
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      animation: borderGlow 3s ease-in-out infinite;
+    }
+    @keyframes borderGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .section > .section-inner { padding: clamp(18px, 3vw, 36px); }
+    .section h2 { 
+      margin: 0 0 12px; 
+      font-size: clamp(1.25rem, 2.2vw, 1.75rem); 
+      letter-spacing: 2px; 
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--primary-glow);
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+    }
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+    .section p.lead { 
+      color: var(--muted); 
+      margin-top: 0; 
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
+    }
+    .tag { 
+      display:inline-flex; 
+      align-items:center; 
+      gap:8px; 
+      font-size: 0.75rem; 
+      font-weight: 900; 
+      text-transform: uppercase; 
+      letter-spacing: 2px; 
+      color:#fff; 
+      background: linear-gradient(90deg, var(--primary), var(--accent)); 
+      padding: 8px 16px; 
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+      position: relative;
+      overflow: hidden;
+    }
+    .tag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shine 3s infinite;
+    }
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Hero - Cyberpunk base */
+    .hero { 
+      text-align: center; 
+      padding: clamp(40px, 8vw, 88px) 0 clamp(8px, 4vw, 16px); 
+      position: relative; 
+    }
+    .hero .sub { 
+      color: var(--muted); 
+      max-width: 820px; 
+      margin: 0 auto; 
+      text-shadow: 0 0 5px rgba(255,255,255,0.3);
+      font-size: 1.1rem;
+    }
+
+    /* Cards grid - Cyberpunk */
+    .grid { display: grid; gap: clamp(14px, 2.4vw, 22px); }
+    .grid.auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card { 
+      background: var(--card); 
+      border: 2px solid var(--primary); 
+      padding: 16px; 
+      transition: all 0.3s ease; 
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(237,28,36,0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+    .card:hover::before {
+      opacity: 1;
+      animation: cardScan 1s ease;
+    }
+    @keyframes cardScan {
+      0% { top: -50%; left: -50%; }
+      100% { top: 150%; left: 150%; }
+    }
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 
+        0 0 20px var(--primary-glow),
+        0 0 40px rgba(237,28,36,0.3),
+        inset 0 0 20px rgba(0,48,135,0.2);
+      border-color: var(--primary);
+    }
+
+    /* Video & Twitch embeds - Cyberpunk */
+    .embed { 
+      position: relative; 
+      width: 100%; 
+      aspect-ratio: 16/9; 
+      overflow: hidden; 
+      border: 2px solid var(--primary); 
+      background: #000; 
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .embed::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--accent);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+    }
+    .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 0; }
+
+    /* Roster - Cyberpunk */
+    .member h3 { 
+      margin: 4px 0 6px; 
+      font-size: 1.2rem; 
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+    .role { 
+      color: var(--muted); 
+      font-size: .9rem; 
+      margin-bottom: 10px; 
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
+    }
+    .member .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .btn { 
+      display:inline-flex; 
+      align-items:center; 
+      gap:8px; 
+      color: var(--text); 
+      text-decoration:none; 
+      padding: 8px 16px; 
+      border: 2px solid var(--primary); 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      background: url('DPRKNav.jpg') center/cover no-repeat;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+      transition: background 0.3s ease;
+    }
+    .btn {
+      z-index: 1;
+    }
+    .btn > * {
+      position: relative;
+      z-index: 2;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(237,28,36,0.3), transparent);
+      transition: left 0.5s ease;
+      z-index: 1;
+    }
+    .btn:hover::before {
+      left: 100%;
+    }
+    .btn:hover { 
+      box-shadow: 0 0 15px var(--primary-glow);
+      text-shadow: 0 0 8px var(--primary-glow);
+      transform: translateY(-2px);
+      background-size: 110%;
+    }
+    .btn:hover::after {
+      background: rgba(237,28,36,0.2);
+    }
+
+    /* Tables - Cyberpunk */
+    .table-wrap { 
+      overflow-x: auto; 
+      border: 2px solid var(--primary); 
+      box-shadow: 0 0 15px var(--primary-glow);
+      transition: opacity 0.3s ease;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    caption { 
+      text-align: left; 
+      padding: 12px 12px 0; 
+      color: var(--primary); 
+      font-weight: 700; 
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+    thead th { 
+      position: sticky; 
+      top: 0; 
+      background: linear-gradient(0deg, rgba(237,28,36,0.3), rgba(237,28,36,0.5)); 
+      color: #fff; 
+      text-align: left; 
+      font-size: .9rem; 
+      letter-spacing: 1px; 
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--primary);
+      box-shadow: 0 2px 10px rgba(237,28,36,0.3);
+    }
+    th, td { 
+      padding: 12px; 
+      border-bottom: 1px solid rgba(237,28,36,0.2); 
+    }
+    tbody tr { 
+      transition: all 0.3s ease; 
+      cursor: pointer;
+      position: relative;
+    }
+    tbody tr:hover { 
+      background: rgba(237,28,36,0.15); 
+      box-shadow: inset 0 0 20px rgba(237,28,36,0.3);
+      transform: translateX(4px);
+      border-left: 3px solid var(--primary);
+    }
+    tbody tr.hidden {
+      display: none;
+    }
+    tbody tr.top-performer {
+      background: rgba(237,28,36,0.05);
+      border-left: 2px solid var(--primary);
+    }
+    tbody tr.top-performer::before {
+      content: '⭐';
+      position: absolute;
+      left: -20px;
+      opacity: 0.6;
+    }
+    th.sortable { 
+      cursor: pointer; 
+      user-select: none; 
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    th.sortable:hover {
+      background: linear-gradient(0deg, rgba(237,28,36,0.4), rgba(237,28,36,0.6));
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      transform: scale(1.02);
+    }
+    th.sortable::after { 
+      content: " ▲▼"; 
+      opacity: .4; 
+      margin-left: 6px; 
+      font-size: .7em; 
+      transition: opacity 0.3s ease;
+    }
+    th.sortable:hover::after {
+      opacity: 1;
+    }
+    th.sortable[aria-sort="ascending"]::after {
+      content: " ▲";
+      opacity: 1;
+      color: var(--primary);
+    }
+    th.sortable[aria-sort="descending"]::after {
+      content: " ▼";
+      opacity: 1;
+      color: var(--primary);
+    }
+    tbody td:nth-child(n+3) { 
+      text-align: right; 
+      font-variant-numeric: tabular-nums; 
+      font-family: 'Courier New', monospace;
+      transition: all 0.2s ease;
+    }
+    tbody td:first-child {
+      text-align: left;
+      font-family: inherit;
+      font-weight: 700;
+      color: var(--primary);
+      text-shadow: 0 0 5px var(--primary-glow);
+    }
+    tbody td:nth-child(2) {
+      text-align: left;
+      font-family: inherit;
+    }
+    tbody tr:hover td {
+      color: var(--text);
+    }
+    tbody tr:hover td:first-child {
+      text-shadow: 0 0 10px var(--primary-glow);
+    }
+    
+    /* Stats input styling */
+    #statsSearch:focus, #statsFilter:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    #resetStats:hover {
+      background: rgba(0,48,135,0.2);
+      box-shadow: 0 0 15px rgba(0,48,135,0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Charts styling */
+    #chartsSection {
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #chartsSection .card {
+      position: relative;
+      overflow: visible;
+    }
+    #chartsSection canvas {
+      filter: drop-shadow(0 0 5px rgba(237,28,36,0.3));
+    }
+    #perMinuteTabs button {
+      transition: all 0.3s ease;
+    }
+    #perMinuteTabs button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* Utilities */
+    .center { text-align:center; }
+    .spaced { margin-top: 10px; }
+
+    /* Footer - Cyberpunk */
+    footer { 
+      margin-top: 40px; 
+      border-top: 2px solid var(--primary); 
+      background: rgba(0,0,0,0.8); 
+      box-shadow: 0 -5px 20px rgba(237,28,36,0.3);
+    }
+    footer .inner { 
+      max-width: var(--maxw); 
+      margin: 0 auto; 
+      padding: 22px; 
+      text-align:center; 
+    }
+    footer p {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+    }
+    footer img { 
+      width: 128px; 
+      filter: drop-shadow(0 0 15px var(--primary-glow));
+      margin-top: 10px;
+    }
+
+    /* Back to top - Cyberpunk */
+    .to-top { 
+      position: fixed; 
+      right: 16px; 
+      bottom: 16px; 
+      z-index: 999; 
+      display:none; 
+      border: 2px solid var(--primary);
+      background: rgba(0,0,0,0.8);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .to-top.visible { display: inline-flex; }
+    .to-top:hover {
+      box-shadow: 0 0 25px var(--primary-glow);
+      text-shadow: 0 0 8px var(--primary-glow);
+    }
+
+    /* Animations (respect reduced motion) */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { 
+        opacity: 0; 
+        transform: translateY(20px); 
+        transition: opacity .6s ease, transform .6s ease; 
+      }
+      .reveal.in { 
+        opacity: 1; 
+        transform: none; 
+      }
+    }
+
+    /* Additional Cyberpunk Effects */
+    .muted {
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Glitch text effect for emphasis */
+    @keyframes textGlitch {
+      0%, 100% { 
+        text-shadow: 
+          0 0 5px var(--primary-glow),
+          0 0 10px var(--primary-glow);
+      }
+      25% { 
+        text-shadow: 
+          -2px 0 var(--primary),
+          2px 0 var(--accent),
+          0 0 10px var(--primary-glow);
+      }
+      50% { 
+        text-shadow: 
+          2px 0 var(--primary),
+          -2px 0 var(--accent),
+          0 0 10px var(--primary-glow);
+      }
+    }
+
+    /* Neon pulse for active elements */
+    @keyframes neonPulse {
+      0%, 100% { 
+        box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+      }
+      50% { 
+        box-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow), 0 0 60px var(--primary-glow);
+      }
+    }
+
+    /* ===== HERO UPGRADE – glass HUD + better glitch ===== */
+
+     .hero-inner {
+       border-radius: 12px;
+       border: 1px solid rgba(237,28,36,0.45);
+       background:
+         radial-gradient(circle at 0% 0%, rgba(237,28,36,0.25), transparent 55%),
+         radial-gradient(circle at 100% 100%, rgba(0,48,135,0.35), transparent 60%),
+         rgba(0,0,0,0.92);
+       box-shadow:
+         0 0 0 1px rgba(0,0,0,0.8),
+         0 0 0 2px rgba(237,28,36,0.3),
+         0 0 15px rgba(237,28,36,0.4),
+         0 0 30px rgba(237,28,36,0.3),
+         0 0 50px rgba(0,48,135,0.3),
+         0 0 70px rgba(0,48,135,0.2),
+         0 40px 80px rgba(0,0,0,0.9),
+         inset 0 0 20px rgba(237,28,36,0.1);
+       position: relative;
+       overflow: hidden;
+       backdrop-filter: blur(14px);
+     }
+
+    .hero-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,0.13) 35%,
+        transparent 70%);
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .hero-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-ping {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #57ffb7;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .hero-ping::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #57ffb7;
+      box-shadow: 0 0 12px #57ffb7;
+      animation: ping 1.4s infinite;
+    }
+
+    @keyframes ping {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    .hero-glitch {
+      position: relative;
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+      margin: 8px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      text-indent: 0.35em;
+      color: var(--primary);
+      font-weight: 900;
+      text-shadow:
+        0 0 10px var(--primary-glow),
+        0 0 20px var(--primary-glow),
+        0 0 30px var(--primary-glow);
+      animation: heroGlitch 2.8s infinite;
+    }
+
+    .hero-glitch::before,
+    .hero-glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    .hero-glitch::before {
+      text-shadow: -2px 0 #ed1c24;
+      clip-path: inset(0 0 50% 0);
+    }
+
+    .hero-glitch::after {
+      text-shadow: 2px 0 #003087;
+      clip-path: inset(50% 0 0 0);
+    }
+
+    @keyframes heroGlitch {
+      0%, 92%, 100% { transform: translate(0,0); }
+      10% { transform: translate(-2px, 1px); }
+      20% { transform: translate(2px, -1px); }
+      40% { transform: translate(-1px, 0); }
+      60% { transform: translate(1px, 1px); }
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+      justify-content: center;
+    }
+
+    .hero-pill {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.18), transparent 60%);
+      color: #e0e0e0;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-pill.online {
+      border-color: #57ffb7;
+      color: #57ffb7;
+      box-shadow: 0 0 12px rgba(87,255,183,0.7);
+    }
+
+     .hero .sub {
+       max-width: 760px;
+       margin-top: 8px;
+       font-size: 0.98rem;
+       color: rgba(255,255,255,0.95);
+       text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 6px rgba(0,0,0,0.7);
+     }
+
+    /* ===== NAV IMAGE – neon HUD buttons ===== */
+
+    .nav-image-buttons {
+      padding: 10% 6%;
+      gap: 10px;
+    }
+
+    .nav-image-btn {
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.75),
+        0 0 18px rgba(237,28,36,0.45);
+      background: radial-gradient(circle at 30% 0%, rgba(237,28,36,0.14), transparent 60%);
+      opacity: 0.18;
+      backdrop-filter: blur(3px);
+    }
+
+    .nav-image-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px dashed rgba(255,255,255,0.14);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+
+    .nav-image-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 18px rgba(237,28,36,0.8),
+        0 0 36px rgba(0,48,135,0.6);
+    }
+
+    .nav-image-btn:hover::after {
+      opacity: 1;
+    }
+
+    /* active section (scrollspy style sets inline opacity 0.3) */
+    .nav-image-btn[style*="opacity: 0.3"] {
+      opacity: 0.5 !important;
+      box-shadow:
+        0 0 24px rgba(237,28,36,0.9),
+        0 0 50px rgba(0,48,135,0.7);
+    }
+
+    /* ===== PLAYER / GENERIC CARDS – glass + accent strip ===== */
+
+     .card.member {
+       border-radius: 12px;
+       border-width: 1px;
+       border-color: rgba(237,28,36,0.6);
+       background:
+         linear-gradient(135deg, rgba(0,48,135,0.35), transparent 50%),
+         rgba(0,0,0,0.9);
+       backdrop-filter: blur(10px);
+       position: relative;
+       overflow: hidden;
+     }
+
+    .card.member::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -20%;
+      width: 40%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ed1c24, #57ffb7, transparent);
+      opacity: 0.9;
+      animation: cardSweep 3.4s linear infinite;
+    }
+
+    @keyframes cardSweep {
+      0% { transform: translateX(0); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(400%); opacity: 0; }
+    }
+
+    .card.member h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card.member h3::after {
+      content: 'PLAYER';
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .member .links .btn {
+      background: radial-gradient(circle at 10% 0%, rgba(237,28,36,0.25), transparent 65%);
+      border-radius: 999px;
+      border-width: 1px;
+      padding-inline: 18px;
+      font-size: 0.75rem;
+    }
+
+    /* ===== Stats control bar – HUD style ===== */
+
+    .stats-controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .stats-field {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+
+     .stats-input,
+     .stats-select {
+       width: 100%;
+       padding: 10px 14px;
+       background: radial-gradient(circle at 0 0, rgba(237,28,36,0.18), transparent 55%),
+                   rgba(0,0,0,0.9);
+       border: 1px solid rgba(237,28,36,0.7);
+       color: var(--text);
+       font-family: 'Courier New', monospace;
+       font-size: 0.9rem;
+       box-shadow: 0 0 12px rgba(237,28,36,0.4);
+       transition: all 0.25s ease;
+       border-radius: 999px;
+       text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+     }
+
+    .stats-input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .stats-input:focus,
+    .stats-select:focus {
+      outline: none;
+      border-color: #57ffb7;
+      box-shadow:
+        0 0 16px rgba(237,28,36,0.6),
+        0 0 26px rgba(0,48,135,0.7);
+    }
+
+    .stats-select {
+      width: auto;
+      min-width: 180px;
+      padding-right: 30px;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #fff 50%),
+        linear-gradient(135deg, #fff 50%, transparent 50%);
+      background-position:
+        calc(100% - 16px) 50%,
+        calc(100% - 12px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    .stats-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+     #statsTable {
+       background: radial-gradient(circle at 50% 0, rgba(237,28,36,0.12), transparent 60%),
+                   rgba(0,0,0,0.95);
+     }
+     
+     /* Improve table text readability */
+     #statsTable td, #statsTable th {
+       text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+     }
+
+    /* Global radius soften */
+    :root {
+      --radius: 10px;
+      --radius-sm: 8px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="hero-bg" aria-hidden="true">
+    <video autoplay muted loop playsinline>
+      <source src="grok-video-b7224a78-6069-4597-ad12-74b9e32cfaec-3.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Left Side Navigation -->
+  <nav id="site-nav" class="nav-image-container" role="navigation" aria-label="Primary">
+    <img src="DPRKNav.jpg" alt="Navigation Menu" class="nav-image" />
+    <div class="nav-image-buttons">
+      <a href="#intro" class="nav-image-btn" aria-label="Go to Intro section"></a>
+      <a href="#team" class="nav-image-btn" aria-label="Go to Team section"></a>
+      <a href="#videos" class="nav-image-btn" aria-label="Go to Highlights section"></a>
+    </div>
+  </nav>
+
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="#top">
+        <img src="https://raw.githubusercontent.com/T24085/TeamDPRK/main/TeamDPRKLogo3.png" alt="[DPRK] crest" width="64" height="64" />
+        <div class="brand-title">[DPRK] TPL</div>
+      </a>
+    </div>
+  </header>
+
+  <main id="main" class="container" role="main">
+    <!-- HERO -->
+    <section class="hero section reveal" id="top">
+      <div class="section-inner hero-inner">
+        <div class="hero-header-row">
+          <span class="tag">Tribes Professional League</span>
+          <span class="hero-ping">● LIVE SYSTEM</span>
+        </div>
+
+        <h1 class="hero-glitch" data-text="[DPRK] TPL TEAM">[DPRK] TPL TEAM</h1>
+
+        <div class="hero-meta">
+          <span class="hero-pill online">STATUS: ONLINE</span>
+          <span class="hero-pill">REGION: NA</span>
+          <span class="hero-pill">MODE: CTF</span>
+          <span class="hero-pill">SPEED: MAX</span>
+        </div>
+
+        <p class="sub">
+          A fast, disciplined roster built to cap, crash, and control. Explore our highlights, meet the squad, and dive into the numbers.
+        </p>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="section reveal" id="intro">
+      <div class="section-inner">
+        <h2>Team Introduction</h2>
+        <p class="lead">Founded to dominate with pace and precision. Led by <strong>Glem</strong> (Leader, Flex / Medium Offense), <strong>CheezeCaeke</strong> (Co-Leader, Heavy-on-Flag), and <strong>ColonelFatso</strong> (Captain, Capper). Core principles: teamwork, discipline, and relentless improvement. Key players include <strong>Nemesis</strong> (Capper), <strong>Rhino</strong> (Light Defense), <strong>Halogen</strong> (Light Defense), and <strong>Panda</strong> (Heavy Offense).</p>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section class="section reveal" id="videos">
+      <div class="section-inner">
+        <h2>Featured Highlights</h2>
+        <p class="lead">A couple of moments we love. Got more clips? Send them and we’ll add them.</p>
+        <div class="grid auto">
+          <article class="card">
+            <div class="embed">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube-nocookie.com/embed/NjAn60913lI"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+          </article>
+          <article class="card">
+            <div class="embed">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube-nocookie.com/embed/WuB7DHNsIvs"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section reveal" id="team">
+      <div class="section-inner">
+        <h2>Team</h2>
+        <p class="lead">Meet the squad. Twitch embeds auto-configure their <code>parent</code> for your domain.</p>
+        <div class="grid auto spaced">
+          <!-- Glem -->
+          <article class="card member">
+            <h3>Glem</h3>
+            <div class="role">Leader — Flex / Medium Offense</div>
+            <div class="embed">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube-nocookie.com/embed?listType=user_uploads&list=glem7761WithGuns"
+                title="Glem — YouTube uploads"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.youtube.com/@Tribes3RIvalsHighlights49GirlsWithGuns" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </div>
+          </article>
+
+          <!-- CheezeCaeke -->
+          <article class="card member">
+            <h3>CheezeCaeke</h3>
+            <div class="role">Co-Leader — Heavy On Flag</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="cheezecaek" title="CheezeCaeke — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.twitch.tv/cheezecaek" target="_blank" rel="noopener noreferrer">Twitch</a>
+              <a class="btn" href="https://www.youtube.com/@glem7761" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </div>
+          </article>
+
+          <!-- ColonelFatso -->
+          <article class="card member">
+            <h3>ColonelFatso</h3>
+            <div class="role">Captain — Capper</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="colonelfatso" title="ColonelFatso — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.twitch.tv/colonelfatso" target="_blank" rel="noopener noreferrer">Twitch</a>
+            </div>
+          </article>
+
+          <!-- Nemesis -->
+          <article class="card member">
+            <h3>Nemesis</h3>
+            <div class="role">Capper</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="seansguitarworldbang" title="Nemesis — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.twitch.tv/seansguitarworldbang" target="_blank" rel="noopener noreferrer">Twitch</a>
+            </div>
+          </article>
+
+          <!-- Rhino -->
+          <article class="card member">
+            <h3>Rhino</h3>
+            <div class="role">Light Defense</div>
+            <p class="muted">Highlights coming soon.</p>
+          </article>
+
+          <!-- Halogen -->
+          <article class="card member">
+            <h3>Halogen</h3>
+            <div class="role">Light Defense</div>
+            <p class="muted">Highlights coming soon.</p>
+          </article>
+
+          <!-- Panda -->
+          <article class="card member">
+            <h3>Panda</h3>
+            <div class="role">Heavy Offense</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="pandoracast" title="Panda — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.twitch.tv/pandoracast" target="_blank" rel="noopener noreferrer">Twitch</a>
+            </div>
+          </article>
+
+          <!-- Makono -->
+          <article class="card member">
+            <h3>Makono</h3>
+            <div class="role">Team Member</div>
+            <p class="muted">Highlights coming soon.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section reveal" id="stats">
+      <div class="section-inner">
+        <h2>Player Stats</h2>
+        <p class="lead">Sortable by any column. Search and filter to explore player performance.</p>
+        
+        <!-- Search and Filter Controls -->
+        <div class="stats-controls">
+          <div class="stats-field">
+            <input 
+              type="text" 
+              id="statsSearch" 
+              placeholder="Search players..." 
+              class="stats-input"
+            />
+            <span class="stats-icon">🔍</span>
+          </div>
+          <select 
+            id="statsFilter" 
+            class="stats-select"
+          >
+            <option value="">All Roles</option>
+            <option value="Leader">Leader</option>
+            <option value="Co-Leader">Co-Leader</option>
+            <option value="Captain">Captain</option>
+            <option value="Capper">Capper</option>
+            <option value="Light Defense">Light Defense</option>
+            <option value="Heavy Offense">Heavy Offense</option>
+            <option value="Team Member">Team Member</option>
+          </select>
+          <button 
+            id="resetStats" 
+            style="padding: 10px 16px; background: transparent; border: 2px solid var(--accent); color: var(--text); font-family: 'Courier New', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0,48,135,0.3); border-radius: 999px;"
+          >
+            Reset
+          </button>
+        </div>
+        
+        <div id="statsLoading" style="text-align: center; padding: 20px; color: var(--muted); display: none;">
+          Loading player stats...
+        </div>
+
+        <!-- Charts Section -->
+        <div id="chartsSection" style="display: none; margin-bottom: 40px;">
+          <div id="chartsError" style="display: none; padding: 20px; background: rgba(237,28,36,0.1); border: 2px solid var(--primary); color: var(--text); margin-bottom: 20px; text-align: center;">
+            Charts are loading... If they don't appear, check the browser console for errors.
+          </div>
+          <div class="grid auto" style="margin-bottom: 30px;">
+            <!-- Per-Minute Production Chart -->
+            <div class="card" style="grid-column: 1 / -1;">
+              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Production Rates</h3>
+              <p class="muted" style="margin-bottom: 15px;">Per-minute outputs across all recorded matches</p>
+              <div style="position: relative; height: 350px;">
+                <canvas id="perMinuteChart"></canvas>
+              </div>
+              <div id="perMinuteTabs" style="display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap;"></div>
+            </div>
+
+            <!-- Key Metrics Comparison Chart -->
+            <div class="card">
+              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Key Metrics</h3>
+              <p class="muted" style="margin-bottom: 15px;">Total kills, assists, and score comparison</p>
+              <div style="position: relative; height: 300px;">
+                <canvas id="keyMetricsChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Efficiency Chart -->
+            <div class="card">
+              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Efficiency Rates</h3>
+              <p class="muted" style="margin-bottom: 15px;">Per-minute efficiency metrics</p>
+              <div style="position: relative; height: 300px;">
+                <canvas id="efficiencyChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="table-wrap" role="region" aria-label="Player statistics" tabindex="0">
+          <table id="statsTable">
+            <caption>Aggregated match stats</caption>
+            <thead>
+              <tr>
+                <th class="sortable" scope="col">Player</th>
+                <th class="sortable" scope="col">Role</th>
+                <th class="sortable" scope="col">Matches</th>
+                <th class="sortable" scope="col">Time (min)</th>
+                <th class="sortable" scope="col">Score</th>
+                <th class="sortable" scope="col">Kills</th>
+                <th class="sortable" scope="col">Assists</th>
+                <th class="sortable" scope="col">Captures</th>
+                <th class="sortable" scope="col">Returns</th>
+                <th class="sortable" scope="col">SPM</th>
+                <th class="sortable" scope="col">KPM</th>
+                <th class="sortable" scope="col">APM</th>
+                <th class="sortable" scope="col">CPM</th>
+                <th class="sortable" scope="col">RPM</th>
+              </tr>
+            </thead>
+            <tbody id="statsTableBody">
+              <!-- Stats will be populated from Firebase -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section reveal" id="wins">
+      <div class="section-inner">
+        <h2>Results</h2>
+        <div class="table-wrap" role="region" aria-label="Tournament results" tabindex="0">
+          <table id="winsTable">
+            <caption>Tournament finishes</caption>
+            <thead>
+              <tr>
+                <th class="sortable" scope="col">Tournament</th>
+                <th class="sortable" scope="col">Year</th>
+                <th class="sortable" scope="col">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tribes Professional League FatBoys of Summer Draft</td>
+                <td>2025</td>
+                <td>2nd Place</td>
+              </tr>
+              <tr>
+                <td>Tribes Professional League March Draft</td>
+                <td>2025</td>
+                <td>2nd Place</td>
+              </tr>
+              <tr>
+                <td>Draft Tournament</td>
+                <td>2025</td>
+                <td>1st Place, 3rd Place</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section reveal" id="contact">
+      <div class="section-inner">
+        <h2>Contact</h2>
+        <p class="lead">Want to scrim or join? Reach out.</p>
+        <div class="grid auto">
+          <article class="card center">
+            <p><strong>Discord:</strong> <a class="btn" href="#" aria-label="Open Discord link" target="_blank" rel="noopener">Join server</a></p>
+            <p><strong>Email:</strong> <a class="btn" href="mailto:contact@example.com">contact@example.com</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Back to top -->
+  <a class="btn to-top" href="#top" aria-label="Back to top">↑ Top</a>
+
+  <footer role="contentinfo">
+    <div class="inner">
+      <p>© 2025 [DPRK] Tribes Professional League. All rights reserved.</p>
+      <img src="https://raw.githubusercontent.com/T24085/TeamDPRK/main/DPRKLOGO.png" alt="[DPRK] logo" width="128" height="128" />
+    </div>
+  </footer>
+
+  <script>
+    // ===== Smooth scroll for image navigation buttons =====
+    (function() {
+      const navButtons = document.querySelectorAll('.nav-image-btn');
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const href = btn.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const el = document.querySelector(href);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              // Add visual feedback
+              btn.style.opacity = '0.8';
+              setTimeout(() => {
+                btn.style.opacity = '0.18';
+              }, 300);
+            }
+          }
+        });
+      });
+
+      // Scrollspy for active section highlighting (optional visual feedback)
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          if (!id) return;
+          const link = document.querySelector(`.nav-image-btn[href="#${id}"]`);
+          if (link) {
+            if (entry.isIntersecting) {
+              link.style.opacity = '0.3';
+            } else {
+              link.style.opacity = '0.18';
+            }
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.05 });
+
+      document.querySelectorAll('main section[id]').forEach(sec => observer.observe(sec));
+    })();
+
+    // ===== Reveal on scroll (reduced motion aware) =====
+    (function(){
+      const enabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!enabled) return;
+      const els = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.1 });
+      els.forEach(el => io.observe(el));
+    })();
+
+    // ===== Back to top visibility =====
+    (function() {
+      const btn = document.querySelector('.to-top');
+      const onScroll = () => {
+        if (window.scrollY > 600) btn.classList.add('visible'); else btn.classList.remove('visible');
+      };
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // ===== Twitch embeds: auto-set parent & channel safely =====
+    (function() {
+      const domain = location.hostname || 'localhost';
+      const twitchIframes = document.querySelectorAll('iframe[data-twitch-channel]');
+      twitchIframes.forEach((iframe) => {
+        const channel = iframe.getAttribute('data-twitch-channel');
+        if (!channel) return;
+        const params = new URLSearchParams({ channel, parent: domain, muted: 'true' });
+        iframe.src = `https://player.twitch.tv/?${params.toString()}`;
+      });
+    })();
+
+    // ===== Load Player Stats from Firebase (using publicStats/aggregates like PlayerStats.html) =====
+    (async function() {
+      const loadingEl = document.getElementById('statsLoading');
+      const tableWrap = document.querySelector('#stats table').closest('.table-wrap');
+      
+      try {
+        if (loadingEl) loadingEl.style.display = 'block';
+        if (tableWrap) tableWrap.style.opacity = '0.5';
+        
+        // Wait for Firebase to be ready
+        await new Promise((resolve) => {
+          const checkFirebase = setInterval(() => {
+            if (window.firebaseDb) {
+              clearInterval(checkFirebase);
+              resolve();
+            }
+          }, 100);
+        });
+
+        const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+        const db = window.firebaseDb;
+        
+        // Fetch aggregated stats from publicStats/aggregates (same as PlayerStats.html)
+        const docRef = doc(db, 'publicStats', 'aggregates');
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+          console.log('No published stats found.');
+          if (loadingEl) {
+            loadingEl.textContent = 'No published stats found. Stats will appear when matches are saved.';
+            loadingEl.style.color = 'var(--muted)';
+          }
+          return;
+        }
+
+        const data = docSnap.data() || {};
+        const playerTotals = data.playerTotals || [];
+        
+        // DPRK team members with their roles
+        const teamMembers = {
+          'Glem': 'Leader',
+          'CheezeCaeke': 'Co-Leader',
+          'ColonelFatso': 'Captain',
+          'Nemesis': 'Capper',
+          'Rhino': 'Light Defense',
+          'Halogen': 'Light Defense',
+          'Panda': 'Heavy Offense',
+          'Makono': 'Team Member'
+        };
+
+        // Helper function to format numbers
+        const formatNumber = (val, decimals = 2) => {
+          if (val === null || val === undefined || val === '') return '';
+          const num = typeof val === 'string' ? parseFloat(val.replace(/[ ,]+/g, '')) : val;
+          if (isNaN(num)) return '';
+          return num.toFixed(decimals);
+        };
+
+        // Filter and map player stats
+        const teamStats = playerTotals
+          .filter(player => {
+            const name = player.name || '';
+            return Object.keys(teamMembers).some(teamName => 
+              name.toLowerCase() === teamName.toLowerCase()
+            );
+          })
+          .map(player => {
+            const name = player.name || '';
+            const matchedTeamName = Object.keys(teamMembers).find(teamName => 
+              name.toLowerCase() === teamName.toLowerCase()
+            ) || name;
+            
+            const time = parseFloat(player.time || 0);
+            const score = parseFloat(player.score || 0);
+            const kills = parseFloat(player.kills || 0);
+            const assists = parseFloat(player.assists || 0);
+            const captures = parseFloat(player.captures || 0);
+            const returns = parseFloat(player.returns || 0);
+            const matches = parseFloat(player.matches || 0);
+
+            return {
+              name: matchedTeamName,
+              role: teamMembers[matchedTeamName] || '',
+              matches: matches,
+              time: time,
+              score: score,
+              kills: kills,
+              assists: assists,
+              captures: captures,
+              returns: returns,
+              spm: time > 0 ? score / time : 0,
+              kpm: time > 0 ? kills / time : 0,
+              apm: time > 0 ? assists / time : 0,
+              cpm: time > 0 ? captures / time : 0,
+              rpm: time > 0 ? returns / time : 0
+            };
+          })
+          .sort((a, b) => {
+            // Sort by name to maintain consistent order
+            return a.name.localeCompare(b.name);
+          });
+
+        // Find top performers for highlighting
+        const findTopPerformers = (stats, metric) => {
+          const validStats = stats.filter(s => s[metric] > 0);
+          if (validStats.length === 0) return [];
+          const sorted = [...validStats].sort((a, b) => b[metric] - a[metric]);
+          const topValue = sorted[0][metric];
+          return sorted.filter(s => s[metric] === topValue).map(s => s.name);
+        };
+
+        const topSpm = findTopPerformers(teamStats, 'spm');
+        const topKpm = findTopPerformers(teamStats, 'kpm');
+        const topScore = findTopPerformers(teamStats, 'score');
+        const topKills = findTopPerformers(teamStats, 'kills');
+
+        // Store stats globally for filtering
+        window.teamStatsData = teamStats;
+        window.teamMembersData = teamMembers;
+
+        // Populate the table
+        const tbody = document.getElementById('statsTableBody');
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (tableWrap) tableWrap.style.opacity = '1';
+        
+        if (tbody) {
+          tbody.innerHTML = '';
+          
+          // Create rows for all team members (even if they don't have stats yet)
+          Object.keys(teamMembers).forEach(teamName => {
+            const stats = teamStats.find(s => s.name === teamName);
+            const row = document.createElement('tr');
+            const isTopPerformer = topSpm.includes(teamName) || topKpm.includes(teamName) || 
+                                   topScore.includes(teamName) || topKills.includes(teamName);
+            
+            if (isTopPerformer) {
+              row.classList.add('top-performer');
+            }
+            
+            row.setAttribute('data-player', teamName.toLowerCase());
+            row.setAttribute('data-role', stats ? stats.role : teamMembers[teamName]);
+            
+            row.innerHTML = `
+              <td>${teamName}</td>
+              <td>${stats ? stats.role : teamMembers[teamName]}</td>
+              <td>${stats ? formatNumber(stats.matches, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.time, 2) : ''}</td>
+              <td>${stats ? formatNumber(stats.score, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.kills, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.assists, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.captures, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.returns, 0) : ''}</td>
+              <td>${stats ? formatNumber(stats.spm, 3) : ''}</td>
+              <td>${stats ? formatNumber(stats.kpm, 3) : ''}</td>
+              <td>${stats ? formatNumber(stats.apm, 3) : ''}</td>
+              <td>${stats ? formatNumber(stats.cpm, 3) : ''}</td>
+              <td>${stats ? formatNumber(stats.rpm, 3) : ''}</td>
+            `;
+            
+            tbody.appendChild(row);
+          });
+
+          // Initialize search and filter
+          initStatsFilters();
+          
+          // Render charts - wait for Chart.js to load
+          if (teamStats.length > 0) {
+            const chartsSection = document.getElementById('chartsSection');
+            const errorMsg = document.getElementById('chartsError');
+            if (chartsSection) chartsSection.style.display = 'block';
+            if (errorMsg) errorMsg.style.display = 'block';
+            
+            console.log('Attempting to render charts with', teamStats.length, 'players');
+            console.log('Chart.js available?', typeof Chart !== 'undefined');
+            
+            waitForChartJS().then(() => {
+              console.log('Chart.js loaded, rendering charts');
+              if (errorMsg) errorMsg.style.display = 'none';
+              renderCharts(teamStats);
+            }).catch(err => {
+              console.error('Chart.js not available:', err);
+              // Try rendering anyway after a delay
+              setTimeout(() => {
+                if (typeof Chart !== 'undefined') {
+                  console.log('Chart.js available on retry, rendering');
+                  if (errorMsg) errorMsg.style.display = 'none';
+                  renderCharts(teamStats);
+                } else {
+                  console.error('Chart.js still not available');
+                  if (errorMsg) {
+                    errorMsg.textContent = 'Chart.js failed to load. Please refresh the page.';
+                    errorMsg.style.display = 'block';
+                  }
+                }
+              }, 2000);
+            });
+          } else {
+            console.log('No team stats to render charts');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading player stats from Firebase:', error);
+        if (loadingEl) {
+          loadingEl.textContent = 'Error loading stats. Please refresh to try again.';
+          loadingEl.style.color = 'var(--primary)';
+        }
+      }
+    })();
+
+    // ===== Chart Rendering Functions =====
+    let chartInstances = new Map();
+
+    function waitForChartJS() {
+      return new Promise((resolve, reject) => {
+        if (typeof Chart !== 'undefined') {
+          resolve();
+          return;
+        }
+        
+        let attempts = 0;
+        const checkInterval = setInterval(() => {
+          attempts++;
+          if (typeof Chart !== 'undefined') {
+            clearInterval(checkInterval);
+            resolve();
+          } else if (attempts > 50) {
+            clearInterval(checkInterval);
+            reject(new Error('Chart.js failed to load'));
+          }
+        }, 100);
+      });
+    }
+
+    function destroyCharts() {
+      chartInstances.forEach(chart => chart.destroy());
+      chartInstances.clear();
+    }
+
+    function renderCharts(teamStats) {
+      console.log('renderCharts called with', teamStats?.length, 'players');
+      
+      if (!teamStats || teamStats.length === 0) {
+        console.log('No team stats provided');
+        return;
+      }
+      
+      if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded yet');
+        setTimeout(() => renderCharts(teamStats), 500);
+        return;
+      }
+      
+      const chartsSection = document.getElementById('chartsSection');
+      if (!chartsSection) {
+        console.error('Charts section element not found');
+        return;
+      }
+
+      destroyCharts();
+      
+      // Filter out players with no stats
+      const validStats = teamStats.filter(s => s.time > 0);
+      console.log('Valid stats:', validStats.length);
+      
+      if (validStats.length === 0) {
+        console.log('No valid stats to display');
+        chartsSection.style.display = 'none';
+        return;
+      }
+
+      chartsSection.style.display = 'block';
+      const errorMsg = document.getElementById('chartsError');
+      if (errorMsg) errorMsg.style.display = 'none';
+      console.log('Charts section displayed');
+
+      // Chart.js cyberpunk theme colors
+      const chartColors = {
+        primary: 'rgba(237, 28, 36, 0.8)',
+        primaryLight: 'rgba(237, 28, 36, 0.4)',
+        accent: 'rgba(0, 48, 135, 0.8)',
+        accentLight: 'rgba(0, 48, 135, 0.4)',
+        text: '#ffffff',
+        grid: 'rgba(237, 28, 36, 0.2)',
+        background: 'rgba(0, 0, 0, 0.3)'
+      };
+
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: chartColors.text,
+              font: {
+                family: "'Courier New', monospace",
+                size: 11
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            titleColor: chartColors.primary,
+            bodyColor: chartColors.text,
+            borderColor: chartColors.primary,
+            borderWidth: 2,
+            padding: 12,
+            titleFont: {
+              family: "'Courier New', monospace",
+              size: 12,
+              weight: 'bold'
+            },
+            bodyFont: {
+              family: "'Courier New', monospace",
+              size: 11
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: chartColors.text,
+              font: {
+                family: "'Courier New', monospace",
+                size: 10
+              }
+            },
+            grid: {
+              color: chartColors.grid,
+              lineWidth: 1
+            }
+          },
+          y: {
+            ticks: {
+              color: chartColors.text,
+              font: {
+                family: "'Courier New', monospace",
+                size: 10
+              }
+            },
+            grid: {
+              color: chartColors.grid,
+              lineWidth: 1
+            }
+          }
+        }
+      };
+
+      // Per-Minute Production Chart
+      renderPerMinuteChart(validStats, chartColors, chartOptions);
+      
+      // Key Metrics Chart
+      renderKeyMetricsChart(validStats, chartColors, chartOptions);
+      
+      // Efficiency Chart
+      renderEfficiencyChart(validStats, chartColors, chartOptions);
+    }
+
+    function renderPerMinuteChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('perMinuteChart');
+      const tabsContainer = document.getElementById('perMinuteTabs');
+      if (!ctx || !tabsContainer) return;
+
+      const metrics = [
+        { key: 'spm', label: 'Score/Min', color: colors.primary },
+        { key: 'kpm', label: 'Kills/Min', color: colors.accent },
+        { key: 'apm', label: 'Assists/Min', color: '#00ff88' },
+        { key: 'cpm', label: 'Captures/Min', color: '#ff8800' },
+        { key: 'rpm', label: 'Returns/Min', color: '#8800ff' }
+      ];
+
+      let currentMetric = 'spm';
+      
+      const updateChart = (metricKey) => {
+        const metric = metrics.find(m => m.key === metricKey);
+        if (!metric) return;
+
+        const sortedStats = [...stats]
+          .filter(s => s[metricKey] > 0)
+          .sort((a, b) => b[metricKey] - a[metricKey])
+          .slice(0, 8);
+
+        if (chartInstances.has('perMinute')) {
+          chartInstances.get('perMinute').destroy();
+        }
+
+        const chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: sortedStats.map(s => s.name),
+            datasets: [{
+              label: metric.label,
+              data: sortedStats.map(s => s[metricKey]),
+              backgroundColor: sortedStats.map((_, i) => {
+                const alpha = 0.6 + (i / sortedStats.length) * 0.4;
+                return metric.color.replace('0.8', alpha.toFixed(2));
+              }),
+              borderColor: metric.color,
+              borderWidth: 2,
+              borderRadius: 4
+            }]
+          },
+          options: {
+            ...baseOptions,
+            plugins: {
+              ...baseOptions.plugins,
+              legend: {
+                display: false
+              }
+            }
+          }
+        });
+
+        chartInstances.set('perMinute', chart);
+        currentMetric = metricKey;
+      };
+
+      // Create tabs
+      tabsContainer.innerHTML = '';
+      metrics.forEach(metric => {
+        const btn = document.createElement('button');
+        btn.textContent = metric.label;
+        btn.className = 'btn';
+        btn.style.cssText = 'padding: 6px 12px; font-size: 0.8rem; margin: 0;';
+        if (metric.key === currentMetric) {
+          btn.style.background = 'rgba(237,28,36,0.2)';
+          btn.style.borderColor = 'var(--primary)';
+        }
+        btn.addEventListener('click', () => {
+          updateChart(metric.key);
+          tabsContainer.querySelectorAll('button').forEach(b => {
+            b.style.background = 'transparent';
+            b.style.borderColor = 'var(--primary)';
+          });
+          btn.style.background = 'rgba(237,28,36,0.2)';
+          btn.style.borderColor = 'var(--primary)';
+        });
+        tabsContainer.appendChild(btn);
+      });
+
+      updateChart(currentMetric);
+    }
+
+    function renderKeyMetricsChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('keyMetricsChart');
+      if (!ctx) {
+        console.error('keyMetricsChart canvas not found');
+        return;
+      }
+
+      const sortedStats = [...stats]
+        .sort((a, b) => (b.kills + b.assists + b.score) - (a.kills + a.assists + a.score))
+        .slice(0, 8);
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sortedStats.map(s => s.name),
+          datasets: [
+            {
+              label: 'Kills',
+              data: sortedStats.map(s => s.kills),
+              backgroundColor: colors.primary,
+              borderColor: colors.primary,
+              borderWidth: 2
+            },
+            {
+              label: 'Assists',
+              data: sortedStats.map(s => s.assists),
+              backgroundColor: colors.accent,
+              borderColor: colors.accent,
+              borderWidth: 2
+            },
+            {
+              label: 'Score',
+              data: sortedStats.map(s => s.score / 100), // Scale down for visibility
+              backgroundColor: '#00ff88',
+              borderColor: '#00ff88',
+              borderWidth: 2,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          ...baseOptions,
+          scales: {
+            ...baseOptions.scales,
+            y: {
+              ...baseOptions.scales.y,
+              title: {
+                display: true,
+                text: 'Kills / Assists',
+                color: colors.text
+              }
+            },
+            y1: {
+              position: 'right',
+              ticks: {
+                color: colors.text,
+                font: {
+                  family: "'Courier New', monospace",
+                  size: 10
+                },
+                callback: function(value) {
+                  return (value * 100).toFixed(0);
+                }
+              },
+              grid: {
+                drawOnChartArea: false
+              },
+              title: {
+                display: true,
+                text: 'Score (÷100)',
+                color: colors.text
+              }
+            }
+          }
+        }
+      });
+
+      chartInstances.set('keyMetrics', chart);
+    }
+
+    function renderEfficiencyChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('efficiencyChart');
+      if (!ctx) {
+        console.error('efficiencyChart canvas not found');
+        return;
+      }
+
+      const sortedStats = [...stats]
+        .sort((a, b) => (b.spm + b.kpm + b.apm) - (a.spm + a.kpm + a.apm))
+        .slice(0, 6);
+
+      const chart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['SPM', 'KPM', 'APM', 'CPM', 'RPM'],
+          datasets: sortedStats.map((s, idx) => ({
+            label: s.name,
+            data: [s.spm, s.kpm, s.apm, s.cpm, s.rpm],
+            backgroundColor: idx === 0 ? colors.primaryLight : colors.accentLight,
+            borderColor: idx === 0 ? colors.primary : colors.accent,
+            borderWidth: 2,
+            pointBackgroundColor: idx === 0 ? colors.primary : colors.accent,
+            pointBorderColor: colors.text,
+            pointHoverBackgroundColor: colors.text,
+            pointHoverBorderColor: idx === 0 ? colors.primary : colors.accent
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            ...baseOptions.plugins,
+            legend: {
+              ...baseOptions.plugins.legend,
+              position: 'bottom'
+            }
+          },
+          scales: {
+            r: {
+              ticks: {
+                color: colors.text,
+                font: {
+                  family: "'Courier New', monospace",
+                  size: 9
+                },
+                backdropColor: 'transparent'
+              },
+              grid: {
+                color: colors.grid
+              },
+              pointLabels: {
+                color: colors.text,
+                font: {
+                  family: "'Courier New', monospace",
+                  size: 11,
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      });
+
+      chartInstances.set('efficiency', chart);
+    }
+
+    // ===== Stats Table Search and Filter =====
+    function initStatsFilters() {
+      const searchInput = document.getElementById('statsSearch');
+      const filterSelect = document.getElementById('statsFilter');
+      const resetBtn = document.getElementById('resetStats');
+      const tbody = document.getElementById('statsTableBody');
+
+      if (!tbody) return;
+
+      const filterRows = () => {
+        const searchTerm = (searchInput?.value || '').toLowerCase();
+        const roleFilter = filterSelect?.value || '';
+
+        const rows = tbody.querySelectorAll('tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+          const playerName = row.getAttribute('data-player') || '';
+          const role = row.getAttribute('data-role') || '';
+          const rowText = row.textContent.toLowerCase();
+
+          const matchesSearch = !searchTerm || playerName.includes(searchTerm) || rowText.includes(searchTerm);
+          const matchesRole = !roleFilter || role === roleFilter;
+
+          if (matchesSearch && matchesRole) {
+            row.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            row.classList.add('hidden');
+          }
+        });
+
+        // Show message if no results
+        let noResultsMsg = document.getElementById('noResultsMsg');
+        if (visibleCount === 0) {
+          if (!noResultsMsg) {
+            noResultsMsg = document.createElement('tr');
+            noResultsMsg.id = 'noResultsMsg';
+            noResultsMsg.innerHTML = `<td colspan="14" style="text-align: center; padding: 40px; color: var(--muted);">No players found matching your search.</td>`;
+            tbody.appendChild(noResultsMsg);
+          }
+        } else if (noResultsMsg) {
+          noResultsMsg.remove();
+        }
+      };
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterRows);
+        searchInput.addEventListener('keyup', (e) => {
+          if (e.key === 'Escape') {
+            searchInput.value = '';
+            filterRows();
+          }
+        });
+      }
+
+      if (filterSelect) {
+        filterSelect.addEventListener('change', filterRows);
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (filterSelect) filterSelect.value = '';
+          filterRows();
+          searchInput?.focus();
+        });
+      }
+
+      filterRows();
+    }
+
+    // ===== Sortable tables =====
+    (function() {
+      const makeSortable = (table) => {
+        const getCellValue = (tr, idx) => tr.children[idx]?.textContent.trim() || '';
+        const asNumber = (v) => v === '' ? NaN : Number(v.replace(/[ ,]+/g, ''));
+        const compare = (idx, asc) => (a, b) => {
+          const va = getCellValue(a, idx), vb = getCellValue(b, idx);
+          const na = asNumber(va), nb = asNumber(vb);
+          const bothNumeric = !Number.isNaN(na) && !Number.isNaN(nb);
+          const res = bothNumeric ? (na - nb) : va.localeCompare(vb);
+          return asc ? res : -res;
+        };
+
+        table.querySelectorAll('th').forEach((th, idx) => {
+          if (!th.classList.contains('sortable')) return;
+          th.addEventListener('click', () => {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr')).filter(r => r.id !== 'noResultsMsg');
+            const asc = !(th.dataset.asc === 'true');
+            rows.sort(compare(idx, asc));
+            rows.forEach(r => tbody.appendChild(r));
+            table.querySelectorAll('th[aria-sort]')?.forEach(x => x.removeAttribute('aria-sort'));
+            th.dataset.asc = String(asc);
+            th.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
+          });
+        });
+      };
+
+      document.querySelectorAll('table').forEach(makeSortable);
+    })();
+  </script>
+</body>
+</html>
