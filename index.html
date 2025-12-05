@@ -290,14 +290,20 @@
       z-index: 10;
     }
     .brand:hover { text-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--primary-glow); }
-    .brand img { 
-      width: 48px; 
-      height: 48px; 
+    .brand img,
+    .brand-logo { 
+      width: 120px; 
+      height: 120px; 
       object-fit: contain; 
       filter: drop-shadow(0 0 8px var(--primary-glow));
       transition: filter 0.3s ease;
+      display: block;
     }
-    .brand:hover img { filter: drop-shadow(0 0 15px var(--primary-glow)); }
+    .brand-logo {
+      border-radius: 8px;
+    }
+    .brand:hover img,
+    .brand:hover .brand-logo { filter: drop-shadow(0 0 15px var(--primary-glow)); }
     .brand-title { 
       font-weight: 900; 
       letter-spacing: 2px; 
@@ -500,6 +506,40 @@
       border: 2px solid var(--primary); 
       background: #000; 
       box-shadow: 0 0 15px var(--primary-glow);
+      min-height: 300px;
+    }
+    
+    /* Twitch embed specific styling for better preview visibility */
+    .embed[data-twitch] {
+      min-height: 400px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    
+    .embed[data-twitch] iframe {
+      background: transparent;
+      opacity: 0.95;
+      transition: opacity 0.3s ease;
+    }
+    
+    .embed[data-twitch]:hover iframe {
+      opacity: 1;
+    }
+    
+    /* Show preview overlay when stream is offline */
+    .embed[data-twitch]::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .embed[data-twitch]:hover::after {
+      opacity: 0;
     }
     .embed::before {
       content: '';
@@ -757,10 +797,17 @@
       letter-spacing: 2px;
       font-size: 0.85rem;
     }
-    footer img { 
-      width: 128px; 
+    footer img,
+    .footer-logo { 
+      width: 200px; 
+      height: 200px;
+      object-fit: contain;
       filter: drop-shadow(0 0 15px var(--primary-glow));
       margin-top: 10px;
+      transition: filter 0.3s ease;
+    }
+    .footer-logo:hover {
+      filter: drop-shadow(0 0 25px var(--primary-glow));
     }
 
     /* Back to top - Cyberpunk */
@@ -1192,7 +1239,10 @@
   <header class="site-header" role="banner">
     <div class="header-inner">
       <a class="brand" href="#top">
-        <img src="https://raw.githubusercontent.com/T24085/TeamDPRK/main/TeamDPRKLogo3.png" alt="[DPRK] crest" width="64" height="64" />
+        <video class="brand-logo" autoplay muted loop playsinline width="120" height="120">
+          <source src="TeamDPRKLogo3.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
         <div class="brand-title">[DPRK] TPL</div>
       </a>
     </div>
@@ -1523,7 +1573,10 @@
   <footer role="contentinfo">
     <div class="inner">
       <p>© 2025 [DPRK] Tribes Professional League. All rights reserved.</p>
-      <img src="https://raw.githubusercontent.com/T24085/TeamDPRK/main/DPRKLOGO.png" alt="[DPRK] logo" width="128" height="128" />
+      <video class="footer-logo" autoplay muted loop playsinline width="200" height="200">
+        <source src="TeamDPRKLogo3.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </footer>
 
@@ -1589,15 +1642,45 @@
       onScroll();
     })();
 
-    // ===== Twitch embeds: auto-set parent & channel safely =====
+    // ===== Twitch embeds: auto-set parent & channel safely with preview =====
     (function() {
       const domain = location.hostname || 'localhost';
       const twitchIframes = document.querySelectorAll('iframe[data-twitch-channel]');
+      
       twitchIframes.forEach((iframe) => {
         const channel = iframe.getAttribute('data-twitch-channel');
         if (!channel) return;
-        const params = new URLSearchParams({ channel, parent: domain, muted: 'true' });
+        
+        const embedContainer = iframe.closest('.embed');
+        if (embedContainer) {
+          embedContainer.setAttribute('data-twitch', 'true');
+          
+          // Set background preview image using Twitch's thumbnail API
+          // This shows the stream preview/background image
+          const thumbnailUrl = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${channel}-640x360.jpg`;
+          embedContainer.style.backgroundImage = `url(${thumbnailUrl})`;
+          embedContainer.style.backgroundSize = 'cover';
+          embedContainer.style.backgroundPosition = 'center';
+          embedContainer.style.backgroundRepeat = 'no-repeat';
+        }
+        
+        // Use Twitch embed with video layout to show stream preview better
+        const params = new URLSearchParams({ 
+          channel, 
+          parent: domain, 
+          muted: 'true',
+          layout: 'video',
+          autoplay: 'false'
+        });
         iframe.src = `https://player.twitch.tv/?${params.toString()}`;
+        
+        // Update thumbnail periodically to show current stream preview
+        setInterval(() => {
+          if (embedContainer) {
+            const newThumbnailUrl = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${channel}-640x360.jpg?t=${Date.now()}`;
+            embedContainer.style.backgroundImage = `url(${newThumbnailUrl})`;
+          }
+        }, 30000); // Update every 30 seconds
       });
     })();
 
