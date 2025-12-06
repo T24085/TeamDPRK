@@ -139,32 +139,79 @@
       100% { transform: translateY(4px); }
     }
 
-    /* Hero background with video */
+    /* Hero background with checkerboard pattern and videos */
     .hero-bg {
       position: fixed;
       inset: 0;
       z-index: -2;
       overflow: hidden;
       pointer-events: none;
+      background-color: #000000;
+      background-image: 
+        /* Checkerboard pattern - alternating black and dark gray squares */
+        repeating-linear-gradient(
+          0deg,
+          #000000 0px,
+          #000000 50px,
+          #0a0a0a 50px,
+          #0a0a0a 100px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          #000000 0px,
+          #000000 50px,
+          #0a0a0a 50px,
+          #0a0a0a 100px
+        ),
+        /* Red tint on alternating squares */
+        repeating-linear-gradient(
+          0deg,
+          rgba(237,28,36,0.12) 0px,
+          rgba(237,28,36,0.12) 50px,
+          transparent 50px,
+          transparent 100px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          rgba(237,28,36,0.12) 0px,
+          rgba(237,28,36,0.12) 50px,
+          transparent 50px,
+          transparent 100px
+        ),
+        /* Blue tint on other alternating squares */
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 50px,
+          rgba(0,48,135,0.12) 50px,
+          rgba(0,48,135,0.12) 100px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          transparent 50px,
+          rgba(0,48,135,0.12) 50px,
+          rgba(0,48,135,0.12) 100px
+        );
+      background-size: 100px 100px;
+      background-position: 0 0, 50px 50px, 0 0, 50px 50px, 0 0, 50px 50px;
     }
     
     .hero-bg video {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       opacity: 0;
-      filter: contrast(1.2) brightness(0.9);
       transition: opacity 2s ease-in-out;
+      z-index: 1;
     }
     
     .hero-bg video.active {
       opacity: 0.85;
+      z-index: 2;
     }
 
     .hero-bg::before {
@@ -172,10 +219,8 @@
       position: absolute;
       inset: 0;
       background: 
-        radial-gradient(ellipse 1200px 400px at 50% -10%, rgba(237,28,36,0.4), transparent 60%),
-        radial-gradient(ellipse 1400px 500px at 40% 110%, rgba(0,48,135,0.35), transparent 60%),
-        linear-gradient(90deg, transparent 0%, rgba(237,28,36,0.1) 50%, transparent 100%),
-        linear-gradient(0deg, transparent 0%, rgba(0,48,135,0.1) 50%, transparent 100%);
+        radial-gradient(ellipse 1200px 400px at 50% -10%, rgba(237,28,36,0.2), transparent 60%),
+        radial-gradient(ellipse 1400px 500px at 40% 110%, rgba(0,48,135,0.2), transparent 60%);
       animation: pulse 4s ease-in-out infinite;
       z-index: 1;
     }
@@ -205,10 +250,10 @@
       max-width: var(--maxw); 
       margin: 0 auto; 
       position: relative;
-      display: flex;
+      display: flex; 
       justify-content: flex-end;
-      align-items: center;
-      padding: 14px 20px;
+      align-items: center; 
+      padding: 14px 20px; 
     }
 
     /* Image-based Navigation - Fixed on left side, full height */
@@ -332,7 +377,7 @@
         justify-content: center;
       }
       .nav-image-container {
-        position: relative;
+      position: relative;
         left: auto;
         top: auto;
         bottom: auto;
@@ -401,7 +446,7 @@
       .container {
         padding: 16px !important;
       }
-      .section {
+    .section { 
         margin: 16px auto;
       }
       .section > .section-inner {
@@ -440,7 +485,7 @@
       body {
         font-size: 17px;
       }
-      .section h2 {
+    .section h2 { 
         font-size: 1.5rem !important;
       }
       .section p.lead {
@@ -466,7 +511,7 @@
         gap: 10px;
       }
       .stats-field {
-        width: 100%;
+      width: 100%;
         min-width: 100%;
       }
       .stats-input,
@@ -527,55 +572,70 @@
       }
     }
 
-    /* Layout helpers - Cyberpunk */
+    /* Glass morphism effect */
+    .glass { 
+      backdrop-filter: blur(10px); 
+      background: linear-gradient(180deg, rgba(0,0,0,0.85), rgba(0,0,0,0.7)); 
+    }
+
+    /* Layout helpers - Clean card-based design */
     .container { max-width: var(--maxw); margin: 0 auto; padding: clamp(16px, 3vw, 32px); padding-left: clamp(340px, 20vw, 360px); }
     .section { 
-      margin: clamp(28px, 4vw, 56px) auto; 
-      background: var(--card); 
-      border: 2px solid var(--primary); 
-      box-shadow: var(--elev), inset 0 0 30px rgba(0,48,135,0.1); 
+      margin: clamp(20px, 3vw, 32px) auto; 
+      background: rgba(0,0,0,0.6); 
+      border: 1px solid rgba(237,28,36,0.4); 
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35); 
       overflow: clip; 
       position: relative;
-      border-radius: var(--radius);
+      border-radius: 1.25rem;
     }
-    .section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      animation: borderGlow 3s ease-in-out infinite;
+    .section.hero {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
     }
-    @keyframes borderGlow {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+    .section#stats {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
     }
-    .section > .section-inner { padding: clamp(18px, 3vw, 36px); }
-    .section h2 { 
-      margin: 0 0 12px; 
-      font-size: clamp(1.25rem, 2.2vw, 1.75rem); 
-      letter-spacing: 2px; 
-      text-transform: uppercase;
-      text-shadow: 0 0 10px var(--primary-glow);
-      color: var(--primary);
-      position: relative;
-      display: inline-block;
+    .section#stats .section-inner {
+      padding: 0;
+      max-width: 100%;
     }
-    .section h2::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
+    .section#team {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
+      padding: 0;
+      margin: 0;
+    }
+    .section#team .section-inner {
+      padding: 0;
+      max-width: 100%;
       width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), transparent);
-      box-shadow: 0 0 10px var(--primary-glow);
+    }
+    .section > .section-inner { padding: clamp(20px, 3vw, 28px); }
+    .section h2 { 
+      margin: 0 0 8px; 
+      font-size: clamp(1.5rem, 2.5vw, 2rem); 
+      font-weight: 800;
+      letter-spacing: 0.5px; 
+      color: var(--text);
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .section h2 + p.lead {
+      margin-top: 8px;
     }
     .section p.lead { 
-      color: var(--muted); 
+      color: rgba(212,212,216,0.9); 
       margin-top: 0; 
+      margin-bottom: 16px;
       text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
     }
     .tag { 
@@ -609,69 +669,443 @@
       100% { left: 100%; }
     }
 
-    /* Hero - Cyberpunk base */
+    /* Hero - Free-flowing player cards */
     .hero { 
-      text-align: center; 
-      padding: clamp(40px, 8vw, 88px) 0 clamp(8px, 4vw, 16px); 
+      padding: clamp(60px, 8vw, 100px) 0 clamp(80px, 12vw, 150px);
       position: relative; 
+      overflow: visible;
+      margin: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .hero .section-inner {
+      padding: 0;
+      max-width: 100%;
+    }
+    .hero-inner {
+      padding: 0 clamp(20px, 4vw, 40px);
+      margin-bottom: 60px;
+      text-align: center;
+    }
+    .hero h1 { 
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      margin: 0 0 16px;
+      line-height: 1.1;
+      text-shadow: 0 0 20px rgba(237,28,36,0.5);
     }
     .hero .sub { 
-      color: var(--muted); 
-      max-width: 820px; 
-      margin: 0 auto; 
-      text-shadow: 0 0 5px rgba(255,255,255,0.3);
-      font-size: 1.1rem;
+      color: rgba(212,212,216,0.9); 
+      margin-top: 16px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* Cards grid - Cyberpunk */
-    .grid { display: grid; gap: clamp(14px, 2.4vw, 22px); }
+    /* Player Cards - Fanned out layout */
+    .player-carousel-container {
+      position: relative;
+      width: 100%;
+      padding: 80px 0 120px;
+      overflow: visible;
+      min-height: 600px;
+    }
+    .player-carousel {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      padding: 0;
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .player-card {
+      width: 300px;
+      background: rgba(0,0,0,0.75);
+      border: 2px solid rgba(237,28,36,0.5);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2);
+      position: relative;
+      transform-origin: center bottom;
+      margin: 0 -50px;
+    }
+    /* Fan out cards with different rotations and positions - tighter spacing */
+    .player-card:nth-child(1) {
+      transform: rotate(-20deg) translateY(-15px);
+      z-index: 1;
+    }
+    .player-card:nth-child(2) {
+      transform: rotate(-12deg) translateY(-8px);
+      z-index: 2;
+    }
+    .player-card:nth-child(3) {
+      transform: rotate(-4deg) translateY(-4px);
+      z-index: 3;
+    }
+    .player-card:nth-child(4) {
+      transform: rotate(4deg) translateY(-4px);
+      z-index: 4;
+    }
+    .player-card:nth-child(5) {
+      transform: rotate(12deg) translateY(-8px);
+      z-index: 5;
+    }
+    .player-card:nth-child(6) {
+      transform: rotate(20deg) translateY(-15px);
+      z-index: 6;
+    }
+    .player-card:nth-child(7) {
+      transform: rotate(24deg) translateY(-18px);
+      z-index: 7;
+    }
+    .player-card:nth-child(8) {
+      transform: rotate(28deg) translateY(-22px);
+      z-index: 8;
+    }
+    .player-card:hover {
+      transform: rotate(0deg) translateY(-40px) scale(1.15) !important;
+      border-color: var(--primary);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
+      z-index: 100 !important;
+    }
+    .player-card.active {
+      transform: rotate(0deg) translateY(-40px) scale(1.15) !important;
+      border-color: var(--primary);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
+      z-index: 100 !important;
+    }
+    .player-card-video {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.9) contrast(1.1);
+      transition: filter 0.4s ease;
+    }
+    .player-card:hover .player-card-video,
+    .player-card.active .player-card-video {
+      filter: brightness(1) contrast(1.2);
+    }
+    .player-card-info {
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.95));
+    }
+    .player-card-name {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 8px;
+      text-shadow: 0 0 10px rgba(237,28,36,0.5);
+    }
+    .player-card-role {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-shadow: 0 0 8px rgba(237,28,36,0.3);
+    }
+    .player-card-stats {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid rgba(237,28,36,0.4);
+      animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown {
+      from {
+      opacity: 0;
+        transform: translateY(-10px);
+    }
+      to {
+      opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .player-card.active .player-card-stats {
+      display: block;
+    }
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(237,28,36,0.1);
+    }
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+    .stat-label {
+      color: rgba(212,212,216,0.8);
+      font-weight: 500;
+    }
+    .stat-value {
+      color: var(--text);
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(237,28,36,0.3);
+    }
+    .carousel-nav {
+      display: none; /* Hide navigation since we're showing all cards */
+    }
+
+    /* Team Cards Stack - Fanned Out */
+    .team-cards-stack {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      margin: 40px 0;
+      position: relative;
+      min-height: 500px;
+      overflow: visible;
+      padding: 20px 0;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      left: 0;
+      right: 0;
+    }
+    .team-cards-stack .card.member {
+      width: 320px;
+      margin: 0 -50px;
+      transform-origin: center bottom;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .team-cards-stack .card.member:nth-child(1) {
+      transform: rotate(-20deg) translateY(-15px);
+      z-index: 1;
+    }
+    .team-cards-stack .card.member:nth-child(2) {
+      transform: rotate(-12deg) translateY(-8px);
+      z-index: 2;
+    }
+    .team-cards-stack .card.member:nth-child(3) {
+      transform: rotate(-4deg) translateY(-4px);
+      z-index: 3;
+    }
+    .team-cards-stack .card.member:nth-child(4) {
+      transform: rotate(4deg) translateY(-4px);
+      z-index: 4;
+    }
+    .team-cards-stack .card.member:nth-child(5) {
+      transform: rotate(12deg) translateY(-8px);
+      z-index: 5;
+    }
+    .team-cards-stack .card.member:nth-child(6) {
+      transform: rotate(20deg) translateY(-15px);
+      z-index: 6;
+    }
+    .team-cards-stack .card.member:nth-child(7) {
+      transform: rotate(24deg) translateY(-18px);
+      z-index: 7;
+    }
+    .team-cards-stack .card.member:nth-child(8) {
+      transform: rotate(28deg) translateY(-22px);
+      z-index: 8;
+    }
+    .team-cards-stack .card.member:hover {
+      transform: rotate(0deg) translateY(-30px) scale(1.1) !important;
+      border-color: var(--primary);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
+      z-index: 100 !important;
+    }
+    @media (max-width: 1200px) {
+      .team-cards-stack .card.member {
+        width: 300px;
+        margin: 0 -40px;
+      }
+    }
+    @media (max-width: 860px) {
+      .team-cards-stack {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+      .team-cards-stack .card.member {
+        width: 100%;
+        max-width: 400px;
+        margin: 0;
+      }
+      .team-cards-stack .card.member:nth-child(n) {
+        transform: rotate(0deg) translateY(0) !important;
+      }
+      .team-cards-stack .card.member:hover {
+        transform: translateY(-20px) scale(1.05) rotate(0deg) !important;
+      }
+    }
+
+    /* Chart Cards - Tightly Fanned Out */
+    .chart-card:nth-child(1) {
+      transform: rotate(-20deg) translateY(-15px);
+      z-index: 1;
+    }
+    .chart-card:nth-child(2) {
+      transform: rotate(-12deg) translateY(-8px);
+      z-index: 2;
+    }
+    .chart-card:nth-child(3) {
+      transform: rotate(-4deg) translateY(-4px);
+      z-index: 3;
+    }
+    .chart-card:nth-child(4) {
+      transform: rotate(4deg) translateY(-4px);
+      z-index: 4;
+    }
+    .chart-card:nth-child(5) {
+      transform: rotate(12deg) translateY(-8px);
+      z-index: 5;
+    }
+    .chart-card:nth-child(6) {
+      transform: rotate(20deg) translateY(-15px);
+      z-index: 6;
+    }
+    .chart-card:hover {
+      transform: rotate(0deg) translateY(-30px) scale(1.1) !important;
+      border-color: var(--primary);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
+      z-index: 100 !important;
+    }
+    @media (max-width: 1200px) {
+      .chart-card {
+        width: 300px !important;
+        margin: 0 -50px !important;
+      }
+      .chart-card:nth-child(5),
+      .chart-card:nth-child(6) {
+        width: 380px !important;
+      }
+    }
+    @media (max-width: 860px) {
+      .chart-card {
+        width: 280px !important;
+        margin: 0 -40px !important;
+      }
+      .chart-card:nth-child(n) {
+        transform: rotate(0deg) translateY(0) !important;
+      }
+      .chart-card:hover {
+        transform: translateY(-20px) scale(1.05) rotate(0deg) !important;
+      }
+      .chart-card:nth-child(5),
+      .chart-card:nth-child(6) {
+        width: 100% !important;
+        margin: 20px 0 !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .chart-card {
+        width: 100% !important;
+        margin: 20px 0 !important;
+      }
+      .chart-card:nth-child(n) {
+        transform: rotate(0deg) translateY(0) !important;
+      }
+    }
+    @media (max-width: 1200px) {
+      .player-card {
+        width: 260px;
+        margin: 0 -30px;
+      }
+      .player-card:nth-child(1) { transform: rotate(-20deg) translateY(-15px); }
+      .player-card:nth-child(2) { transform: rotate(-12deg) translateY(-8px); }
+      .player-card:nth-child(3) { transform: rotate(-4deg) translateY(-4px); }
+      .player-card:nth-child(4) { transform: rotate(4deg) translateY(-4px); }
+      .player-card:nth-child(5) { transform: rotate(12deg) translateY(-8px); }
+      .player-card:nth-child(6) { transform: rotate(20deg) translateY(-15px); }
+      .player-card:nth-child(7) { transform: rotate(24deg) translateY(-18px); }
+      .player-card:nth-child(8) { transform: rotate(28deg) translateY(-20px); }
+    }
+    @media (max-width: 860px) {
+      .player-carousel-container {
+        padding: 60px 0 100px;
+      }
+      .player-card {
+        width: 240px;
+        margin: 0 -25px;
+      }
+      .player-card-video {
+        height: 320px;
+      }
+      .player-card:nth-child(1) { transform: rotate(-18deg) translateY(-12px); }
+      .player-card:nth-child(2) { transform: rotate(-10deg) translateY(-6px); }
+      .player-card:nth-child(3) { transform: rotate(-3deg) translateY(-3px); }
+      .player-card:nth-child(4) { transform: rotate(3deg) translateY(-3px); }
+      .player-card:nth-child(5) { transform: rotate(10deg) translateY(-6px); }
+      .player-card:nth-child(6) { transform: rotate(18deg) translateY(-12px); }
+      .player-card:nth-child(7) { transform: rotate(22deg) translateY(-15px); }
+      .player-card:nth-child(8) { transform: rotate(26deg) translateY(-18px); }
+      .player-card:hover,
+      .player-card.active {
+        transform: rotate(0deg) translateY(-30px) scale(1.1) !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .player-carousel {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+      .player-card {
+        width: 280px;
+        margin: 0;
+      }
+      .player-card-video {
+        height: 300px;
+      }
+      .player-card-name {
+        font-size: 1.5rem;
+      }
+      .player-card:nth-child(n) {
+        transform: rotate(0deg) translateY(0) !important;
+      }
+      .player-card:hover,
+      .player-card.active {
+        transform: translateY(-20px) scale(1.05) rotate(0deg) !important;
+      }
+    }
+
+    /* Cards grid - Clean card-based design */
+    .grid { display: grid; gap: clamp(16px, 2vw, 20px); }
     .grid.auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
     .card { 
-      background: var(--card); 
-      border: 2px solid var(--primary); 
-      padding: 16px; 
+      background: rgba(0,0,0,0.6); 
+      border: 1px solid rgba(237,28,36,0.4); 
+      border-radius: 1.25rem;
+      padding: clamp(16px, 2vw, 20px); 
       transition: all 0.3s ease; 
       position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(237,28,36,0.1), transparent);
-      transform: rotate(45deg);
-      transition: all 0.5s ease;
-      opacity: 0;
-    }
-    .card:hover::before {
-      opacity: 1;
-      animation: cardScan 1s ease;
-    }
-    @keyframes cardScan {
-      0% { top: -50%; left: -50%; }
-      100% { top: 150%; left: 150%; }
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
     }
     .card:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 
-        0 0 20px var(--primary-glow),
-        0 0 40px rgba(237,28,36,0.3),
-        inset 0 0 20px rgba(0,48,135,0.2);
-      border-color: var(--primary);
+      transform: translateY(-2px); 
+      border-color: rgba(237,28,36,0.6);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.7);
+    }
+    .card.member {
+      background: rgba(0,0,0,0.75);
     }
 
-    /* Video & Twitch embeds - Cyberpunk */
+    /* Video & Twitch embeds - Clean design */
     .embed { 
       position: relative; 
       width: 100%; 
       aspect-ratio: 16/9; 
       overflow: hidden; 
-      border: 2px solid var(--primary); 
+      border: 1px solid rgba(237,28,36,0.4); 
+      border-radius: 14px;
       background: #000; 
-      box-shadow: 0 0 15px var(--primary-glow);
       min-height: 300px;
     }
     
@@ -718,21 +1152,18 @@
     }
     .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 0; }
 
-    /* Roster - Cyberpunk */
+    /* Roster - Clean design */
     .member h3 { 
-      margin: 4px 0 6px; 
-      font-size: 1.2rem; 
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--primary);
-      text-shadow: 0 0 8px var(--primary-glow);
+      margin: 0 0 4px; 
+      font-size: 1.125rem; 
+      font-weight: 600;
+      color: var(--text);
     }
     .role { 
-      color: var(--muted); 
-      font-size: .9rem; 
-      margin-bottom: 10px; 
-      font-family: 'Courier New', monospace;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.7);
+      color: var(--primary); 
+      font-size: .875rem; 
+      margin-bottom: 12px; 
+      font-weight: 500;
     }
     .member .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
     .btn { 
@@ -793,49 +1224,45 @@
       background: rgba(237,28,36,0.2);
     }
 
-    /* Tables - Cyberpunk */
+    /* Tables - Clean design */
     .table-wrap { 
       overflow-x: auto; 
-      border: 2px solid var(--primary); 
-      box-shadow: 0 0 15px var(--primary-glow);
+      border: 1px solid rgba(237,28,36,0.4);
+      border-radius: 1.25rem;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
       transition: opacity 0.3s ease;
     }
     table { width: 100%; border-collapse: collapse; min-width: 720px; }
     caption { 
       text-align: left; 
-      padding: 12px 12px 0; 
-      color: var(--primary); 
-      font-weight: 700; 
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 8px var(--primary-glow);
+      padding: 16px 16px 8px; 
+      color: var(--text); 
+      font-weight: 600; 
+      font-size: 0.875rem;
     }
     thead th { 
       position: sticky; 
       top: 0; 
-      background: linear-gradient(0deg, rgba(237,28,36,0.3), rgba(237,28,36,0.5)); 
-      color: #fff; 
+      background: rgba(0,0,0,0.4);
+      color: var(--text); 
       text-align: left; 
-      font-size: .9rem; 
-      letter-spacing: 1px; 
-      text-transform: uppercase;
-      border-bottom: 2px solid var(--primary);
-      box-shadow: 0 2px 10px rgba(237,28,36,0.3);
+      font-size: 0.875rem; 
+      font-weight: 600;
+      border-bottom: 1px solid rgba(237,28,36,0.3);
     }
     th, td { 
       padding: 12px; 
       border-bottom: 1px solid rgba(237,28,36,0.2); 
     }
     tbody tr { 
-      transition: all 0.3s ease; 
+      transition: all 0.2s ease; 
       cursor: pointer;
       position: relative;
     }
     tbody tr:hover { 
-      background: rgba(237,28,36,0.15); 
-      box-shadow: inset 0 0 20px rgba(237,28,36,0.3);
-      transform: translateX(4px);
-      border-left: 3px solid var(--primary);
+      background: rgba(237,28,36,0.1); 
     }
     tbody tr.hidden {
       display: none;
@@ -857,9 +1284,7 @@
       position: relative;
     }
     th.sortable:hover {
-      background: linear-gradient(0deg, rgba(237,28,36,0.4), rgba(237,28,36,0.6));
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
-      transform: scale(1.02);
+      background: rgba(237,28,36,0.2);
     }
     th.sortable::after { 
       content: " ▲▼"; 
@@ -1296,10 +1721,10 @@
       font-size: 0.75rem;
     }
 
-    /* ===== Stats control bar – HUD style ===== */
+    /* ===== Stats control bar – Clean design ===== */
 
     .stats-controls {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
@@ -1315,30 +1740,26 @@
      .stats-input,
      .stats-select {
        width: 100%;
-       padding: 10px 14px;
-       background: radial-gradient(circle at 0 0, rgba(237,28,36,0.18), transparent 55%),
-                   rgba(0,0,0,0.9);
-       border: 1px solid rgba(237,28,36,0.7);
+       padding: 10px 16px;
+       background: rgba(0,0,0,0.6);
+       border: 1px solid rgba(237,28,36,0.4);
        color: var(--text);
-       font-family: 'Courier New', monospace;
-       font-size: 0.9rem;
-       box-shadow: 0 0 12px rgba(237,28,36,0.4);
-       transition: all 0.25s ease;
-       border-radius: 999px;
-       text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+       font-family: inherit;
+       font-size: 0.875rem;
+       border-radius: 0.75rem;
+       transition: all 0.3s ease;
+       backdrop-filter: blur(10px);
      }
 
     .stats-input::placeholder {
-      color: rgba(255,255,255,0.45);
+      color: rgba(212,212,216,0.6);
     }
 
     .stats-input:focus,
     .stats-select:focus {
       outline: none;
-      border-color: #57ffb7;
-      box-shadow:
-        0 0 16px rgba(237,28,36,0.6),
-        0 0 26px rgba(0,48,135,0.7);
+      border-color: rgba(237,28,36,0.6);
+      background: rgba(0,0,0,0.75);
     }
 
     .stats-select {
@@ -1347,8 +1768,8 @@
       padding-right: 30px;
       appearance: none;
       background-image:
-        linear-gradient(45deg, transparent 50%, #fff 50%),
-        linear-gradient(135deg, #fff 50%, transparent 50%);
+        linear-gradient(45deg, transparent 50%, rgba(212,212,216,0.8) 50%),
+        linear-gradient(135deg, rgba(212,212,216,0.8) 50%, transparent 50%);
       background-position:
         calc(100% - 16px) 50%,
         calc(100% - 12px) 50%;
@@ -1361,14 +1782,13 @@
       right: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--muted);
+      color: rgba(212,212,216,0.6);
       pointer-events: none;
       font-size: 0.9rem;
     }
 
      #statsTable {
-       background: radial-gradient(circle at 50% 0, rgba(237,28,36,0.12), transparent 60%),
-                   rgba(0,0,0,0.95);
+       background: rgba(0,0,0,0.6);
      }
      
      /* Improve table text readability */
@@ -1387,11 +1807,11 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="hero-bg" aria-hidden="true">
     <video id="bgVideo1" class="bg-video active" autoplay muted loop playsinline>
-      <source src="grok-video-b7224a78-6069-4597-ad12-74b9e32cfaec-3.mp4" type="video/mp4">
+      <source src="DPRKBackground2.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <video id="bgVideo2" class="bg-video" autoplay muted loop playsinline>
-      <source src="DPRKBackground2.mp4" type="video/mp4">
+      <source src="DPRKBackground3.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
@@ -1424,24 +1844,24 @@
   <main id="main" class="container" role="main">
     <!-- HERO -->
     <section class="hero section reveal" id="top">
-      <div class="section-inner hero-inner">
-        <div class="hero-header-row">
-          <span class="tag">Tribes Professional League</span>
-          <span class="hero-ping">● LIVE SYSTEM</span>
+      <div class="section-inner">
+        <div class="hero-inner">
+          <h1>
+            <span style="color: var(--primary);">[DPRK]</span>
+            <span style="color: var(--text);">TPL</span>
+            <span style="color: var(--text);">Team</span>
+          </h1>
+          <p class="sub">
+            A fast, disciplined roster built to cap, crash, and control. Click on a player card to view their stats.
+          </p>
         </div>
-
-        <h1 class="hero-glitch" data-text="[DPRK] TPL TEAM">[DPRK] TPL TEAM</h1>
-
-        <div class="hero-meta">
-          <span class="hero-pill online">STATUS: ONLINE</span>
-          <span class="hero-pill">REGION: NA</span>
-          <span class="hero-pill">MODE: CTF</span>
-          <span class="hero-pill">SPEED: MAX</span>
+      </div>
+      
+      <!-- Player Cards Grid - All Visible -->
+      <div class="player-carousel-container">
+        <div class="player-carousel" id="playerCarousel">
+          <!-- Player cards will be populated by JavaScript -->
         </div>
-
-        <p class="sub">
-          A fast, disciplined roster built to cap, crash, and control. Explore our highlights, meet the squad, and dive into the numbers.
-        </p>
       </div>
     </section>
 
@@ -1487,10 +1907,11 @@
 
     <!-- TEAM -->
     <section class="section reveal" id="team">
-      <div class="section-inner">
-        <h2>Team</h2>
-        <p class="lead">Meet the squad. Twitch embeds auto-configure their <code>parent</code> for your domain.</p>
-        <div class="grid auto spaced">
+      <div class="section-inner" style="width: 100%; padding: 0;">
+        <h2 style="text-align: center; margin-bottom: 20px;">Team</h2>
+        <p class="lead" style="text-align: center; margin-bottom: 20px;">Meet the squad. Twitch embeds auto-configure their <code>parent</code> for your domain.</p>
+      </div>
+      <div class="team-cards-stack">
           <!-- Glem -->
           <article class="card member">
             <h3>Glem</h3>
@@ -1546,19 +1967,9 @@
             </div>
           </article>
 
-          <!-- Rhino -->
-          <article class="card member">
-            <h3>Rhino</h3>
-            <div class="role">Light Defense</div>
-            <p class="muted">Highlights coming soon.</p>
-          </article>
-
-          <!-- Halogen -->
-          <article class="card member">
-            <h3>Halogen</h3>
-            <div class="role">Light Defense</div>
-            <p class="muted">Highlights coming soon.</p>
-          </article>
+          <!-- Rhino - Removed (no stream) -->
+          
+          <!-- Halogen - Removed (no stream) -->
 
           <!-- Panda -->
           <article class="card member">
@@ -1572,12 +1983,7 @@
             </div>
           </article>
 
-          <!-- Makono -->
-          <article class="card member">
-            <h3>Makono</h3>
-            <div class="role">Team Member</div>
-            <p class="muted">Highlights coming soon.</p>
-          </article>
+          <!-- Makono - Removed (no stream) -->
         </div>
       </div>
     </section>
@@ -1624,45 +2030,73 @@
           Loading player stats...
         </div>
 
-        <!-- Charts Section -->
-        <div id="chartsSection" style="display: none; margin-bottom: 40px;">
-          <div id="chartsError" style="display: none; padding: 20px; background: rgba(237,28,36,0.1); border: 2px solid var(--primary); color: var(--text); margin-bottom: 20px; text-align: center;">
+        <!-- Charts Section - Free-flowing -->
+        <div id="chartsSection" style="display: none; margin: 60px 0;">
+          <div id="chartsError" style="display: none; padding: 20px; background: rgba(237,28,36,0.1); border: 2px solid var(--primary); color: var(--text); margin-bottom: 20px; text-align: center; border-radius: 1rem;">
             Charts are loading... If they don't appear, check the browser console for errors.
           </div>
-          <div class="grid auto" style="margin-bottom: 30px;">
-            <!-- Per-Minute Production Chart -->
-            <div class="card" style="grid-column: 1 / -1;">
-              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Production Rates</h3>
-              <p class="muted" style="margin-bottom: 15px;">Per-minute outputs across all recorded matches</p>
-              <div style="position: relative; height: 350px;">
-                <canvas id="perMinuteChart"></canvas>
-              </div>
-              <div id="perMinuteTabs" style="display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap;"></div>
-            </div>
-
-            <!-- Key Metrics Comparison Chart -->
-            <div class="card">
-              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Key Metrics</h3>
-              <p class="muted" style="margin-bottom: 15px;">Total kills, assists, and score comparison</p>
-              <div style="position: relative; height: 300px;">
-                <canvas id="keyMetricsChart"></canvas>
+          
+          <!-- Chart Stack - Tightly Fanned Out -->
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 0; margin-bottom: 40px; position: relative; min-height: 500px;">
+            <!-- Kills Per Minute Chart -->
+            <div class="chart-card" style="width: 320px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Kills Per Minute</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Player kill rates</p>
+              <div style="position: relative; height: 280px;">
+                <canvas id="kpmChart"></canvas>
               </div>
             </div>
 
-            <!-- Efficiency Chart -->
-            <div class="card">
-              <h3 style="margin-top: 0; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow);">Efficiency Rates</h3>
-              <p class="muted" style="margin-bottom: 15px;">Per-minute efficiency metrics</p>
-              <div style="position: relative; height: 300px;">
-                <canvas id="efficiencyChart"></canvas>
+            <!-- Score Per Minute Chart -->
+            <div class="chart-card" style="width: 320px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Score Per Minute</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Player scoring rates</p>
+              <div style="position: relative; height: 280px;">
+                <canvas id="spmChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Total Kills Chart -->
+            <div class="chart-card" style="width: 320px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Total Kills</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Cumulative kills</p>
+              <div style="position: relative; height: 280px;">
+                <canvas id="killsChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Total Assists Chart -->
+            <div class="chart-card" style="width: 320px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Total Assists</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Cumulative assists</p>
+              <div style="position: relative; height: 280px;">
+                <canvas id="assistsChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Flag Captures & Returns Chart -->
+            <div class="chart-card" style="width: 420px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Flag Captures & Returns</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Objective performance</p>
+              <div style="position: relative; height: 320px;">
+                <canvas id="flagChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Player Performance Radar Chart -->
+            <div class="chart-card" style="width: 420px; background: rgba(0,0,0,0.75); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 20px; backdrop-filter: blur(15px); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2); margin: 0 -60px; transform-origin: center bottom; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;">
+              <h3 style="margin: 0 0 8px; font-size: 1.125rem; font-weight: 700; color: var(--primary);">Player Performance Radar</h3>
+              <p style="margin: 0 0 16px; color: rgba(212,212,216,0.7); font-size: 0.8rem;">Multi-metric comparison</p>
+              <div style="position: relative; height: 360px;">
+                <canvas id="radarChart"></canvas>
               </div>
             </div>
           </div>
         </div>
         
-        <div class="table-wrap" role="region" aria-label="Player statistics" tabindex="0">
+        <div class="table-wrap" role="region" aria-label="Player statistics" tabindex="0" style="background: rgba(0,0,0,0.7); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 24px; backdrop-filter: blur(10px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); margin-top: 40px;">
           <table id="statsTable">
-            <caption>Aggregated match stats</caption>
+            <caption style="text-align: left; padding: 0 0 16px; color: var(--text); font-weight: 600; font-size: 1rem;">Aggregated match stats</caption>
             <thead>
               <tr>
                 <th class="sortable" scope="col">Player</th>
@@ -1822,50 +2256,34 @@
       
       if (!video1 || !video2) return;
       
-      let currentVideo = 1;
-      const switchInterval = 15000; // Switch every 15 seconds
+      const videos = [video1, video2];
+      let currentVideoIndex = 0;
+      const switchInterval = 15000; // 15 seconds
       
-      // Ensure videos are ready
-      video1.addEventListener('loadeddata', () => {
-        video1.classList.add('active');
-      });
+      // Initialize: show first video, preload other
+      video1.classList.add('active');
+      video1.play().catch(e => console.log('Video 1 autoplay:', e));
+      video2.play().catch(e => console.log('Video 2 autoplay:', e));
       
-      video2.addEventListener('loadeddata', () => {
-        // Don't show video2 initially
-      });
-      
-      // Function to switch videos
-      function switchBackgroundVideo() {
-        if (currentVideo === 1) {
-          video1.classList.remove('active');
-          video2.classList.add('active');
-          video2.currentTime = 0;
-          video2.play();
-          currentVideo = 2;
-        } else {
-          video2.classList.remove('active');
-          video1.classList.add('active');
-          video1.currentTime = 0;
-          video1.play();
-          currentVideo = 1;
-        }
+      // Function to switch to next video
+      function switchVideo() {
+        // Hide current video
+        videos[currentVideoIndex].classList.remove('active');
+        
+        // Move to next video
+        currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+        
+        // Show and play next video
+        const nextVideo = videos[currentVideoIndex];
+        nextVideo.classList.add('active');
+        nextVideo.currentTime = 0;
+        nextVideo.play().catch(e => console.log('Video play error:', e));
       }
       
-      // Switch videos periodically
-      setInterval(switchBackgroundVideo, switchInterval);
-      
-      // Also switch when a video ends (as backup)
-      video1.addEventListener('ended', () => {
-        if (currentVideo === 1) {
-          switchBackgroundVideo();
-        }
-      });
-      
-      video2.addEventListener('ended', () => {
-        if (currentVideo === 2) {
-          switchBackgroundVideo();
-        }
-      });
+      // Start switching after initial delay
+      setTimeout(() => {
+        setInterval(switchVideo, switchInterval);
+      }, 1000);
     })();
 
     // ===== Twitch embeds: auto-set parent & channel safely with preview =====
@@ -1951,7 +2369,7 @@
         // DPRK team members with their roles
         const teamMembers = {
           'Glem': 'Leader',
-          'CheezeCaeke': 'Co-Leader',
+          'CheezeCaek': 'Co-Leader',
           'ColonelFatso': 'Captain',
           'Nemesis': 'Capper',
           'Rhino': 'Light Defense',
@@ -2029,6 +2447,9 @@
         // Store stats globally for filtering
         window.teamStatsData = teamStats;
         window.teamMembersData = teamMembers;
+        
+        // Populate player carousel
+        populatePlayerCarousel(teamStats, teamMembers);
 
         // Populate the table
         const tbody = document.getElementById('statsTableBody');
@@ -2257,111 +2678,159 @@
         }
       };
 
-      // Per-Minute Production Chart
-      renderPerMinuteChart(validStats, chartColors, chartOptions);
-      
-      // Key Metrics Chart
-      renderKeyMetricsChart(validStats, chartColors, chartOptions);
-      
-      // Efficiency Chart
-      renderEfficiencyChart(validStats, chartColors, chartOptions);
+      // Render all new charts
+      renderKPMChart(validStats, chartColors, chartOptions);
+      renderSPMChart(validStats, chartColors, chartOptions);
+      renderKillsChart(validStats, chartColors, chartOptions);
+      renderAssistsChart(validStats, chartColors, chartOptions);
+      renderFlagChart(validStats, chartColors, chartOptions);
+      renderRadarChart(validStats, chartColors, chartOptions);
     }
 
-    function renderPerMinuteChart(stats, colors, baseOptions) {
-      const ctx = document.getElementById('perMinuteChart');
-      const tabsContainer = document.getElementById('perMinuteTabs');
-      if (!ctx || !tabsContainer) return;
-
-      const metrics = [
-        { key: 'spm', label: 'Score/Min', color: colors.primary },
-        { key: 'kpm', label: 'Kills/Min', color: colors.accent },
-        { key: 'apm', label: 'Assists/Min', color: '#00ff88' },
-        { key: 'cpm', label: 'Captures/Min', color: '#ff8800' },
-        { key: 'rpm', label: 'Returns/Min', color: '#8800ff' }
-      ];
-
-      let currentMetric = 'spm';
-      
-      const updateChart = (metricKey) => {
-        const metric = metrics.find(m => m.key === metricKey);
-        if (!metric) return;
-
-        const sortedStats = [...stats]
-          .filter(s => s[metricKey] > 0)
-          .sort((a, b) => b[metricKey] - a[metricKey])
-          .slice(0, 8);
-
-        if (chartInstances.has('perMinute')) {
-          chartInstances.get('perMinute').destroy();
-        }
-
-        const chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: sortedStats.map(s => s.name),
-            datasets: [{
-              label: metric.label,
-              data: sortedStats.map(s => s[metricKey]),
-              backgroundColor: sortedStats.map((_, i) => {
-                const alpha = 0.6 + (i / sortedStats.length) * 0.4;
-                return metric.color.replace('0.8', alpha.toFixed(2));
-              }),
-              borderColor: metric.color,
-              borderWidth: 2,
-              borderRadius: 4
-            }]
-          },
-          options: {
-            ...baseOptions,
-            plugins: {
-              ...baseOptions.plugins,
-              legend: {
-                display: false
-              }
-            }
-          }
-        });
-
-        chartInstances.set('perMinute', chart);
-        currentMetric = metricKey;
-      };
-
-      // Create tabs
-      tabsContainer.innerHTML = '';
-      metrics.forEach(metric => {
-        const btn = document.createElement('button');
-        btn.textContent = metric.label;
-        btn.className = 'btn';
-        btn.style.cssText = 'padding: 6px 12px; font-size: 0.8rem; margin: 0;';
-        if (metric.key === currentMetric) {
-          btn.style.background = 'rgba(237,28,36,0.2)';
-          btn.style.borderColor = 'var(--primary)';
-        }
-        btn.addEventListener('click', () => {
-          updateChart(metric.key);
-          tabsContainer.querySelectorAll('button').forEach(b => {
-            b.style.background = 'transparent';
-            b.style.borderColor = 'var(--primary)';
-          });
-          btn.style.background = 'rgba(237,28,36,0.2)';
-          btn.style.borderColor = 'var(--primary)';
-        });
-        tabsContainer.appendChild(btn);
-      });
-
-      updateChart(currentMetric);
-    }
-
-    function renderKeyMetricsChart(stats, colors, baseOptions) {
-      const ctx = document.getElementById('keyMetricsChart');
-      if (!ctx) {
-        console.error('keyMetricsChart canvas not found');
-        return;
-      }
+    // KPM Chart
+    function renderKPMChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('kpmChart');
+      if (!ctx) return;
 
       const sortedStats = [...stats]
-        .sort((a, b) => (b.kills + b.assists + b.score) - (a.kills + a.assists + a.score))
-        .slice(0, 8);
+        .filter(s => s.kpm > 0)
+        .sort((a, b) => b.kpm - a.kpm);
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sortedStats.map(s => s.name),
+          datasets: [{
+            label: 'Kills Per Minute',
+            data: sortedStats.map(s => s.kpm),
+            backgroundColor: colors.primary,
+            borderColor: colors.primary,
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          ...baseOptions,
+          plugins: {
+            ...baseOptions.plugins,
+            legend: { display: false }
+          }
+        }
+      });
+
+      chartInstances.set('kpm', chart);
+    }
+
+    // SPM Chart
+    function renderSPMChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('spmChart');
+      if (!ctx) return;
+
+      const sortedStats = [...stats]
+        .filter(s => s.spm > 0)
+        .sort((a, b) => b.spm - a.spm);
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sortedStats.map(s => s.name),
+          datasets: [{
+            label: 'Score Per Minute',
+            data: sortedStats.map(s => s.spm),
+            backgroundColor: colors.accent,
+            borderColor: colors.accent,
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          ...baseOptions,
+          plugins: {
+            ...baseOptions.plugins,
+            legend: { display: false }
+          }
+        }
+      });
+
+      chartInstances.set('spm', chart);
+    }
+
+    // Kills Chart
+    function renderKillsChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('killsChart');
+      if (!ctx) return;
+
+      const sortedStats = [...stats]
+        .filter(s => s.kills > 0)
+        .sort((a, b) => b.kills - a.kills);
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sortedStats.map(s => s.name),
+          datasets: [{
+            label: 'Total Kills',
+            data: sortedStats.map(s => s.kills),
+            backgroundColor: colors.primary,
+            borderColor: colors.primary,
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          ...baseOptions,
+          plugins: {
+            ...baseOptions.plugins,
+            legend: { display: false }
+          }
+        }
+      });
+
+      chartInstances.set('kills', chart);
+    }
+
+    // Assists Chart
+    function renderAssistsChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('assistsChart');
+      if (!ctx) return;
+
+      const sortedStats = [...stats]
+        .filter(s => s.assists > 0)
+        .sort((a, b) => b.assists - a.assists);
+
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: sortedStats.map(s => s.name),
+          datasets: [{
+            label: 'Total Assists',
+            data: sortedStats.map(s => s.assists),
+            backgroundColor: colors.accent,
+            borderColor: colors.accent,
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          ...baseOptions,
+          plugins: {
+            ...baseOptions.plugins,
+            legend: { display: false }
+          }
+        }
+      });
+
+      chartInstances.set('assists', chart);
+    }
+
+    // Flag Chart
+    function renderFlagChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('flagChart');
+      if (!ctx) return;
+
+      const sortedStats = [...stats]
+        .filter(s => s.captures > 0 || s.returns > 0)
+        .sort((a, b) => (b.captures + b.returns) - (a.captures + a.returns));
 
       const chart = new Chart(ctx, {
         type: 'bar',
@@ -2369,87 +2838,70 @@
           labels: sortedStats.map(s => s.name),
           datasets: [
             {
-              label: 'Kills',
-              data: sortedStats.map(s => s.kills),
+              label: 'Captures',
+              data: sortedStats.map(s => s.captures),
               backgroundColor: colors.primary,
               borderColor: colors.primary,
-              borderWidth: 2
+              borderWidth: 2,
+              borderRadius: 6
             },
             {
-              label: 'Assists',
-              data: sortedStats.map(s => s.assists),
+              label: 'Returns',
+              data: sortedStats.map(s => s.returns),
               backgroundColor: colors.accent,
               borderColor: colors.accent,
-              borderWidth: 2
-            },
-            {
-              label: 'Score',
-              data: sortedStats.map(s => s.score / 100), // Scale down for visibility
-              backgroundColor: '#00ff88',
-              borderColor: '#00ff88',
               borderWidth: 2,
-              yAxisID: 'y1'
+              borderRadius: 6
             }
           ]
         },
-        options: {
-          ...baseOptions,
-          scales: {
-            ...baseOptions.scales,
-            y: {
-              ...baseOptions.scales.y,
-              title: {
-                display: true,
-                text: 'Kills / Assists',
-                color: colors.text
-              }
-            },
-            y1: {
-              position: 'right',
-              ticks: {
-                color: colors.text,
-                font: {
-                  family: "'Courier New', monospace",
-                  size: 10
-                },
-                callback: function(value) {
-                  return (value * 100).toFixed(0);
-                }
-              },
-              grid: {
-                drawOnChartArea: false
-              },
-              title: {
-                display: true,
-                text: 'Score (÷100)',
-                color: colors.text
-              }
-            }
-          }
-        }
+        options: baseOptions
       });
 
-      chartInstances.set('keyMetrics', chart);
+      chartInstances.set('flag', chart);
     }
 
-    function renderEfficiencyChart(stats, colors, baseOptions) {
-      const ctx = document.getElementById('efficiencyChart');
-      if (!ctx) {
-        console.error('efficiencyChart canvas not found');
-        return;
-      }
+    // Radar Chart
+    function renderRadarChart(stats, colors, baseOptions) {
+      const ctx = document.getElementById('radarChart');
+      if (!ctx) return;
 
       const sortedStats = [...stats]
-        .sort((a, b) => (b.spm + b.kpm + b.apm) - (a.spm + a.kpm + a.apm))
-        .slice(0, 6);
+        .filter(s => s.time > 0)
+        .sort((a, b) => (b.spm + b.kpm) - (a.spm + a.kpm))
+        .slice(0, 5);
+
+      // Normalize data for radar chart (0-100 scale)
+      const normalizeData = (stats) => {
+        const maxValues = {
+          spm: Math.max(...stats.map(s => s.spm)),
+          kpm: Math.max(...stats.map(s => s.kpm)),
+          apm: Math.max(...stats.map(s => s.apm)),
+          cpm: Math.max(...stats.map(s => s.cpm)),
+          rpm: Math.max(...stats.map(s => s.rpm))
+        };
+
+        return stats.map(s => ({
+          name: s.name,
+          data: [
+            maxValues.spm > 0 ? (s.spm / maxValues.spm) * 100 : 0,
+            maxValues.kpm > 0 ? (s.kpm / maxValues.kpm) * 100 : 0,
+            maxValues.apm > 0 ? (s.apm / maxValues.apm) * 100 : 0,
+            maxValues.cpm > 0 ? (s.cpm / maxValues.cpm) * 100 : 0,
+            maxValues.rpm > 0 ? (s.rpm / maxValues.rpm) * 100 : 0
+          ]
+        }));
+      };
+
+      const normalizedData = normalizeData(sortedStats);
 
       const chart = new Chart(ctx, {
         type: 'radar',
         data: {
           labels: ['SPM', 'KPM', 'APM', 'CPM', 'RPM'],
-          datasets: sortedStats.map((s, idx) => ({
+          datasets: normalizedData.map((s, idx) => ({
             label: s.name,
-            data: [s.spm, s.kpm, s.apm, s.cpm, s.rpm],
+            data: s.data,
             backgroundColor: idx === 0 ? colors.primaryLight : colors.accentLight,
             borderColor: idx === 0 ? colors.primary : colors.accent,
             borderWidth: 2,
@@ -2471,13 +2923,16 @@
           },
           scales: {
             r: {
+              min: 0,
+              max: 100,
               ticks: {
                 color: colors.text,
                 font: {
                   family: "'Courier New', monospace",
                   size: 9
                 },
-                backdropColor: 'transparent'
+                backdropColor: 'transparent',
+                stepSize: 20
               },
               grid: {
                 color: colors.grid
@@ -2495,7 +2950,7 @@
         }
       });
 
-      chartInstances.set('efficiency', chart);
+      chartInstances.set('radar', chart);
     }
 
     // ===== Stats Table Search and Filter =====
@@ -2600,6 +3055,112 @@
 
       document.querySelectorAll('table').forEach(makeSortable);
     })();
+
+    // ===== Player Carousel Functions =====
+    function populatePlayerCarousel(teamStats, teamMembers) {
+      const carousel = document.getElementById('playerCarousel');
+      if (!carousel) return;
+
+      // Map player names to video files
+      const playerVideos = {
+        'Glem': 'Glem.mp4',
+        'CheezeCaek': 'CCheezecaek.mp4',
+        'ColonelFatso': 'ColonelFatso.mp4',
+        'Nemesis': 'Nemesis.mp4',
+        'Rhino': 'Rhino.mp4',
+        'Halogen': null,
+        'Panda': 'Pandora.mp4',
+        'Makono': 'Makono.mp4'
+      };
+
+      // Get all players
+      const allPlayers = Object.keys(teamMembers).length > 0 
+        ? Object.keys(teamMembers) 
+        : teamStats.map(s => s.name);
+
+      const uniquePlayers = [...new Set(allPlayers)].sort();
+      carousel.innerHTML = '';
+
+      uniquePlayers.forEach(playerName => {
+        const videoFile = playerVideos[playerName];
+        if (!videoFile) return;
+
+        const stats = teamStats.find(s => s.name === playerName);
+        const role = stats ? stats.role : (teamMembers[playerName] || 'Team Member');
+
+        const card = document.createElement('div');
+        card.className = 'player-card';
+        card.setAttribute('data-player', playerName.toLowerCase());
+
+        const formatNum = (num, decimals = 2) => {
+          if (num === null || num === undefined || isNaN(num)) return '0';
+          return parseFloat(num).toFixed(decimals);
+        };
+
+        const statsHtml = stats ? `
+          <div class="player-card-stats">
+            <div class="stat-item">
+              <span class="stat-label">Matches</span>
+              <span class="stat-value">${formatNum(stats.matches, 0)}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Kills</span>
+              <span class="stat-value">${formatNum(stats.kills, 0)}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Assists</span>
+              <span class="stat-value">${formatNum(stats.assists, 0)}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Score</span>
+              <span class="stat-value">${formatNum(stats.score, 0)}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">KPM</span>
+              <span class="stat-value">${formatNum(stats.kpm, 2)}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">SPM</span>
+              <span class="stat-value">${formatNum(stats.spm, 2)}</span>
+            </div>
+          </div>
+        ` : `
+          <div class="player-card-stats">
+            <div class="stat-item">
+              <span class="stat-label" style="color: rgba(212,212,216,0.7);">No stats available yet</span>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = `
+          <video class="player-card-video" autoplay muted loop playsinline>
+            <source src="${videoFile}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="player-card-info">
+            <h3 class="player-card-name">${playerName}</h3>
+            <div class="player-card-role">${role}</div>
+            ${statsHtml}
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.player-card').forEach(c => {
+            if (c !== card) c.classList.remove('active');
+          });
+          card.classList.toggle('active');
+        });
+
+        carousel.appendChild(card);
+      });
+
+      initCarouselNavigation();
+    }
+
+    function initCarouselNavigation() {
+      // Navigation not needed for grid layout - all cards visible
+      // Function kept for compatibility but does nothing
+    }
   </script>
 </body>
 </html>
