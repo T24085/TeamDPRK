@@ -71,14 +71,25 @@
       --elev: 0 0 20px rgba(237,28,36,0.3), 0 0 40px rgba(0,48,135,0.2);
       --radius: 0px;
       --radius-sm: 0px;
-      --maxw: 1200px;
+      --maxw: 1600px;  /* Increased from 1200px for wider content */
       --hero-shift: -40px;
     }
 
     /* Base */
     * { box-sizing: border-box; }
-    html, body { height: 100%; overflow-x: hidden; }
+    html { 
+      height: 100%; 
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      scroll-padding-top: 0;
+    }
     body {
+      scroll-snap-type: y mandatory;
+    }
+    body { 
+      height: 100%; 
+      overflow-x: hidden;
       margin: 0;
       font-family: 'Courier New', 'Monaco', 'Menlo', monospace, ui-monospace;
       color: var(--text);
@@ -243,32 +254,28 @@
     }
 
     header.site-header {
-      position: sticky; top: 0; z-index: 1000;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      z-index: 1000;
       background: transparent;
+      width: 100%;
     }
     .header-inner { 
-      max-width: var(--maxw); 
-      margin: 0 auto; 
+      max-width: 100%; 
+      width: 100%;
+      margin: 0; 
       position: relative;
       display: flex; 
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: center; 
       padding: 14px 20px; 
     }
 
     /* Image-based Navigation - Fixed on left side, full height */
     .nav-image-container {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 320px;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px 8px;
-      box-sizing: border-box;
+      display: none;  /* Hide navigation bar to free up space */
     }
     .nav-image {
       width: 100%;
@@ -304,9 +311,9 @@
     .nav-image-btn {
       position: relative;
       display: block;
-      width: 70%;
-      height: 18%;
-      margin: 1.5% 0;
+      width: 80%;  /* Increased from 70% for better fit on narrower nav */
+      height: 12%;
+      margin: 1% 0;
       cursor: pointer;
       text-decoration: none;
       border-radius: 8px;
@@ -357,17 +364,40 @@
     .brand-title { 
       font-weight: 900; 
       letter-spacing: 2px; 
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .brand-title .team-text {
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.6),
+        0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    .brand-title .dprk-text {
+      color: #ed1c24;
+      text-shadow: 
+        0 0 10px rgba(237, 28, 36, 0.8),
+        0 0 20px rgba(237, 28, 36, 0.6),
+        0 0 30px rgba(237, 28, 36, 0.4);
+    }
+    .brand-title .bracket {
+      color: #003087;
+      text-shadow: 
+        0 0 10px rgba(0, 48, 135, 0.8),
+        0 0 20px rgba(0, 48, 135, 0.6),
+        0 0 30px rgba(0, 48, 135, 0.4);
     }
 
     /* Mobile nav */
     @media (max-width: 1200px) {
       .nav-image-container {
-        width: 280px;
+        display: none;
       }
       .container {
-        padding-left: clamp(300px, 18vw, 320px);
+        padding-left: clamp(16px, 3vw, 32px);
       }
     }
     
@@ -579,27 +609,48 @@
     }
 
     /* Layout helpers - Clean card-based design */
-    .container { max-width: var(--maxw); margin: 0 auto; padding: clamp(16px, 3vw, 32px); padding-left: clamp(340px, 20vw, 360px); }
+    .container { 
+      max-width: 100%; 
+      margin: 0; 
+      padding: 0; 
+      width: 100%;
+      height: auto;
+    }
+    main.container {
+      display: block;
+      padding-top: 80px;
+    }
     .section { 
-      margin: clamp(20px, 3vw, 32px) auto; 
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
       background: rgba(0,0,0,0.6); 
       border: 1px solid rgba(237,28,36,0.4); 
       box-shadow: 0 14px 40px rgba(0,0,0,0.35); 
-      overflow: clip; 
+      overflow: visible; 
       position: relative;
-      border-radius: 1.25rem;
+      border-radius: 0;
+      scroll-snap-align: start;
+      scroll-snap-stop: normal;
+      scroll-margin-top: 0;
+      display: flex;
+      flex-direction: column;
     }
     .section.hero {
       background: transparent;
       border: none;
       box-shadow: none;
       overflow: visible;
+      min-height: 100vh;
+      height: 100vh;
     }
-    .section#stats {
+    .section#stats,
+    .section#charts {
       background: transparent;
       border: none;
       box-shadow: none;
       overflow: visible;
+      min-height: 100vh;
     }
     .section#stats .section-inner {
       padding: 0;
@@ -612,13 +663,45 @@
       overflow: visible;
       padding: 0;
       margin: 0;
+      min-height: 100vh;
+      height: 100vh;
     }
     .section#team .section-inner {
       padding: 0;
       max-width: 100%;
       width: 100%;
     }
-    .section > .section-inner { padding: clamp(20px, 3vw, 28px); }
+    .section#videos {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      opacity: 1 !important;
+      transform: none !important;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      height: 100vh;
+    }
+    .section#videos .section-inner {
+      padding: 0;
+      max-width: 100vw;
+      width: 100vw;
+    }
+    .section > .section-inner { 
+      padding: clamp(20px, 3vw, 28px); 
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-y: visible;
+      min-height: 0;
+    }
     .section h2 { 
       margin: 0 0 8px; 
       font-size: clamp(1.5rem, 2.5vw, 2rem); 
@@ -681,12 +764,18 @@
     }
     .hero .section-inner {
       padding: 0;
+      padding-top: 0;
+      margin-top: 0;
       max-width: 100%;
     }
     .hero-inner {
-      padding: 0 clamp(20px, 4vw, 40px);
+      padding: clamp(30px, 5vw, 50px) clamp(20px, 4vw, 40px);
       margin-bottom: 60px;
+      margin-top: -100px;
       text-align: center;
+      min-height: 120px;
+      position: relative;
+      z-index: 0;
     }
     .hero h1 { 
       font-size: clamp(2.5rem, 5vw, 4rem);
@@ -710,23 +799,24 @@
     .player-carousel-container {
       position: relative;
       width: 100%;
-      padding: 80px 0 120px;
+      padding: 40px 0 60px;
       overflow: visible;
-      min-height: 600px;
+      min-height: 400px;
     }
     .player-carousel {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
       align-items: flex-start;
       gap: 0;
       padding: 0;
-      max-width: 1600px;
+      max-width: 100%;
       margin: 0 auto;
       position: relative;
+      overflow: visible;
     }
     .player-card {
-      width: 300px;
+      width: 250px;
       background: rgba(0,0,0,0.75);
       border: 2px solid rgba(237,28,36,0.5);
       border-radius: 1.5rem;
@@ -737,11 +827,12 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(237,28,36,0.2);
       position: relative;
       transform-origin: center bottom;
-      margin: 0 -50px;
+      margin: 0 -40px;
+      flex-shrink: 0;
     }
-    /* Fan out cards with different rotations and positions - tighter spacing */
+    /* Fan out cards with different rotations and positions - tighter spacing for all 7 cards */
     .player-card:nth-child(1) {
-      transform: rotate(-20deg) translateY(-15px);
+      transform: rotate(-18deg) translateY(-12px);
       z-index: 1;
     }
     .player-card:nth-child(2) {
@@ -749,28 +840,24 @@
       z-index: 2;
     }
     .player-card:nth-child(3) {
-      transform: rotate(-4deg) translateY(-4px);
+      transform: rotate(-6deg) translateY(-4px);
       z-index: 3;
     }
     .player-card:nth-child(4) {
-      transform: rotate(4deg) translateY(-4px);
+      transform: rotate(0deg) translateY(0);
       z-index: 4;
     }
     .player-card:nth-child(5) {
-      transform: rotate(12deg) translateY(-8px);
+      transform: rotate(6deg) translateY(-4px);
       z-index: 5;
     }
     .player-card:nth-child(6) {
-      transform: rotate(20deg) translateY(-15px);
+      transform: rotate(12deg) translateY(-8px);
       z-index: 6;
     }
     .player-card:nth-child(7) {
-      transform: rotate(24deg) translateY(-18px);
+      transform: rotate(18deg) translateY(-12px);
       z-index: 7;
-    }
-    .player-card:nth-child(8) {
-      transform: rotate(28deg) translateY(-22px);
-      z-index: 8;
     }
     .player-card:hover {
       transform: rotate(0deg) translateY(-40px) scale(1.15) !important;
@@ -813,6 +900,483 @@
       font-weight: 600;
       margin-bottom: 16px;
       text-shadow: 0 0 8px rgba(237,28,36,0.3);
+    }
+    
+    /* Sliding Images Effect - Scroll-triggered animations */
+    :root {
+      --scroll-height: 300svh;
+      --gap-base: 10px;
+      --size-base: 100px;
+    }
+    
+    @property --gap {
+      syntax: "<length>";
+      inherits: true;
+      initial-value: 0;
+    }
+    
+    @property --scale {
+      syntax: "<number>";
+      inherits: true;
+      initial-value: 1;
+    }
+    
+    @property --x {
+      syntax: "<percent>";
+      inherits: true;
+      initial-value: 0;
+    }
+    
+    @property --y {
+      syntax: "<percent>";
+      inherits: true;
+      initial-value: 0;
+    }
+    
+    @property --text-opacity {
+      syntax: "<number>";
+      inherits: true;
+      initial-value: 1;
+    }
+    
+    @property --mouse-rotate {
+      syntax: "<angle>";
+      inherits: true;
+      initial-value: 0deg;
+    }
+    
+    @property --mouse-w {
+      syntax: "<length>";
+      inherits: true;
+      initial-value: 600px;
+    }
+    
+    @property --center-x {
+      syntax: "<length>";
+      inherits: true;
+      initial-value: -250px;
+    }
+    
+    @property --center-y {
+      syntax: "<length>";
+      inherits: true;
+      initial-value: -250px;
+    }
+    
+    /* Sliding Images Wrapper - Static Grid Layout - Wall of Videos */
+    .sliding-images-wrapper {
+      --gap: 0.25rem;
+      position: relative;
+      width: 75vw;
+      max-width: 100vw;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 0.6fr 1.5fr 1.2fr 1.5fr 0.7fr;
+      grid-template-rows: 1.1fr 1.4fr 1.1fr;
+      grid-template-areas:
+        "one 	two		two 		three 	four"
+        "one 	six 	center 	three 	eight"
+        "five six 	seven 	seven 	eight";
+      gap: var(--gap);
+      z-index: 10;
+      background: transparent;
+      min-height: 90vh;
+      height: 90vh;
+    }
+    
+    .sliding-images-wrapper > div {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(237, 28, 36, 0.6);
+      border-radius: 2px;
+      background: #000;
+      opacity: 1;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    
+    .sliding-images-wrapper > div video,
+    .sliding-images-wrapper > div iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(1) {
+      grid-area: one;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(2) {
+      grid-area: two;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(3) {
+      grid-area: three;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(4) {
+      grid-area: four;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(5) {
+      grid-area: five;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(6) {
+      grid-area: six;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(7) {
+      grid-area: seven;
+    }
+    
+    .sliding-images-wrapper > div:nth-child(8) {
+      grid-area: eight;
+    }
+    
+    .sliding-images-wrapper > div.center {
+      grid-area: center;
+      background-color: rgba(0, 0, 0, 0.95);
+      color: white;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      width: 100%;
+      height: 100%;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 40px rgba(237, 28, 36, 0.6);
+      overflow: hidden;
+      min-height: 0;
+      padding: 0;
+    }
+      
+    .sliding-images-wrapper > div.center > hgroup {
+      font-weight: 300;
+      opacity: 1;
+      display: block;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .sliding-images-wrapper > div.center > hgroup h1 {
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--primary-glow);
+      margin: 0;
+      font-size: 2rem;
+    }
+    
+    .sliding-images-wrapper > div.center > hgroup p {
+      color: var(--text);
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+    }
+    
+    /* Player card inside center */
+    .sliding-images-wrapper > div.center .player-card {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
+      transform: scale(1) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      flex: 1 1 100%;
+      transition: opacity 0.3s ease;
+    }
+    .sliding-images-wrapper > div.center {
+      transition: opacity 0.3s ease;
+    }
+    
+    /* Hide hgroup when player card is present */
+    .sliding-images-wrapper > div.center:has(.player-card) > hgroup {
+      display: none;
+    }
+    
+    /* Ensure player card content fills the space */
+    .sliding-images-wrapper > div.center .player-card > * {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1700px) {
+      .sliding-images-wrapper {
+        width: 90vw;
+        padding: 8px;
+        grid-template-columns: 0.6fr 1.4fr 1.2fr 1.4fr 0.7fr;
+        grid-template-rows: 1.1fr 1.4fr 1.1fr;
+      }
+    }
+    
+    @media (max-width: 1400px) {
+      .sliding-images-wrapper {
+        width: 95vw;
+        padding: 6px;
+        grid-template-columns: 0.6fr 1.3fr 1.1fr 1.3fr 0.6fr;
+        grid-template-rows: 1fr 1.3fr 1fr;
+        gap: 0.25rem;
+      }
+    }
+    
+    @media (max-width: 1200px) {
+      .sliding-images-wrapper {
+        width: 98vw;
+        grid-template-columns: 0.5fr 1.2fr 1fr 1.2fr 0.5fr;
+        grid-template-rows: 1fr 1.2fr 1fr;
+        gap: 0.2rem;
+        padding: 4px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .sliding-images-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+          "center"
+          "one"
+          "two"
+          "three"
+          "four"
+          "five"
+          "six"
+          "seven"
+          "eight";
+        gap: 1rem;
+        padding: 20px;
+      }
+      
+      .sliding-images-wrapper > div.center {
+        max-width: 250px;
+      }
+    }
+    
+    @supports (animation-timeline: scroll()) {
+      .msg-supports {
+        display: none !important;
+      }
+    }
+    
+    .msg-supports {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: block;
+      z-index: 9999;
+      color: white;
+      background: var(--primary);
+      margin: 0;
+      padding: 1rem;
+      text-align: center;
+      border-block-end: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .msg-supports code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    
+    
+    .center-player-card .player-card {
+      margin: 0;
+      transform: none !important;
+      width: 100%;
+      box-shadow: 
+        0 0 60px rgba(237, 28, 36, 0.6),
+        0 0 120px rgba(237, 28, 36, 0.3),
+        0 40px 100px rgba(0, 0, 0, 0.8);
+      border-color: var(--primary);
+      animation: centerPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes centerPulse {
+      0%, 100% {
+        box-shadow: 
+          0 0 60px rgba(237, 28, 36, 0.6),
+          0 0 120px rgba(237, 28, 36, 0.3),
+          0 40px 100px rgba(0, 0, 0, 0.8);
+      }
+      50% {
+        box-shadow: 
+          0 0 80px rgba(237, 28, 36, 0.8),
+          0 0 160px rgba(237, 28, 36, 0.5),
+          0 50px 120px rgba(0, 0, 0, 0.9);
+      }
+    }
+    
+    .center-player-card .player-card:hover {
+      transform: translateY(-8px) scale(1.05) !important;
+      box-shadow: 
+        0 0 100px rgba(237, 28, 36, 1),
+        0 0 200px rgba(237, 28, 36, 0.6),
+        0 60px 140px rgba(0, 0, 0, 1) !important;
+    }
+    
+    
+    /* Video Orbit Items */
+    .video-orbit-item {
+      position: absolute;
+      width: 380px;
+      top: 0;
+      left: 0;
+      transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                  opacity 0.8s ease,
+                  z-index 0.8s ease;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    
+    /* Orbit Controls */
+    .orbit-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.9);
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      color: var(--primary);
+      font-size: 36px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 30px rgba(237, 28, 36, 0.5);
+      backdrop-filter: blur(10px);
+    }
+    
+    .orbit-control:hover {
+      background: rgba(237, 28, 36, 0.2);
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(237, 28, 36, 0.8);
+      transform: translateY(-50%) scale(1.15);
+    }
+    
+    .orbit-control:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    
+    .orbit-prev {
+      left: 5%;
+    }
+    
+    .orbit-next {
+      right: 5%;
+    }
+    
+    @media (max-width: 1200px) {
+      .circular-carousel-container {
+        height: 70vh;
+        min-height: 500px;
+      }
+      
+      .center-player-card {
+        width: 200px;
+      }
+      
+      .video-orbit-item {
+        width: 320px;
+        margin-left: -160px;
+        margin-top: -90px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .circular-carousel-container {
+        height: 60vh;
+        min-height: 400px;
+      }
+      
+      .center-player-card {
+        width: 180px;
+      }
+      
+      .video-orbit-item {
+        width: 260px;
+        margin-left: -130px;
+        margin-top: -73px;
+      }
+      
+    }
+    
+    /* Carousel navigation buttons */
+    .carousel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      color: var(--primary);
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(237, 28, 36, 0.4);
+      backdrop-filter: blur(10px);
+    }
+    
+    .carousel-nav-btn:hover {
+      background: rgba(237, 28, 36, 0.2);
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(237, 28, 36, 0.6);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .carousel-nav-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    
+    .carousel-prev {
+      left: 20px;
+    }
+    
+    .carousel-next {
+      right: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .video-carousel-item {
+        width: 300px;
+      }
+      
+      .glem-carousel-card {
+        width: 250px;
+      }
+      
+      .carousel-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+      
+      .carousel-prev {
+        left: 10px;
+      }
+      
+      .carousel-next {
+        right: 10px;
+      }
     }
     .player-card-stats {
       display: none;
@@ -919,6 +1483,7 @@
       box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
       z-index: 100 !important;
     }
+    
     @media (max-width: 1200px) {
       .team-cards-stack .card.member {
         width: 300px;
@@ -1076,7 +1641,7 @@
 
     /* Cards grid - Clean card-based design */
     .grid { display: grid; gap: clamp(16px, 2vw, 20px); }
-    .grid.auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid.auto { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }  /* Reduced min from 320px to fit more per row */
     .card { 
       background: rgba(0,0,0,0.6); 
       border: 1px solid rgba(237,28,36,0.4); 
@@ -1095,6 +1660,193 @@
     }
     .card.member {
       background: rgba(0,0,0,0.75);
+    }
+
+    /* Enhanced Video Cards for Highlights Section - Glitch Effects */
+    #videos .card {
+      position: relative;
+      overflow: visible;
+      cursor: pointer;
+      transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+    }
+
+    #videos .card::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 1.25rem;
+      background: linear-gradient(45deg, 
+        var(--primary), 
+        var(--accent), 
+        var(--primary),
+        var(--accent)
+      );
+      background-size: 200% 200%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+      animation: borderGlow 3s ease-in-out infinite;
+      border-radius: 1.4rem;
+      filter: blur(8px);
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { 
+        opacity: 0;
+        background-position: 0% 50%;
+      }
+      50% { 
+        opacity: 0.6;
+        background-position: 100% 50%;
+      }
+    }
+
+    #videos .card:hover::before {
+      opacity: 1;
+      animation: borderGlow 1s ease-in-out infinite;
+    }
+
+    /* Enhanced hover styles - JavaScript handles transform */
+    #videos .card:hover {
+      border-color: rgba(237,28,36,0.8) !important;
+      background: rgba(0,0,0,0.85);
+      box-shadow: 0 20px 60px rgba(237, 28, 36, 0.5),
+                  0 0 40px rgba(237, 28, 36, 0.4),
+                  0 0 80px rgba(0, 48, 135, 0.3);
+    }
+
+    /* Play button overlay - override default embed::after */
+    #videos .embed::after {
+      content: '▶' !important;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 3px solid var(--primary) !important;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--primary);
+      z-index: 5 !important;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-shadow: 0 0 20px var(--primary-glow);
+      box-shadow: 0 0 30px rgba(237, 28, 36, 0.5);
+      pointer-events: none;
+      inset: auto;
+      background-size: auto;
+      background-position: auto;
+      background-repeat: auto;
+    }
+
+    /* Hide default embed border overlay on video cards */
+    #videos .embed::before {
+      display: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 30px rgba(237, 28, 36, 0.5),
+                    0 0 60px rgba(237, 28, 36, 0.3);
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        box-shadow: 0 0 50px rgba(237, 28, 36, 0.8),
+                    0 0 100px rgba(237, 28, 36, 0.5);
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+    }
+
+    #videos .card:hover .embed::after {
+      opacity: 1;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Glitch effect on hover */
+    @keyframes glitch {
+      0% { 
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+      }
+      10% { 
+        transform: translate(-2px, 2px);
+        filter: hue-rotate(90deg);
+      }
+      20% { 
+        transform: translate(-2px, -2px);
+        filter: hue-rotate(180deg);
+      }
+      30% { 
+        transform: translate(2px, 2px);
+        filter: hue-rotate(270deg);
+      }
+      40% { 
+        transform: translate(2px, -2px);
+        filter: hue-rotate(360deg);
+      }
+      50% {
+        transform: translate(-1px, 1px);
+        filter: hue-rotate(180deg);
+      }
+      60% {
+        transform: translate(1px, -1px);
+        filter: hue-rotate(90deg);
+      }
+      70%, 100% { 
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    #videos .card:hover .embed iframe,
+    #videos .card:hover .embed video {
+      animation: glitch 0.4s ease-in-out;
+    }
+    
+    /* Video element styling */
+    #videos .embed video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      z-index: 0;
+      background: #000;
+      object-fit: cover;
+    }
+
+    /* Video info overlay */
+    #videos .card::after {
+      content: 'HOVER TO VIEW';
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.95);
+      color: var(--primary);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      text-transform: uppercase;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(237, 28, 36, 0.8),
+                  inset 0 0 10px rgba(237, 28, 36, 0.2);
+      pointer-events: none;
+    }
+
+    #videos .card:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
     }
 
     /* Video & Twitch embeds - Clean design */
@@ -1422,12 +2174,66 @@
     @media (prefers-reduced-motion: no-preference) {
       .reveal { 
         opacity: 0; 
-        transform: translateY(20px); 
-        transition: opacity .6s ease, transform .6s ease; 
+        transform: translateY(40px) scale(0.96); 
+        transition: opacity .8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                    transform .8s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
       }
       .reveal.in { 
         opacity: 1; 
-        transform: none; 
+        transform: translateY(0) scale(1); 
+      }
+
+      /* Progressive reveal for child elements */
+      .section-inner > * {
+        opacity: 0;
+        transform: translateY(30px) rotateX(5deg);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+        --parallax-y: 0px;
+      }
+
+      .section.in .section-inner > * {
+        opacity: 1;
+        transform: translateY(calc(0px + var(--parallax-y, 0px))) rotateX(0deg);
+      }
+
+      /* Stagger children */
+      .section.in .section-inner > *:nth-child(1) { transition-delay: 0.1s; }
+      .section.in .section-inner > *:nth-child(2) { transition-delay: 0.2s; }
+      .section.in .section-inner > *:nth-child(3) { transition-delay: 0.3s; }
+      .section.in .section-inner > *:nth-child(4) { transition-delay: 0.4s; }
+      .section.in .section-inner > *:nth-child(5) { transition-delay: 0.5s; }
+      .section.in .section-inner > *:nth-child(n+6) { transition-delay: 0.6s; }
+
+      /* Enhanced hover effects */
+      .player-card, .card, .video-card {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.4s ease;
+      }
+
+      .section.in .player-card:hover,
+      .section.in .card:hover,
+      .section.in .video-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 10px 40px rgba(237, 28, 36, 0.4),
+                    0 0 20px rgba(237, 28, 36, 0.3);
+      }
+
+      /* Subtle glow on section entry */
+      @keyframes glowEntry {
+        0% {
+          box-shadow: 0 0 0px var(--primary-glow);
+        }
+        50% {
+          box-shadow: 0 0 30px var(--primary-glow), 
+                      0 0 60px var(--primary-glow);
+        }
+        100% {
+          box-shadow: 0 0 0px var(--primary-glow);
+        }
+      }
+
+      .section.in {
+        animation: glowEntry 2s ease-out;
       }
     }
 
@@ -1819,24 +2625,30 @@
   <!-- Left Side Navigation -->
   <nav id="site-nav" class="nav-image-container" role="navigation" aria-label="Primary">
     <video class="nav-image" autoplay muted loop playsinline>
-      <source src="DPRKNav.mp4" type="video/mp4">
+      <source src="DPRKNav5.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="nav-image-buttons">
-      <a href="#intro" class="nav-image-btn" aria-label="Go to Intro section"></a>
-      <a href="#team" class="nav-image-btn" aria-label="Go to Team section"></a>
+      <a href="#team" class="nav-image-btn" aria-label="Go to Intro section"></a>
+      <a href="#team" class="nav-image-btn" aria-label="Go to Watch Now / Twitch streams"></a>
       <a href="#videos" class="nav-image-btn" aria-label="Go to Highlights section"></a>
+      <a href="#stats" class="nav-image-btn" aria-label="Go to Stats / Charts section"></a>
+      <a href="#wins" class="nav-image-btn" aria-label="Go to Results section"></a>
+      <a href="#contact" class="nav-image-btn" aria-label="Go to Contact section"></a>
     </div>
   </nav>
 
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="#team">
         <video class="brand-logo" autoplay muted loop playsinline width="120" height="120">
           <source src="TeamDPRKLogo3.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
-        <div class="brand-title">[DPRK] TPL</div>
+        <div class="brand-title">
+          <span class="team-text">Team</span> 
+          <span class="bracket">[</span><span class="dprk-text">DPRK</span><span class="bracket">]</span>
+        </div>
       </a>
     </div>
   </header>
@@ -1848,7 +2660,7 @@
         <div class="hero-inner">
           <h1>
             <span style="color: var(--primary);">[DPRK]</span>
-            <span style="color: var(--text);">TPL</span>
+            <span style="color: var(--text);">Tribes Rivals</span>
             <span style="color: var(--text);">Team</span>
           </h1>
           <p class="sub">
@@ -1865,42 +2677,63 @@
       </div>
     </section>
 
-    <!-- INTRO -->
-    <section class="section reveal" id="intro">
-      <div class="section-inner">
-        <h2>Team Introduction</h2>
-        <p class="lead">Founded to dominate with pace and precision. Led by <strong>Glem</strong> (Leader, Flex / Medium Offense), <strong>CheezeCaeke</strong> (Co-Leader, Heavy-on-Flag), and <strong>ColonelFatso</strong> (Captain, Capper). Core principles: teamwork, discipline, and relentless improvement. Key players include <strong>Nemesis</strong> (Capper), <strong>Rhino</strong> (Light Defense), <strong>Halogen</strong> (Light Defense), and <strong>Panda</strong> (Heavy Offense).</p>
+    <!-- HIGHLIGHTS - Sliding Images Effect -->
+    <section class="section reveal" id="videos" style="background: transparent; border: none; box-shadow: none; overflow: visible; padding: 0; margin: 0; position: relative; width: 100vw; max-width: 100vw; display: block; left: 0; right: 0;">
+      <p class="msg-supports" style="display: none;">Sorry, your browser does not support <code>animation-timeline</code></p>
+      
+      <div class="section-inner" style="width: 100%; padding: 2px 0; max-width: 100%;">
+        <h2 style="text-align: center; margin-bottom: 2px; font-size: 1.2rem;">Featured Highlights</h2>
+        <p class="lead" style="text-align: center; margin-bottom: 5px; font-size: 0.8rem;">Glem's finest moments</p>
       </div>
-    </section>
-
-    <!-- HIGHLIGHTS -->
-    <section class="section reveal" id="videos">
-      <div class="section-inner">
-        <h2>Featured Highlights</h2>
-        <p class="lead">A couple of moments we love. Got more clips? Send them and we’ll add them.</p>
-        <div class="grid auto">
-          <article class="card">
-            <div class="embed">
-              <iframe
-                loading="lazy"
-                src="https://www.youtube-nocookie.com/embed/NjAn60913lI"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen></iframe>
-            </div>
-          </article>
-          <article class="card">
-            <div class="embed">
-              <iframe
-                loading="lazy"
-                src="https://www.youtube-nocookie.com/embed/WuB7DHNsIvs"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen></iframe>
-            </div>
-          </article>
+      
+      <!-- Sliding Images Wrapper -->
+      <div class="sliding-images-wrapper">
+        <!-- Glem Video 1 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/fhQYRa5LfcU?autoplay=1&mute=1&loop=1&playlist=fhQYRa5LfcU&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 2 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/vsgnQzJnZ_A?autoplay=1&mute=1&loop=1&playlist=vsgnQzJnZ_A&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 3 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/ectkD6P8SDE?autoplay=1&mute=1&loop=1&playlist=ectkD6P8SDE&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 4 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/kn_b_rUwC70?autoplay=1&mute=1&loop=1&playlist=kn_b_rUwC70&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 5 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/DF3YShuJI80?autoplay=1&mute=1&loop=1&playlist=DF3YShuJI80&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 6 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/mbeIMcjKyI4?autoplay=1&mute=1&loop=1&playlist=mbeIMcjKyI4&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Glem Video 7 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/BkMgmfo-xb8?autoplay=1&mute=1&loop=1&playlist=BkMgmfo-xb8&controls=0&modestbranding=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Panda Video 1 -->
+        <div>
+          <iframe src="https://www.youtube.com/embed/sToA0tx9aUA?autoplay=1&mute=1&loop=1&playlist=sToA0tx9aUA&controls=0&modestbranding=1&rel=0&start=6" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        
+        <!-- Center Player Card -->
+        <div class="center" id="glemCenterCard">
+          <hgroup>
+            <h1>GLEM</h1>
+            <p>Leader</p>
+          </hgroup>
         </div>
       </div>
     </section>
@@ -1955,6 +2788,29 @@
             </div>
           </article>
 
+          <!-- Panda -->
+          <article class="card member">
+            <h3>Panda</h3>
+            <div class="role">Heavy Offense / Medium Offense</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="pandoracast" title="Panda — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+              <a class="btn" href="https://www.twitch.tv/pandoracast" target="_blank" rel="noopener noreferrer">Twitch</a>
+            </div>
+          </article>
+
+          <!-- Makono -->
+          <article class="card member">
+            <h3>Makono</h3>
+            <div class="role">Heavy Offense / Medium Offense</div>
+            <div class="embed">
+              <iframe loading="lazy" data-twitch-channel="" title="Makono — Twitch player" allowfullscreen></iframe>
+            </div>
+            <div class="links">
+            </div>
+          </article>
+
           <!-- Nemesis -->
           <article class="card member">
             <h3>Nemesis</h3>
@@ -1970,68 +2826,22 @@
           <!-- Rhino - Removed (no stream) -->
           
           <!-- Halogen - Removed (no stream) -->
-
-          <!-- Panda -->
-          <article class="card member">
-            <h3>Panda</h3>
-            <div class="role">Heavy Offense</div>
-            <div class="embed">
-              <iframe loading="lazy" data-twitch-channel="pandoracast" title="Panda — Twitch player" allowfullscreen></iframe>
-            </div>
-            <div class="links">
-              <a class="btn" href="https://www.twitch.tv/pandoracast" target="_blank" rel="noopener noreferrer">Twitch</a>
-            </div>
-          </article>
-
-          <!-- Makono - Removed (no stream) -->
         </div>
       </div>
     </section>
 
-    <!-- STATS -->
-    <section class="section reveal" id="stats">
+    <!-- CHARTS -->
+    <section class="section reveal" id="charts">
       <div class="section-inner">
-        <h2>Player Stats</h2>
-        <p class="lead">Sortable by any column. Search and filter to explore player performance.</p>
+        <h2>Performance Charts</h2>
+        <p class="lead">Visual breakdown of player performance metrics.</p>
         
-        <!-- Search and Filter Controls -->
-        <div class="stats-controls">
-          <div class="stats-field">
-            <input 
-              type="text" 
-              id="statsSearch" 
-              placeholder="Search players..." 
-              class="stats-input"
-            />
-            <span class="stats-icon">🔍</span>
-          </div>
-          <select 
-            id="statsFilter" 
-            class="stats-select"
-          >
-            <option value="">All Roles</option>
-            <option value="Leader">Leader</option>
-            <option value="Co-Leader">Co-Leader</option>
-            <option value="Captain">Captain</option>
-            <option value="Capper">Capper</option>
-            <option value="Light Defense">Light Defense</option>
-            <option value="Heavy Offense">Heavy Offense</option>
-            <option value="Team Member">Team Member</option>
-          </select>
-          <button 
-            id="resetStats" 
-            style="padding: 10px 16px; background: transparent; border: 2px solid var(--accent); color: var(--text); font-family: 'Courier New', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0,48,135,0.3); border-radius: 999px;"
-          >
-            Reset
-          </button>
-        </div>
-        
-        <div id="statsLoading" style="text-align: center; padding: 20px; color: var(--muted); display: none;">
-          Loading player stats...
+        <div id="chartsLoading" style="text-align: center; padding: 20px; color: var(--muted); display: none;">
+          Loading charts...
         </div>
 
-        <!-- Charts Section - Free-flowing -->
-        <div id="chartsSection" style="display: none; margin: 60px 0;">
+        <!-- Charts Section -->
+        <div id="chartsSection" style="display: block; margin: 60px 0;">
           <div id="chartsError" style="display: none; padding: 20px; background: rgba(237,28,36,0.1); border: 2px solid var(--primary); color: var(--text); margin-bottom: 20px; text-align: center; border-radius: 1rem;">
             Charts are loading... If they don't appear, check the browser console for errors.
           </div>
@@ -2092,6 +2902,45 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section reveal" id="stats">
+      <div class="section-inner">
+        <h2>Player Stats</h2>
+        <p class="lead">Sortable by any column. Search and filter to explore player performance.</p>
+        
+        <!-- Search and Filter Controls -->
+        <div class="stats-controls">
+          <div class="stats-field">
+            <input 
+              type="text" 
+              id="statsSearch" 
+              placeholder="Search players..." 
+              class="stats-input"
+            >
+          </div>
+          <select 
+            id="statsFilter" 
+            class="stats-select"
+          >
+            <option value="">All Roles</option>
+            <option value="Leader">Leader</option>
+            <option value="Co-Leader">Co-Leader</option>
+            <option value="Captain">Captain</option>
+            <option value="Capper">Capper</option>
+            <option value="Light Defense">Light Defense</option>
+            <option value="Heavy Offense">Heavy Offense</option>
+            <option value="Team Member">Team Member</option>
+          </select>
+          <button 
+            id="resetStats" 
+            style="padding: 10px 16px; background: transparent; border: 2px solid var(--accent); color: var(--text); font-family: 'Courier New', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0,48,135,0.3); border-radius: 999px;"
+          >
+            Reset
+          </button>
         </div>
         
         <div class="table-wrap" role="region" aria-label="Player statistics" tabindex="0" style="background: rgba(0,0,0,0.7); border: 2px solid rgba(237,28,36,0.5); border-radius: 1.5rem; padding: 24px; backdrop-filter: blur(10px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); margin-top: 40px;">
@@ -2199,6 +3048,18 @@
             const el = document.querySelector(href);
             if (el) {
               el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              
+              // If clicking Stats button, show charts section
+              if (href === '#stats') {
+                // Scroll to charts section first (since stats button goes to charts)
+                setTimeout(() => {
+                  const chartsSection = document.getElementById('charts');
+                  if (chartsSection) {
+                    chartsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }, 100);
+              }
+              
               // Add visual feedback
               btn.style.opacity = '0.8';
               setTimeout(() => {
@@ -2228,15 +3089,206 @@
       document.querySelectorAll('main section[id]').forEach(sec => observer.observe(sec));
     })();
 
-    // ===== Reveal on scroll (reduced motion aware) =====
+    // ===== Enhanced Scroll Animations with Parallax & Progressive Reveal =====
     (function(){
       const enabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!enabled) return;
-      const els = document.querySelectorAll('.reveal');
+      if (!enabled) {
+        // Fallback: just show everything
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+        return;
+      }
+
+      const sections = document.querySelectorAll('.section.reveal');
+      let ticking = false;
+
+      // Enhanced Intersection Observer with progress tracking
       const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.1 });
-      els.forEach(el => io.observe(el));
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            
+            // Wait for CSS reveal animation to start before applying parallax
+            // Initialize parallax variables on child elements
+            const section = entry.target;
+            const children = section.querySelectorAll('.section-inner > *');
+            children.forEach(child => {
+              child.style.setProperty('--parallax-y', '0px');
+            });
+          }
+        });
+      }, { 
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+        rootMargin: '-10% 0px -10% 0px'
+      });
+
+      sections.forEach(section => {
+        io.observe(section);
+        
+        // Check if section is already in view on page load
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (rect.top < windowHeight * 0.9 && rect.bottom > 0) {
+          section.classList.add('in');
+          const children = section.querySelectorAll('.section-inner > *');
+          children.forEach(child => {
+            child.style.setProperty('--parallax-y', '0px');
+          });
+        }
+      });
+
+      // Continuous scroll-based parallax effect
+      function updateParallax() {
+        if (ticking) return;
+        ticking = true;
+        
+        requestAnimationFrame(() => {
+          sections.forEach(section => {
+            if (!section.classList.contains('in')) return;
+            
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const sectionHeight = rect.height;
+            const sectionTop = rect.top;
+            const sectionCenter = sectionTop + sectionHeight / 2;
+            const viewportCenter = windowHeight / 2;
+            
+            // Calculate distance from viewport center
+            const distance = (sectionCenter - viewportCenter) / windowHeight;
+            
+            // Apply parallax to section background elements
+            const bgElements = section.querySelectorAll('.hero-bg, video, .bg-element');
+            bgElements.forEach(bg => {
+              const parallaxSpeed = 0.3;
+              const offset = distance * 100 * parallaxSpeed;
+              bg.style.transform = `translateY(${offset}px)`;
+            });
+            
+            // Staggered movement for content within active section
+            // Use CSS custom properties to avoid overriding CSS transitions
+            const contentElements = section.querySelectorAll('.section-inner > *');
+            contentElements.forEach((el, idx) => {
+              // Only apply parallax if section is active and element is visible
+              const computedStyle = window.getComputedStyle(el);
+              if (parseFloat(computedStyle.opacity) > 0.1) {
+                const staggerDelay = idx * 0.1;
+                const elementOffset = distance * 30 * (1 - staggerDelay * 0.5);
+                // Use CSS variable to add parallax without overriding base transform
+                el.style.setProperty('--parallax-y', `${elementOffset}px`);
+              }
+            });
+          });
+          
+          ticking = false;
+        });
+      }
+
+      // Throttled scroll listener
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(() => {
+          updateParallax();
+          scrollTimeout = null;
+        }, 16); // ~60fps
+      }, { passive: true });
+
+      // Initial update
+      updateParallax();
+    })();
+
+    // ===== Smart Scroll Snap - Snap to next section after 30% scroll =====
+    (function() {
+      const sections = Array.from(document.querySelectorAll('main section[id]'));
+      let isScrolling = false;
+      let scrollTimeout = null;
+      const SNAP_THRESHOLD = 0.3; // 30% threshold
+
+      function getCurrentSection() {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const viewportCenter = scrollY + window.innerHeight / 2;
+
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const rect = section.getBoundingClientRect();
+          const sectionTop = scrollY + rect.top;
+          const sectionBottom = sectionTop + rect.height;
+
+          // Check if viewport center is within this section
+          if (viewportCenter >= sectionTop && viewportCenter <= sectionBottom) {
+            return { section, index: i, sectionTop, sectionBottom, rect };
+          }
+        }
+        return null;
+      }
+
+      function snapToSection(targetIndex) {
+        if (targetIndex < 0 || targetIndex >= sections.length) return;
+        if (isScrolling) return;
+
+        isScrolling = true;
+        const targetSection = sections[targetIndex];
+        const rect = targetSection.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const targetPosition = scrollY + rect.top;
+        
+        window.scrollTo({
+          top: Math.max(0, targetPosition),
+          behavior: 'smooth'
+        });
+
+        setTimeout(() => {
+          isScrolling = false;
+        }, 500);
+      }
+
+      function handleScroll() {
+        if (isScrolling) return;
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const current = getCurrentSection();
+          if (!current) return;
+
+          const { section, index, sectionTop, rect } = current;
+          const scrollY = window.scrollY || window.pageYOffset;
+          const viewportTop = scrollY;
+          const sectionHeight = rect.height;
+
+          // Calculate how much of the section has been scrolled past
+          const sectionScrollProgress = (viewportTop - sectionTop) / sectionHeight;
+
+          // Determine scroll direction
+          let scrollDirection = 0;
+          let lastScrollY = window.lastScrollY || scrollY;
+          if (scrollY > lastScrollY) scrollDirection = 1; // scrolling down
+          else if (scrollY < lastScrollY) scrollDirection = -1; // scrolling up
+          window.lastScrollY = scrollY;
+
+          // If scrolling down and passed 30% threshold, snap to next section
+          if (scrollDirection > 0 && sectionScrollProgress >= SNAP_THRESHOLD && index < sections.length - 1) {
+            snapToSection(index + 1);
+          }
+          // If scrolling up and passed 30% from top, snap to previous section
+          else if (scrollDirection < 0 && sectionScrollProgress <= (1 - SNAP_THRESHOLD) && index > 0) {
+            snapToSection(index - 1);
+          }
+        }, 50);
+      }
+
+      // Throttled scroll listener
+      let scrollTicking = false;
+      window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+          window.requestAnimationFrame(() => {
+            handleScroll();
+            scrollTicking = false;
+          });
+          scrollTicking = true;
+        }
+      }, { passive: true });
+
+      // Initialize
+      window.lastScrollY = window.scrollY || window.pageYOffset;
     })();
 
     // ===== Back to top visibility =====
@@ -2285,6 +3337,7 @@
         setInterval(switchVideo, switchInterval);
       }, 1000);
     })();
+
 
     // ===== Twitch embeds: auto-set parent & channel safely with preview =====
     (function() {
@@ -2371,11 +3424,11 @@
           'Glem': 'Leader',
           'CheezeCaek': 'Co-Leader',
           'ColonelFatso': 'Captain',
+          'Panda': 'Heavy Offense / Medium Offense',
+          'Makono': 'Heavy Offense / Medium Offense',
           'Nemesis': 'Capper',
           'Rhino': 'Light Defense',
-          'Halogen': 'Light Defense',
-          'Panda': 'Heavy Offense',
-          'Makono': 'Team Member'
+          'Halogen': 'Light Defense'
         };
 
         // Helper function to format numbers
@@ -2597,11 +3650,12 @@
       
       if (validStats.length === 0) {
         console.log('No valid stats to display');
-        chartsSection.style.display = 'none';
+        // Charts section is now always visible in its own section
+        // No need to hide/show it
         return;
       }
 
-      chartsSection.style.display = 'block';
+      // Charts are always visible in the charts section
       const errorMsg = document.getElementById('chartsError');
       if (errorMsg) errorMsg.style.display = 'none';
       console.log('Charts section displayed');
@@ -3073,12 +4127,15 @@
         'Makono': 'Makono.mp4'
       };
 
-      // Get all players
+      // Get all players in specific order
+      const playerOrder = ['Glem', 'CheezeCaek', 'ColonelFatso', 'Panda', 'Makono', 'Nemesis', 'Rhino'];
       const allPlayers = Object.keys(teamMembers).length > 0 
         ? Object.keys(teamMembers) 
         : teamStats.map(s => s.name);
 
-      const uniquePlayers = [...new Set(allPlayers)].sort();
+      // Sort players according to specified order, then add any others
+      const uniquePlayers = playerOrder.filter(p => allPlayers.includes(p))
+        .concat([...new Set(allPlayers)].filter(p => !playerOrder.includes(p)).sort());
       carousel.innerHTML = '';
 
       uniquePlayers.forEach(playerName => {
@@ -3155,12 +4212,101 @@
       });
 
       initCarouselNavigation();
+      
+      // Create Glem center card after carousel is populated
+      setTimeout(createRotatingCenterCard, 100);
+      
+      // Ensure videos play in sliding images wrapper
+      const slidingWrapper = document.querySelector('.sliding-images-wrapper');
+      if (slidingWrapper) {
+        const videos = slidingWrapper.querySelectorAll('video');
+        videos.forEach(video => {
+          video.play().catch(() => {
+            // Autoplay may be blocked, that's okay
+          });
+        });
+      }
     }
 
     function initCarouselNavigation() {
       // Navigation not needed for grid layout - all cards visible
       // Function kept for compatibility but does nothing
     }
+
+    // ===== Create Rotating Center Card =====
+    function createRotatingCenterCard() {
+      const centerContainer = document.getElementById('glemCenterCard');
+      if (!centerContainer) return;
+      
+      // Get all player cards from the carousel in order
+      const playerOrder = ['Glem', 'CheezeCaek', 'ColonelFatso', 'Panda', 'Makono', 'Nemesis', 'Rhino'];
+      const allPlayerCards = [];
+      
+      playerOrder.forEach(playerName => {
+        const card = document.querySelector(`.player-card[data-player="${playerName.toLowerCase()}"]`);
+        if (card) {
+          allPlayerCards.push({ name: playerName, card: card });
+        }
+      });
+      
+      if (allPlayerCards.length === 0) {
+        // Wait for carousel to populate
+        setTimeout(createRotatingCenterCard, 500);
+        return;
+      }
+      
+      let currentPlayerIndex = 0;
+      const ROTATION_INTERVAL = 4000; // 4 seconds per player
+      
+      function rotateCenterCard() {
+        const currentPlayer = allPlayerCards[currentPlayerIndex];
+        const centerCard = currentPlayer.card.cloneNode(true);
+        centerCard.classList.add('center-card-instance');
+        centerCard.classList.remove('active');
+        
+        // Clear center container and add cloned card with fade effect
+        centerContainer.style.opacity = '0';
+        setTimeout(() => {
+          centerContainer.innerHTML = '';
+          centerContainer.appendChild(centerCard);
+          centerContainer.style.opacity = '1';
+        }, 300);
+        
+        // Add click handler to sync with original card
+        centerCard.addEventListener('click', () => {
+          document.querySelectorAll('.player-card').forEach(c => {
+            if (c !== currentPlayer.card && !c.classList.contains('center-card-instance')) {
+              c.classList.remove('active');
+            }
+          });
+          currentPlayer.card.classList.toggle('active');
+          centerCard.classList.toggle('active');
+        });
+        
+        // Move to next player
+        currentPlayerIndex = (currentPlayerIndex + 1) % allPlayerCards.length;
+      }
+      
+      // Initial display
+      rotateCenterCard();
+      
+      // Set up rotation interval
+      setInterval(rotateCenterCard, ROTATION_INTERVAL);
+    }
+    
+    // ===== Ensure videos play in sliding images wrapper =====
+    (function() {
+      const slidingWrapper = document.querySelector('.sliding-images-wrapper');
+      if (slidingWrapper) {
+        const videos = slidingWrapper.querySelectorAll('video');
+        videos.forEach(video => {
+          video.muted = true;
+          video.play().catch(() => {
+            // Autoplay may be blocked, that's okay
+          });
+        });
+      }
+    })();
   </script>
 </body>
 </html>
