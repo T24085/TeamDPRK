@@ -2536,6 +2536,10 @@
       <source src="DPRKBackground3.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+    <video id="bgVideo3" class="bg-video" autoplay muted loop playsinline>
+      <source src="DPRKBackground4.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
 
   <!-- Left Side Navigation -->
@@ -3167,22 +3171,21 @@
 
     // ===== Background Video Switcher =====
     (function() {
-      const video1 = document.getElementById('bgVideo1');
-      const video2 = document.getElementById('bgVideo2');
-      
-      if (!video1 || !video2) return;
-      
-      const videos = [video1, video2];
+      const videos = Array.from(document.querySelectorAll('.hero-bg video.bg-video'));
+      if (videos.length === 0) return;
+
       let currentVideoIndex = 0;
       const switchInterval = 15000; // 15 seconds
       
-      // Initialize: show first video, preload other
-      video1.classList.add('active');
-      video1.play().catch(e => console.log('Video 1 autoplay:', e));
-      video2.play().catch(e => console.log('Video 2 autoplay:', e));
+      // Initialize: show first video, hide others, start playback to allow buffering
+      videos.forEach((v, idx) => {
+        v.classList.toggle('active', idx === 0);
+        v.play().catch(e => console.log(`Background video autoplay (${idx + 1}):`, e));
+      });
       
       // Function to switch to next video
       function switchVideo() {
+        if (videos.length <= 1) return;
         // Hide current video
         videos[currentVideoIndex].classList.remove('active');
         

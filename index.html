@@ -349,6 +349,60 @@
       right: 0 !important;
       bottom: auto !important;
     }
+    
+    /* 🎵 Music Controls */
+    .music-controls {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1001;
+    }
+    
+    .music-btn {
+      background: rgba(237, 28, 36, 0.3);
+      border: 1px solid rgba(237, 28, 36, 0.5);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+      box-shadow: 0 0 8px rgba(237, 28, 36, 0.3);
+    }
+    
+    .music-btn:hover {
+      background: rgba(237, 28, 36, 0.6);
+      border-color: rgba(237, 28, 36, 0.8);
+      box-shadow: 0 0 12px rgba(237, 28, 36, 0.6);
+      transform: scale(1.1);
+    }
+    
+    .music-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .music-title {
+      color: var(--text);
+      font-size: 0.75rem;
+      min-width: 120px;
+      text-align: right;
+      text-shadow: 0 0 8px rgba(237, 28, 36, 0.5);
+      font-weight: 600;
+    }
+    
+    @media (max-width: 768px) {
+      .music-title {
+        display: none;
+      }
+      .music-controls {
+        gap: 5px;
+      }
+    }
 
     /* Image-based Navigation - Fixed on left side, full height */
     .nav-image-container {
@@ -1556,12 +1610,22 @@
       z-index: 1;
     }
     
+    /* Position tabs to align with right edge of streaming content */
+    /* Cards are 1000px wide and centered at 50%, so right edge is at 50% + 500px */
+    .team-cards-stack {
+      position: relative;
+    }
+    
     /* Player Tabs Navigation - Book-style tabs on edge of streaming content */
     .team-player-tabs {
       position: absolute;
       top: 50%;
-      left: calc(50% + 500px);
-      transform: translateY(-50%) translateX(-4px);
+      /* Cards are 1000px wide and centered, so right edge is at 50% + 500px */
+      /* Position tabs 50px to the left of the card's right edge to pull into frame */
+      left: calc(50% + 500px - 50px);
+      /* 🔧 Slight inward tilt for holographic perspective */
+      transform: translateY(-50%) translateX(-4px) rotateY(-12deg);
+      transform-origin: left center;
       width: 60px;
       display: flex;
       flex-direction: column;
@@ -1573,15 +1637,27 @@
       padding-right: 0;
     }
     
+    /* 🔧 Vertical neon trace line - power conduit connecting tabs */
+    .team-player-tabs::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        rgba(237,28,36,0),
+        rgba(237,28,36,1),
+        rgba(237,28,36,0)
+      );
+      box-shadow: 0 0 12px rgba(237,28,36,0.7);
+      pointer-events: none;
+    }
+    
     /* Make tabs appear to overlap the edge slightly */
     .team-tab {
       margin-right: -2px;
-    }
-    
-    /* Position tabs to align with right edge of streaming content */
-    /* Cards are 1000px wide and centered at 50%, so right edge is at 50% + 500px */
-    .team-cards-stack {
-      position: relative;
     }
     
     .team-tabs-label {
@@ -1596,66 +1672,77 @@
       align-items: flex-end;
     }
     
+    /* 🎨 Cyberpunk Cartridge Tabs */
     .team-tab {
-      background: linear-gradient(135deg, rgba(237,28,36,0.9), rgba(237,28,36,0.7));
-      border: 1px solid rgba(237,28,36,1);
-      border-right: none;
-      border-radius: 8px 0 0 8px;
-      padding: 10px 14px 10px 18px;
-      color: var(--text);
-      font-size: 0.75rem;
-      font-weight: 700;
+      background: linear-gradient(135deg, #ed1c24 0%, #8b0e12 100%);
+      border-left: 3px solid #003087; /* blue accent spine */
+      padding: 12px 10px;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-      position: relative;
-      min-width: 50px;
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      box-shadow: -2px 0 8px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.2);
-      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
-      margin-right: 0;
+      letter-spacing: 1px;
+
+      /* Cyberpunk shape - hard angles, not rounded */
+      clip-path: polygon(0 0, 100% 6px, 100% 94%, 0 100%, 6px 50%);
+
+      /* Glow */
+      box-shadow:
+        -2px 0 12px rgba(237, 28, 36, 0.7),
+        0 0 8px rgba(0, 48, 135, 0.4);
+
+      transition: all 0.25s ease-out;
+      position: relative;
+      min-width: 50px;
       white-space: nowrap;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 12px rgba(237, 28, 36, 0.6);
     }
     
-    .team-tab::before {
-      content: '';
+    /* 🔧 Side bevel highlight - metallic finish */
+    .team-tab::after {
+      content: "";
       position: absolute;
       top: 0;
       right: 0;
-      width: 8px;
+      width: 6px;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3));
-      clip-path: polygon(0 0, 100% 8px, 100% calc(100% - 8px), 0 100%);
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.25),
+        rgba(255,255,255,0.05)
+      );
+      mix-blend-mode: screen;
+      pointer-events: none;
     }
     
     .team-tab:hover {
-      background: linear-gradient(135deg, rgba(237,28,36,1), rgba(237,28,36,0.9));
-      transform: translateX(4px);
-      box-shadow: -4px 0 12px rgba(237,28,36,0.6), inset 0 0 15px rgba(0,0,0,0.3);
+      transform: translateX(6px);
+      background: linear-gradient(135deg, #ff2630, #b11218);
+      box-shadow:
+        -4px 0 20px rgba(237, 28, 36, 1),
+        0 0 14px rgba(0, 48, 135, 0.6);
       z-index: 10;
     }
     
-    .team-tab.active {
-      background: linear-gradient(135deg, rgba(237,28,36,1), rgba(237,28,36,0.95));
-      border-color: rgba(237,28,36,1);
-      color: var(--text);
-      box-shadow: -6px 0 20px rgba(237,28,36,0.8), inset 0 0 20px rgba(0,0,0,0.4);
-      transform: translateX(6px);
-      z-index: 20;
+    /* 🔧 Tab activation animation - quick pulse flash */
+    @keyframes tabPulse {
+      0%   { box-shadow: 0 0 0 rgba(255,255,255,0); }
+      50%  { box-shadow: -6px 0 35px rgba(255,255,255,0.6); }
+      100% { box-shadow: -6px 0 30px rgba(237,28,36,0.9); }
     }
     
-    .team-tab.active::after {
-      content: '';
-      position: absolute;
-      right: -2px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      border-right: 6px solid rgba(237,28,36,1);
+    .team-tab.active {
+      background: linear-gradient(135deg, #ff2d38, #d11218);
+      border-left: 3px solid #ffffff;
+      transform: translateX(10px);
+      box-shadow:
+        -6px 0 30px rgba(237, 28, 36, 1),
+        0 0 20px rgba(255, 255, 255, 0.7);
+      z-index: 20;
+      animation: tabPulse 0.25s ease-out;
     }
     
     /* Ensure tabs container doesn't overflow */
@@ -1743,13 +1830,64 @@
     }
     
     /* Streaming content area */
+    .team-cards-stack .card.member .cyber-frame {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      position: relative;
+    }
+    
     .team-cards-stack .card.member .team-streaming-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 30px;
+      padding: 10px 0;
       min-width: 0;
       position: relative;
+    }
+    
+    /* 🔳 Cyberpunk Frame Around Player Panel */
+    .cyber-frame {
+      position: relative;
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid rgba(237,28,36,0.5);
+      border-radius: 10px;
+
+      /* Outer neon glow */
+      box-shadow:
+        0 0 25px rgba(237, 28, 36, 0.5),
+        0 0 40px rgba(0, 48, 135, 0.4);
+
+      /* Thin inner-line holographic frame */
+      outline: 2px solid rgba(255,255,255,0.08);
+      outline-offset: -6px;
+      margin-right: 70px; /* creates space for tabs */
+    }
+
+    /* Cyberpunk corner decals */
+    .cyber-frame::before,
+    .cyber-frame::after {
+      content:"";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px solid #ed1c24;
+    }
+
+    .cyber-frame::before {
+      top: -2px;
+      left: -2px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .cyber-frame::after {
+      bottom: -2px;
+      right: -2px;
+      border-left: none;
+      border-top: none;
     }
     
     .team-cards-stack .card.member h3 {
@@ -1851,8 +1989,16 @@
         padding: 0 60px 0 40px;
       }
       .team-player-tabs {
-        left: calc(50% + 400px);
+        /* Cards are 800px wide and centered, so right edge is at 50% + 400px */
+        left: calc(50% + 400px - 45px); /* adjusted for smaller cards */
         width: 50px;
+        /* Maintain perspective rotation on smaller screens */
+        transform: translateY(-50%) translateX(-4px) rotateY(-12deg);
+        transform-origin: left center;
+      }
+      
+      .cyber-frame {
+        margin-right: 60px; /* adjusted for smaller cards */
       }
       .team-tab {
         padding: 6px 10px 6px 14px;
@@ -1946,6 +2092,24 @@
       border-color: var(--primary);
       box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 80px rgba(237,28,36,0.6);
       z-index: 100 !important;
+    }
+
+    /* ===== Chart “Explode” interaction (click any chart card) ===== */
+    .chart-card {
+      will-change: transform, opacity, filter;
+    }
+    body.charts-exploding .chart-card {
+      pointer-events: none; /* prevent double-click spam during animation */
+    }
+    .chart-card.explode-out {
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease, filter 420ms ease;
+      opacity: 0.92;
+      filter: blur(0.25px) saturate(1.05);
+    }
+    .chart-card.explode-back {
+      transition: transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 520ms ease, filter 520ms ease;
+      opacity: 1;
+      filter: none;
     }
     @media (max-width: 1200px) {
       .chart-card {
@@ -3338,6 +3502,10 @@
       <source src="DPRKBackground3.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+    <video id="bgVideo3" class="bg-video" autoplay muted loop playsinline>
+      <source src="DPRKBackground4.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
 
   <!-- Left Side Navigation -->
@@ -3368,6 +3536,17 @@
           <span class="bracket">[</span><span class="dprk-text">DPRK</span><span class="bracket">]</span>
         </div>
       </a>
+      
+      <!-- 🎵 Music Controls -->
+      <div class="music-controls">
+        <button id="musicToggle" class="music-btn" aria-label="Toggle background music" title="Toggle Music">
+          <span class="music-icon">♪</span>
+        </button>
+        <button id="musicNext" class="music-btn" aria-label="Next track" title="Next Track">
+          <span class="music-icon">⏭</span>
+        </button>
+        <span id="musicTitle" class="music-title">Music Off</span>
+      </div>
     </div>
   </header>
 
@@ -3467,20 +3646,22 @@
           <!-- Glem -->
           <article class="card member" data-glow data-player="glem">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>Glem</h3>
-              <div class="role">Leader — Flex / Medium Offense</div>
-              <div class="embed">
-                <iframe
-                  loading="lazy"
-                  src="https://www.youtube-nocookie.com/embed?listType=user_uploads&list=glem7761WithGuns"
-                  title="Glem — YouTube uploads"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen></iframe>
-              </div>
-              <div class="links">
-                <a class="btn" href="https://www.youtube.com/@Tribes3RIvalsHighlights49GirlsWithGuns" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>Glem</h3>
+                <div class="role">Leader — Flex / Medium Offense</div>
+                <div class="embed">
+                  <iframe
+                    loading="lazy"
+                    src="https://www.youtube-nocookie.com/embed?listType=user_uploads&list=glem7761WithGuns"
+                    title="Glem — YouTube uploads"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                  <a class="btn" href="https://www.youtube.com/@Tribes3RIvalsHighlights49GirlsWithGuns" target="_blank" rel="noopener noreferrer">YouTube</a>
+                </div>
               </div>
             </div>
           </article>
@@ -3488,15 +3669,17 @@
           <!-- CheezeCaeke -->
           <article class="card member" data-glow data-player="cheezecaek">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>CheezeCaeke</h3>
-              <div class="role">Co-Leader — Heavy On Flag</div>
-              <div class="embed">
-                <iframe loading="lazy" data-twitch-channel="cheezecaek" title="CheezeCaeke — Twitch player" allowfullscreen></iframe>
-              </div>
-              <div class="links">
-                <a class="btn" href="https://www.twitch.tv/cheezecaek" target="_blank" rel="noopener noreferrer">Twitch</a>
-                <a class="btn" href="https://www.youtube.com/@glem7761" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>CheezeCaeke</h3>
+                <div class="role">Co-Leader — Heavy On Flag</div>
+                <div class="embed">
+                  <iframe loading="lazy" data-twitch-channel="cheezecaek" title="CheezeCaeke — Twitch player" allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                  <a class="btn" href="https://www.twitch.tv/cheezecaek" target="_blank" rel="noopener noreferrer">Twitch</a>
+                  <a class="btn" href="https://www.youtube.com/@glem7761" target="_blank" rel="noopener noreferrer">YouTube</a>
+                </div>
               </div>
             </div>
           </article>
@@ -3504,14 +3687,16 @@
           <!-- ColonelFatso -->
           <article class="card member" data-glow data-player="colonelfatso">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>ColonelFatso</h3>
-              <div class="role">Captain — Capper</div>
-              <div class="embed">
-                <iframe loading="lazy" data-twitch-channel="colonelfatso" title="ColonelFatso — Twitch player" allowfullscreen></iframe>
-              </div>
-              <div class="links">
-                <a class="btn" href="https://www.twitch.tv/colonelfatso" target="_blank" rel="noopener noreferrer">Twitch</a>
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>ColonelFatso</h3>
+                <div class="role">Captain — Capper</div>
+                <div class="embed">
+                  <iframe loading="lazy" data-twitch-channel="colonelfatso" title="ColonelFatso — Twitch player" allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                  <a class="btn" href="https://www.twitch.tv/colonelfatso" target="_blank" rel="noopener noreferrer">Twitch</a>
+                </div>
               </div>
             </div>
           </article>
@@ -3519,14 +3704,16 @@
           <!-- Panda -->
           <article class="card member" data-glow data-player="panda">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>Panda</h3>
-              <div class="role">Heavy Offense / Medium Offense</div>
-              <div class="embed">
-                <iframe loading="lazy" data-twitch-channel="pandoracast" title="Panda — Twitch player" allowfullscreen></iframe>
-              </div>
-              <div class="links">
-                <a class="btn" href="https://www.twitch.tv/pandoracast" target="_blank" rel="noopener noreferrer">Twitch</a>
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>Panda</h3>
+                <div class="role">Heavy Offense / Medium Offense</div>
+                <div class="embed">
+                  <iframe loading="lazy" data-twitch-channel="pandoracast" title="Panda — Twitch player" allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                  <a class="btn" href="https://www.twitch.tv/pandoracast" target="_blank" rel="noopener noreferrer">Twitch</a>
+                </div>
               </div>
             </div>
           </article>
@@ -3534,13 +3721,15 @@
           <!-- Makono -->
           <article class="card member" data-glow data-player="makono">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>Makono</h3>
-              <div class="role">Heavy Offense / Medium Offense</div>
-              <div class="embed">
-                <iframe loading="lazy" data-twitch-channel="" title="Makono — Twitch player" allowfullscreen></iframe>
-              </div>
-              <div class="links">
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>Makono</h3>
+                <div class="role">Heavy Offense / Medium Offense</div>
+                <div class="embed">
+                  <iframe loading="lazy" data-twitch-channel="" title="Makono — Twitch player" allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                </div>
               </div>
             </div>
           </article>
@@ -3548,14 +3737,16 @@
           <!-- Nemesis -->
           <article class="card member" data-glow data-player="nemesis">
             <div class="team-player-card"></div>
-            <div class="team-streaming-content">
-              <h3>Nemesis</h3>
-              <div class="role">Capper</div>
-              <div class="embed">
-                <iframe loading="lazy" data-twitch-channel="seansguitarworldbang" title="Nemesis — Twitch player" allowfullscreen></iframe>
-              </div>
-              <div class="links">
-                <a class="btn" href="https://www.twitch.tv/seansguitarworldbang" target="_blank" rel="noopener noreferrer">Twitch</a>
+            <div class="cyber-frame">
+              <div class="team-streaming-content">
+                <h3>Nemesis</h3>
+                <div class="role">Capper</div>
+                <div class="embed">
+                  <iframe loading="lazy" data-twitch-channel="seansguitarworldbang" title="Nemesis — Twitch player" allowfullscreen></iframe>
+                </div>
+                <div class="links">
+                  <a class="btn" href="https://www.twitch.tv/seansguitarworldbang" target="_blank" rel="noopener noreferrer">Twitch</a>
+                </div>
               </div>
             </div>
           </article>
@@ -4106,22 +4297,21 @@
 
     // ===== Background Video Switcher =====
     (function() {
-      const video1 = document.getElementById('bgVideo1');
-      const video2 = document.getElementById('bgVideo2');
-      
-      if (!video1 || !video2) return;
-      
-      const videos = [video1, video2];
+      const videos = Array.from(document.querySelectorAll('.hero-bg video.bg-video'));
+      if (videos.length === 0) return;
+
       let currentVideoIndex = 0;
       const switchInterval = 15000; // 15 seconds
       
-      // Initialize: show first video, preload other
-      video1.classList.add('active');
-      video1.play().catch(e => console.log('Video 1 autoplay:', e));
-      video2.play().catch(e => console.log('Video 2 autoplay:', e));
+      // Initialize: show first video, hide others, start playback to allow buffering
+      videos.forEach((v, idx) => {
+        v.classList.toggle('active', idx === 0);
+        v.play().catch(e => console.log(`Background video autoplay (${idx + 1}):`, e));
+      });
       
       // Function to switch to next video
       function switchVideo() {
+        if (videos.length <= 1) return;
         // Hide current video
         videos[currentVideoIndex].classList.remove('active');
         
@@ -5285,6 +5475,10 @@
         `;
 
         card.addEventListener('click', () => {
+          // Play hero player card click sound
+          if (window.playPlayerCardSound) {
+            window.playPlayerCardSound();
+          }
           document.querySelectorAll('.player-card').forEach(c => {
             if (c !== card) c.classList.remove('active');
           });
@@ -5448,6 +5642,14 @@
               return;
             }
             
+            // Play player card sound
+            if (window.playPlayerCardSound) {
+              console.log('Playing player card sound');
+              window.playPlayerCardSound();
+            } else {
+              console.warn('playPlayerCardSound not available yet');
+            }
+            
             flipToCard(card);
           });
         });
@@ -5455,6 +5657,14 @@
         // Handle tab clicks
         teamTabs.forEach((tab) => {
           tab.addEventListener('click', () => {
+            // Play tab sound
+            if (window.playTabSound) {
+              console.log('Playing tab sound');
+              window.playTabSound();
+            } else {
+              console.warn('playTabSound not available yet');
+            }
+            
             const playerData = tab.getAttribute('data-player');
             const targetCard = document.querySelector(`.team-cards-stack .card.member[data-player="${playerData}"]`);
             
@@ -5531,6 +5741,10 @@
         
         // Add click handler to sync with original card
         centerCard.addEventListener('click', () => {
+          // Play hero player card click sound (center rotating card)
+          if (window.playPlayerCardSound) {
+            window.playPlayerCardSound();
+          }
           document.querySelectorAll('.player-card').forEach(c => {
             if (c !== currentPlayer.card && !c.classList.contains('center-card-instance')) {
               c.classList.remove('active');
@@ -5565,6 +5779,366 @@
       }
     })();
 
+    // ===== Background Music Playlist =====
+    (function() {
+      const musicPlaylist = [
+        'Flying Eagles DPRK.mp3',
+        'Diamond Sword DPRK.mp3',
+        'Cyberpunk Run DPRK.mp3',
+        'Rise and Fall DPRK.mp3'
+      ];
+      
+      let currentTrackIndex = 0;
+      let isInitialized = false;
+      
+      function initializeMusic() {
+        if (isInitialized) return;
+        
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicNext = document.getElementById('musicNext');
+        const musicTitle = document.getElementById('musicTitle');
+        
+        if (!backgroundMusic || !musicToggle || !musicNext || !musicTitle) {
+          console.error('Music elements not found');
+          return;
+        }
+        
+        isInitialized = true;
+        
+        // Set initial track
+        function setTrack(index) {
+          currentTrackIndex = index;
+          const trackSrc = musicPlaylist[currentTrackIndex];
+          backgroundMusic.src = trackSrc;
+          
+          // Load the audio
+          backgroundMusic.load();
+          
+          const trackName = trackSrc.replace(' DPRK.mp3', '').replace(/([A-Z])/g, ' $1').trim();
+          musicTitle.textContent = trackName;
+        }
+        
+        // Initialize first track
+        setTrack(0);
+        
+        // Set volume
+        backgroundMusic.volume = 0.3; // 30% volume
+        
+        // Toggle music play/pause
+        musicToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          console.log('Music toggle clicked, paused:', backgroundMusic.paused);
+          
+          if (backgroundMusic.paused || backgroundMusic.readyState === 0) {
+            // Load if not loaded
+            if (backgroundMusic.readyState === 0) {
+              backgroundMusic.load();
+            }
+            
+            const playPromise = backgroundMusic.play();
+            
+            if (playPromise !== undefined) {
+              playPromise.then(() => {
+                console.log('Music playing');
+                const trackName = musicPlaylist[currentTrackIndex].replace(' DPRK.mp3', '').replace(/([A-Z])/g, ' $1').trim();
+                musicTitle.textContent = trackName;
+              }).catch(err => {
+                console.error('Error playing music:', err);
+                musicTitle.textContent = 'Error: Click again';
+                // Try loading first
+                backgroundMusic.load();
+              });
+            }
+          } else {
+            backgroundMusic.pause();
+            musicTitle.textContent = 'Music Paused';
+          }
+        });
+        
+        // Next track
+        musicNext.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const wasPlaying = !backgroundMusic.paused;
+          currentTrackIndex = (currentTrackIndex + 1) % musicPlaylist.length;
+          setTrack(currentTrackIndex);
+          
+          if (wasPlaying) {
+            backgroundMusic.play().catch(err => {
+              console.error('Error playing next track:', err);
+            });
+          }
+        });
+        
+        // Auto-advance to next track when current ends
+        backgroundMusic.addEventListener('ended', () => {
+          currentTrackIndex = (currentTrackIndex + 1) % musicPlaylist.length;
+          setTrack(currentTrackIndex);
+          backgroundMusic.play().catch(err => {
+            console.error('Error auto-playing next track:', err);
+          });
+        });
+        
+        // Update UI based on play state
+        backgroundMusic.addEventListener('play', () => {
+          const trackName = musicPlaylist[currentTrackIndex].replace(' DPRK.mp3', '').replace(/([A-Z])/g, ' $1').trim();
+          musicTitle.textContent = trackName;
+        });
+        
+        backgroundMusic.addEventListener('pause', () => {
+          musicTitle.textContent = 'Music Paused';
+        });
+        
+        backgroundMusic.addEventListener('error', (e) => {
+          console.error('Audio error:', e);
+          musicTitle.textContent = 'Error loading music';
+        });
+        
+        backgroundMusic.addEventListener('canplay', () => {
+          console.log('Audio can play');
+        });
+        
+        // Update initial text
+        musicTitle.textContent = 'Click ♪ to play';
+      }
+      
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeMusic);
+      } else {
+        // DOM already loaded
+        setTimeout(initializeMusic, 100);
+      }
+    })();
+
+    // ===== Sound Effects =====
+    (function() {
+      let tabSound = null;
+      let playerCardSound = null;
+      let soundsInitialized = false;
+      
+      // Play tab sound - available immediately
+      function playTabSound() {
+        if (!tabSound) {
+          tabSound = document.getElementById('tabSound');
+          if (tabSound) {
+            tabSound.src = 'TabSound.wav';
+            tabSound.volume = 0.4; // 40% volume
+            tabSound.load();
+          }
+        }
+        
+        if (tabSound) {
+          try {
+            // Ensure src is set
+            if (!tabSound.src || tabSound.src.includes('about:blank')) {
+              tabSound.src = 'TabSound.wav';
+              tabSound.load();
+            }
+            
+            tabSound.currentTime = 0; // Reset to start
+            const playPromise = tabSound.play();
+            
+            if (playPromise !== undefined) {
+              playPromise.catch(err => {
+                console.error('Tab sound play error:', err);
+                // Try loading first if it fails
+                if (tabSound) {
+                  tabSound.load();
+                  // Try playing again after load
+                  setTimeout(() => {
+                    tabSound.play().catch(e => console.error('Retry failed:', e));
+                  }, 100);
+                }
+              });
+            }
+          } catch (err) {
+            console.error('Tab sound error:', err);
+          }
+        } else {
+          console.warn('Tab sound element not found');
+        }
+      }
+      
+      // Play player card sound - available immediately
+      function playPlayerCardSound() {
+        if (!playerCardSound) {
+          playerCardSound = document.getElementById('playerCardSound');
+          if (playerCardSound) {
+            // URL encode the filename to handle the space (important for file:// + Edge)
+            playerCardSound.src = encodeURI('PlayerCardClick Hostile.wav');
+            playerCardSound.volume = 0.5; // 50% volume
+            playerCardSound.load();
+          }
+        }
+        
+        if (playerCardSound) {
+          try {
+            // Ensure src is set
+            if (!playerCardSound.src || playerCardSound.src.includes('about:blank')) {
+              playerCardSound.src = encodeURI('PlayerCardClick Hostile.wav');
+              playerCardSound.load();
+            }
+            
+            playerCardSound.currentTime = 0; // Reset to start
+            const playPromise = playerCardSound.play();
+            
+            if (playPromise !== undefined) {
+              playPromise.catch(err => {
+                console.error('Player card sound play error:', err);
+                // Try loading first if it fails
+                if (playerCardSound) {
+                  playerCardSound.load();
+                  // Try playing again after load
+                  setTimeout(() => {
+                    playerCardSound.play().catch(e => console.error('Retry failed:', e));
+                  }, 100);
+                }
+              });
+            }
+          } catch (err) {
+            console.error('Player card sound error:', err);
+          }
+        } else {
+          console.warn('Player card sound element not found');
+        }
+      }
+      
+      // Make functions globally available immediately
+      window.playTabSound = playTabSound;
+      window.playPlayerCardSound = playPlayerCardSound;
+      
+      function initializeSounds() {
+        if (soundsInitialized) return;
+        
+        tabSound = document.getElementById('tabSound');
+        playerCardSound = document.getElementById('playerCardSound');
+        
+        if (!tabSound || !playerCardSound) {
+          console.error('Sound elements not found');
+          return;
+        }
+        
+        soundsInitialized = true;
+        
+        // Set sources and volumes
+        tabSound.src = 'TabSound.wav';
+        tabSound.volume = 0.4; // 40% volume
+        
+        playerCardSound.src = encodeURI('PlayerCardClick Hostile.wav');
+        playerCardSound.volume = 0.5; // 50% volume
+        
+        // Preload sounds
+        tabSound.load();
+        playerCardSound.load();
+        
+        // Add error listeners
+        tabSound.addEventListener('error', (e) => {
+          console.error('Tab sound file error:', e, tabSound.error);
+          if (tabSound.error) {
+            console.error('Tab sound error code:', tabSound.error.code, 'message:', tabSound.error.message);
+          }
+        });
+        
+        playerCardSound.addEventListener('error', (e) => {
+          console.error('Player card sound file error:', e, playerCardSound.error);
+          if (playerCardSound.error) {
+            console.error('Player card sound error code:', playerCardSound.error.code, 'message:', playerCardSound.error.message);
+          }
+        });
+        
+        // Add canplay listeners to confirm files loaded
+        tabSound.addEventListener('canplay', () => {
+          console.log('Tab sound ready to play');
+        });
+        
+        playerCardSound.addEventListener('canplay', () => {
+          console.log('Player card sound ready to play');
+        });
+        
+        console.log('Sound effects initialized');
+      }
+      
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeSounds);
+      } else {
+        // DOM already loaded
+        setTimeout(initializeSounds, 100);
+      }
+    })();
+
+    // ===== Chart explode interaction =====
+    (function initChartExplode() {
+      const OUT_MS = 520;
+      const BACK_MS = 560;
+
+      const rand = (min, max) => Math.random() * (max - min) + min;
+
+      function explodeCharts(clickedCard) {
+        const cards = Array.from(document.querySelectorAll('.chart-card'));
+        if (!cards.length) return;
+        if (document.body.classList.contains('charts-exploding')) return;
+
+        document.body.classList.add('charts-exploding');
+
+        // Explode outward
+        requestAnimationFrame(() => {
+          cards.forEach((card) => {
+            card.classList.remove('explode-back');
+            card.classList.add('explode-out');
+
+            // More dramatic on desktop, less on small screens
+            const isSmall = window.matchMedia('(max-width: 860px)').matches;
+            const dx = rand(isSmall ? -220 : -520, isSmall ? 220 : 520);
+            const dy = rand(isSmall ? -160 : -320, isSmall ? 160 : 320);
+            const rot = rand(-18, 18);
+            const scale = rand(0.95, 1.08);
+
+            card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${scale})`;
+            card.style.zIndex = '999';
+          });
+        });
+
+        // Come back together (restore CSS-driven fan transforms)
+        setTimeout(() => {
+          cards.forEach((card) => {
+            card.classList.remove('explode-out');
+            card.classList.add('explode-back');
+
+            // Clearing inline transform lets the original nth-child CSS transform re-apply
+            card.style.transform = '';
+            card.style.zIndex = '';
+          });
+
+          setTimeout(() => {
+            cards.forEach((card) => card.classList.remove('explode-back'));
+            document.body.classList.remove('charts-exploding');
+          }, BACK_MS);
+        }, OUT_MS);
+      }
+
+      // Delegate clicks to chart cards (works even if charts are rerendered)
+      document.addEventListener('click', (e) => {
+        const card = e.target.closest('.chart-card');
+        if (!card) return;
+        explodeCharts(card);
+      });
+    })();
+
   </script>
+  
+  <!-- 🎵 Background Music -->
+  <audio id="backgroundMusic" loop preload="auto"></audio>
+
+  <!-- 🔊 Tab Click Sound -->
+  <audio id="tabSound" preload="auto"></audio>
+  
+  <!-- 🔊 Player Card Click Sound -->
+  <audio id="playerCardSound" preload="auto"></audio>
 </body>
 </html>
