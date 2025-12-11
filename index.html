@@ -5781,10 +5781,13 @@
 
     // ===== Background Music Playlist =====
     (function() {
+      // NOTE: Browsers (including Edge) often block autoplay with sound.
+      // We attempt autoplay on load, and if blocked we start on first user interaction anywhere.
+      // Requested: "Cyberpunk Run" plays first.
       const musicPlaylist = [
+        'Cyberpunk Run DPRK.mp3',
         'Flying Eagles DPRK.mp3',
         'Diamond Sword DPRK.mp3',
-        'Cyberpunk Run DPRK.mp3',
         'Rise and Fall DPRK.mp3'
       ];
       
@@ -5819,12 +5822,39 @@
           musicTitle.textContent = trackName;
         }
         
-        // Initialize first track
+        // Initialize first track (Cyberpunk Run)
         setTrack(0);
         
         // Set volume
         backgroundMusic.volume = 0.3; // 30% volume
         
+        let userGestureHooked = false;
+        const tryAutoplay = () => {
+          const playPromise = backgroundMusic.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              // Autoplay blocked: arm a one-time "start music" on first interaction anywhere.
+              musicTitle.textContent = 'Click anywhere to enable music';
+              if (userGestureHooked) return;
+              userGestureHooked = true;
+
+              const startOnGesture = () => {
+                backgroundMusic.play().catch(() => {});
+                window.removeEventListener('pointerdown', startOnGesture, true);
+                window.removeEventListener('keydown', startOnGesture, true);
+                window.removeEventListener('touchstart', startOnGesture, true);
+              };
+
+              window.addEventListener('pointerdown', startOnGesture, true);
+              window.addEventListener('keydown', startOnGesture, true);
+              window.addEventListener('touchstart', startOnGesture, true);
+            });
+          }
+        };
+
+        // Try autoplay immediately on load (may be blocked by browser policy)
+        tryAutoplay();
+
         // Toggle music play/pause
         musicToggle.addEventListener('click', (e) => {
           e.preventDefault();
@@ -5903,7 +5933,7 @@
         });
         
         // Update initial text
-        musicTitle.textContent = 'Click ♪ to play';
+        musicTitle.textContent = 'Loading music…';
       }
       
       // Initialize when DOM is ready
@@ -6133,7 +6163,8 @@
   </script>
   
   <!-- 🎵 Background Music -->
-  <audio id="backgroundMusic" loop preload="auto"></audio>
+  <!-- IMPORTANT: do NOT use `loop` here; we advance the playlist via the `ended` event -->
+  <audio id="backgroundMusic" preload="auto"></audio>
 
   <!-- 🔊 Tab Click Sound -->
   <audio id="tabSound" preload="auto"></audio>
